@@ -9,25 +9,29 @@
 </head>
 <body>
 
-<div class="container">
 
+<div style="padding-left: 20px;padding-right: 20px;">
+    <h1>Youknow</h1>
+    <cite class="clearfix disabled">Monitoring & security guard of your cloud..</cite>
+    <div class="container">
 
-    <h2>Server current status</h2>
-    <spec>Helps administrator to check the current status of any server running in production</spec>
-    <table class="table table-condensed table-bordered table-hover" ng-controller="serverController as serverCtrl">
-        <thead>
-        <tr>
-            <td>Host</td>
-            <td>CPU Utilization</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="server in serverCtrl.servers">
-            <td>{{server.host}}</td>
-            <td>{{server.status.cpu | number : 3}}</td>
-        </tr>
-        </tbody>
-    </table>
+        <h2>Server current status</h2>
+        <spec>Helps administrator to check the current status of any server running in production</spec>
+        <table class="table table-condensed table-bordered table-hover" ng-controller="serverController as serverCtrl">
+            <thead>
+            <tr>
+                <td>Host</td>
+                <td>CPU Utilization</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="server in serverCtrl.servers">
+                <td>{{server.host}}</td>
+                <td>{{server.status.cpu | number : 3}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

@@ -114,7 +114,7 @@
                         }
 
                         // Rescheduling status check after 30 sec
-                        setTimeout(function () { checkServersStatus(); }, 30 * 1000);
+                        setTimeout(function () { checkServersStatus(); }, 1 * 1000);
                     });
 
                 });

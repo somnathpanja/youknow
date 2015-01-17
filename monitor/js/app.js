@@ -9,26 +9,33 @@
         this.servers = [];//status.data;
         var url = '/monitor/status';
 
-        // Simple POST request (passing data)
-        $http.post(url, {session_id: 'fake_sesstion'}).
-            success(function (resData, status, headers, config) {
-                thisC.servers = resData.data;
-                // this callback will be called asynchronously
-                // when the response is available
-            }).
-            error(function (data, status, headers, config) {
-                // called asynchronously if an error occurs
-                // or server returns response with an error status.
-                thisC.servers = [
-                    {
-                        "host"  : "Failed to connect to " + url,
-                        "port"  : null,
-                        "status": {
-                            "cpu": ""
-                        }
-                    }
-                ];
-            });
+        function abcd() {
+            // Simple POST request (passing data)
+            $http.post(url, {session_id: 'fake_sesstion'}).
+                success(function (resData, status, headers, config) {
+                    thisC.servers = resData.data;
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    setTimeout(function(){
 
+                        abcd();
+                    }, 2000);
+                }).
+                error(function (data, status, headers, config) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                    thisC.servers = [
+                        {
+                            "host"  : "Failed to connect to " + url,
+                            "port"  : null,
+                            "status": {
+                                "cpu": ""
+                            }
+                        }
+                    ];
+                });
+
+        };
+        abcd();
     }]);
 })();
