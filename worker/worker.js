@@ -21,5 +21,14 @@
         });
     });
 
+    app.get('/hikecpu', function (req, res) {
+        res.send(200); // Return before start computing
+
+        // Do some CPU computation
+        for (var i = 0; i < 10000; i++) {
+            console.log(i * Math.log(i));
+        }
+    });
+
     app.listen(process.argv[2] ? Number(process.argv[2]) : 1338);
 })();
