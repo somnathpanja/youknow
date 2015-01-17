@@ -28,7 +28,9 @@
     };
 
     var HOST_LIST = [
-        {name: "Spiderman", host: "localhost", port: 1338}
+        {name: "Spiderman", host: "172.31.39.130", port: 1338},
+        {name: "Spiderman", host: "172.31.39.131", port: 1338},
+        {name: "Spiderman", host: "172.31.39.132", port: 1338}
     ];
 
     var SERVERS_STATUS = [];
@@ -76,6 +78,10 @@
             return;
         }
 
+        res.send(200, {data: SERVERS_STATUS});
+    });
+
+    app.get('/', function (req, res) {
         res.send(200, {data: SERVERS_STATUS});
     });
 
