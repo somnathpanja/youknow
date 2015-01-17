@@ -1,40 +1,53 @@
 /**
- * @fileOverview <explain about this file>
+ * @fileOverview Monitoring Http Server
  * @author       somnath
- * App on Worker Server:
- App on Monitor Server:
- http://IP:1338/monitor/login
- http://MONITOR_IP:1338/monitor/server/set (Set the iP to monitor)
- http://MONITOR_IP:1338/server/memory
- input { user_id, password}
- returns { “IP1” : {memory:12121, load_average: 2 }}
- Do a outbound call to N people
- At least 2 person in a conference if not keep on calling all people and ask to join conference asking join by pressing 1
-
-
  */
 
 (function () {
+    var fs = require('fs');
     var HttpClient = require('./../common/http-client');
     var express = require('express');
     var os = require('os-utils');
     var CallAlertManager = new require('./call-alert-manager.js');
     var app = express();
+
     app.use(express.json());
     app.use(express.urlencoded());
+    app.use('/', express.static(__dirname));
 
-    var users = {
-        "somnath": "123"
+    /**
+     * @description Users should go to mongodb or dynamodb, for demo purpose her is the static list of users
+     * @type {{somnath: string}}
+     */
+    var USERS = {
+        "somnathpanja@gmail.com": "wBaLmd",
+        "somnath2": "222",
+        "somnath3": "333"
     };
 
+    /**
+     * @description List of server will go to mongodb, for demo purpose here is the static list of ips
+     * @type {{somnath: string}}
+     */
     var HOST_LIST = [
-        {name: "Spiderman", host: "172.31.39.130", port: 1338},
-        {name: "Spiderman", host: "172.31.39.131", port: 1338},
-        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+        {name: "Spiderman", host: "localhost", port: 1338},
+        {name: "Spiderman", host: "localhost", port: 1338},
+        {name: "Spiderman", host: "localhost", port: 1338}
     ];
+
+//    var HOST_LIST = [
+//        {name: "Spiderman", host: "172.31.39.130", port: 1338},
+//        {name: "Spiderman", host: "172.31.39.131", port: 1338},
+//        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+//    ];
 
     var SERVERS_STATUS = [];
 
+    /**
+     * @description This function is not yet implemented. For demo purpose it just returns true means success
+     * @param session
+     * @returns {boolean}
+     */
     var isValidSession = function (session) {
         return true; // For demo purpose just return success
     };
@@ -53,7 +66,7 @@
             return;
         }
 
-        if (!users[uid] || (users[uid] !== pass)) {
+        if (!USERS[uid] || (USERS[uid] !== pass)) {
             res.send(500, {err: 'Invalid credential'});
             return;
         }
@@ -81,10 +94,10 @@
         res.send(200, {data: SERVERS_STATUS});
     });
 
-    app.get('/', function (req, res) {
-        res.send(200, {data: SERVERS_STATUS});
-    });
-
+    /**
+     * @description  This function basically does http post call to listed servers and collects
+     *               the current system status
+     */
     var checkServersStatus = function () {
         var retVal = [];
         var length = HOST_LIST.length;
@@ -108,9 +121,10 @@
             var worker = HOST_LIST[length - 1];
             var httpClient = new HttpClient();
 
+            // Do call to worker api
             httpClient.send('http://' + worker.host + ':' + worker.port + '/monitor/status', null,
                 function (err, response) {
-
+                    // if there is not error api will return http status 200
                     if (response.code === 200) {
                         retVal.push({
                             host  : worker.host,
@@ -138,14 +152,12 @@
 
     checkServersStatus();
 
+    /**
+     * @description This function analyzes the all data returned by all worker server. If anything critical
+     *              then generate call alert
+     * @param cb
+     */
     var analyzeServersStatus = function (cb) {
-//        {
-//            "host": "localhost",
-//            "port": 1338,
-//            "status": {
-//            "cpu": "0.021"
-//        }
-
         var callAlert = [];
         var msgPrefix = 'This knowlarity server critical alert, ';
         SERVERS_STATUS.forEach(function (item) {
@@ -156,7 +168,7 @@
             console.log(item);
         });
 
-        if(callAlert.length==0){
+        if (callAlert.length == 0) {
             console.log('All server are healthy..');
             cb.apply(null, [
                 {isStop: false}
@@ -175,7 +187,8 @@
                 return;
             }
 
-            console.log('People called successfully..Monitoring process stopped for 15 minutes.');
+            console.log('People called successfully..Monitoring process paused for 15 minutes.');
+
             process.nextTick(function () {
                 setTimeout(function () {
                     cb.apply(null, [
