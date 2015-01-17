@@ -21,25 +21,25 @@
      */
     var USERS = {
         "somnathpanja@gmail.com": "wBaLmd",
-        "somnath2": "222",
-        "somnath3": "333"
+        "somnath2"              : "222",
+        "somnath3"              : "333"
     };
 
     /**
      * @description List of server will go to mongodb, for demo purpose here is the static list of ips
      * @type {{somnath: string}}
      */
-//    var HOST_LIST = [
-//        {name: "Spiderman", host: "localhost", port: 1338},
-//        {name: "Spiderman", host: "localhost", port: 1338},
-//        {name: "Spiderman", host: "localhost", port: 1338}
-//    ];
-
     var HOST_LIST = [
-        {name: "Spiderman", host: "172.31.39.130", port: 1338},
-        {name: "Spiderman", host: "172.31.39.131", port: 1338},
-        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+        {name: "Spiderman", host: "localhost", port: 1338},
+        {name: "Spiderman", host: "localhost", port: 1338},
+        {name: "Spiderman", host: "localhost", port: 1338}
     ];
+
+//    var HOST_LIST = [
+//        {name: "Spiderman", host: "172.31.39.130", port: 1338},
+//        {name: "Spiderman", host: "172.31.39.131", port: 1338},
+//        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+//    ];
 
     var SERVERS_STATUS = [];
 
@@ -103,6 +103,8 @@
         var length = HOST_LIST.length;
 
         var checkServer = function () {
+
+            // Once all server checks done
             if (length == 0) {
                 SERVERS_STATUS = retVal;
                 process.nextTick(function () {
@@ -111,6 +113,7 @@
                             return;
                         }
 
+                        // Rescheduling status check after 30 sec
                         setTimeout(function () { checkServersStatus(); }, 30 * 1000);
                     });
 
@@ -122,29 +125,28 @@
             var httpClient = new HttpClient();
 
             // Do call to worker api
-            httpClient.send('http://' + worker.host + ':' + worker.port + '/monitor/status', null,
-                function (err, response) {
-                    // if there is not error api will return http status 200
-                    if (response.code === 200) {
-                        retVal.push({
-                            host  : worker.host,
-                            port  : worker.port,
-                            status: JSON.parse(response.data.toString())
-                        });
-                    } else {
-                        console.log('Error Returned by Worker');
-                        console.log(response);
+            httpClient.send('http://' + worker.host + ':' + worker.port + '/monitor/status', null, function (err, res) {
+                // if there is not error api will return http status 200
+                if (res.code === 200) {
+                    retVal.push({
+                        host  : worker.host,
+                        port  : worker.port,
+                        status: JSON.parse(res.data.toString())
+                    });
+                } else {
+                    console.log('Error Returned by Worker');
+                    console.log(res);
 
-                        retVal.push({
-                            host  : worker.host,
-                            port  : worker.port,
-                            status: { msg: 'failed to connect. Generating call alert.'}
-                        });
-                    }
+                    retVal.push({
+                        host  : worker.host,
+                        port  : worker.port,
+                        status: { err: 1, msg: 'failed to connect. Generating call alert.'}
+                    });
+                }
 
-                    length--;
-                    checkServer();
-                });
+                length--;
+                checkServer();
+            });
         };
 
         checkServer();
@@ -159,16 +161,18 @@
      */
     var analyzeServersStatus = function (cb) {
         var callAlert = [];
-        var msgPrefix = 'This knowlarity server critical alert, ';
+
         SERVERS_STATUS.forEach(function (item) {
-            if (item.cpu > 90) {
-                callAlert.push({host: item.host, message: msgPrefix + item.host + ' is under high load.'});
+            if (item.status.err) {
+                callAlert.push(item.host + ' is unreachable.');
+            } else if (item.status.cpu > 90) {
+                callAlert.push(item.host + ' is under high load CPU exceeded ' + item.status.cpu + ' percentage.');
             }
 
             console.log(item);
         });
 
-        if (callAlert.length == 0) {
+        if (callAlert.length === 0) {
             console.log('All server are healthy..');
             cb.apply(null, [
                 {isStop: false}
@@ -178,6 +182,7 @@
         }
 
         CallAlertManager.call(callAlert, function (err) {
+            // If failed then going for next round of checking..will try to call in a while again
             if (err) {
                 console.log(err);
                 cb.apply(null, [
@@ -194,7 +199,7 @@
                     cb.apply(null, [
                         {isStop: false}
                     ]);
-                }, 15 * 60 * 1000);
+                }, 60 * 1000);  //15 * 60 * 1000
             });
         });
     };
