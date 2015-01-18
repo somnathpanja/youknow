@@ -168,7 +168,7 @@
             } else if (item.status.cpu > 90) {
                 callAlert.push(item.host + ' is under high load CPU exceeded ' + item.status.cpu + ' percentage.');
             } else if (item.status.load_avg > 4) {
-                callAlert.push(item.host + ' is under high load CPU exceeded ' + item.status.cpu + ' percentage.');
+                callAlert.push(item.host + ' is under high load. Current load average is ' + item.status.load_avg);
             }
 
             console.log(item);
