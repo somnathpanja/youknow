@@ -1,16 +1,18 @@
 var chart, chartData = [];
 
 var updateChartData = function (servers) {
+    var idx;
+
     if (chartData.length === 0) {
-        servers.forEach(function (server) {
+        for (idx in servers) {
             chartData.push({ // dataSeries object
                 /*** Change type "column" to "bar", "area", "line" or "pie"***/
                 type      : "line",
                 dataPoints: []
             });
-        });
+        }
     }
-    var idx, date = new Date();
+    var date = new Date();
     for (idx in servers) {
         chartData[idx].dataPoints.push({x: date, y: servers[idx].status.load_avg});
         if (chartData[idx].dataPoints.length > 40) {
