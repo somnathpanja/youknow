@@ -39,6 +39,7 @@
                 <td>Total Memory</td>
                 <td>Free memory(%)</td>
                 <td>Load Avg (5 minutes avg)</td>
+                <td>Increase Load</td>
             </tr>
             </thead>
             <tbody>
@@ -48,6 +49,7 @@
                 <td>{{server.status.total_memory | number : 3}}</td>
                 <td>{{server.status.free_memory_percentage | number : 3}}</td>
                 <td>{{server.status.load_avg | number : 3}}</td>
+                <td><a href="" ng-click="serverCtrl.workload(server.host, server.port)">Increase Load</a></td>
             </tr>
             </tbody>
         </table>

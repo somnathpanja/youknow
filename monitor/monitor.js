@@ -29,17 +29,17 @@
      * @description List of server will go to mongodb, for demo purpose here is the static list of ips
      * @type {{somnath: string}}
      */
-//    var HOST_LIST = [
-//        {name: "Spiderman", host: "localhost", port: 1338},
-//        {name: "Spiderman", host: "localhost", port: 1338},
-//        {name: "Spiderman", host: "localhost", port: 1338}
-//    ];
-
     var HOST_LIST = [
-        {name: "Spiderman", host: "172.31.39.130", port: 1338},
-        {name: "Spiderman", host: "172.31.39.131", port: 1338},
-        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+        {name: "Spiderman", host: "localhost", port: 1338},
+        {name: "Spiderman", host: "localhost", port: 1338},
+        {name: "Spiderman", host: "localhost", port: 1338}
     ];
+
+//    var HOST_LIST = [
+//        {name: "Spiderman", host: "172.31.39.130", port: 1338},
+//        {name: "Spiderman", host: "172.31.39.131", port: 1338},
+//        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+//    ];
 
     var SERVERS_STATUS = [];
 

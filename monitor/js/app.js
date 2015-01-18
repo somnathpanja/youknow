@@ -27,10 +27,18 @@ var updateChartData = function (servers) {
     app.controller('serverController', ['$http', function ($http) {
         var thisC = this;
         this.servers = [];
-        var url = '/monitor/status';
+
+        this.workload = function (ip, port) {
+            //alert(ip);
+            var url = 'http://' + ip + ':' + port + '/hikecpu';
+            $http.get(url).success(function (resData, status, headers, config) {
+                alert(status);
+            });
+        };
 
         function pullDataFromServer() {
             // Simple POST request (passing data)
+            var url = '/monitor/status';
             $http.post(url, {session_id: 'fake_sesstion'}).
                 success(function (resData, status, headers, config) {
                     thisC.servers = resData.data;
