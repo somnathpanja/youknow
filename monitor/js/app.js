@@ -13,7 +13,7 @@ var updateChartData = function (servers) {
     var idx, date = new Date();
     for (idx in servers) {
         chartData[idx].dataPoints.push({x: date, y: servers[idx].status.load_avg});
-        if (chartData[idx].dataPoints.length > 10) {
+        if (chartData[idx].dataPoints.length > 40) {
             chartData[idx].dataPoints.splice(0, 1);
         }
     }
