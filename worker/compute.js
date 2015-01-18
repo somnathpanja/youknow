@@ -6,7 +6,7 @@
 (function (module) {
 
    var xx = 0;
-   for(var i=0; i< 100000; i++){
+   for(var i=0; i< 100000000000000000; i++){
         xx = xx * (i %3 ) /1222;
    }
 
