@@ -51,7 +51,6 @@ var updateChartData = function (servers) {
                     // this callback will be called asynchronously
                     // when the response is available
                     setTimeout(function () {
-
                         pullDataFromServer();
                     }, 2000);
                 }).
@@ -67,6 +66,10 @@ var updateChartData = function (servers) {
                             }
                         }
                     ];
+
+                    setTimeout(function () {
+                        pullDataFromServer();
+                    }, 2000);
                 });
 
         };
