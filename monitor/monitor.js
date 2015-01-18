@@ -167,6 +167,8 @@
                 callAlert.push(item.host + ' is unreachable.');
             } else if (item.status.cpu > 90) {
                 callAlert.push(item.host + ' is under high load CPU exceeded ' + item.status.cpu + ' percentage.');
+            } else if (item.status.load_avg > 4) {
+                callAlert.push(item.host + ' is under high load CPU exceeded ' + item.status.cpu + ' percentage.');
             }
 
             console.log(item);
@@ -199,7 +201,7 @@
                     cb.apply(null, [
                         {isStop: false}
                     ]);
-                }, 60 * 1000);  //15 * 60 * 1000
+                }, 2 * 60 * 1000);  //15 * 60 * 1000
             });
         });
     };
