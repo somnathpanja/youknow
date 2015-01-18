@@ -15,9 +15,14 @@
     app.use(express.urlencoded());
 
     app.get('/monitor/status', function (req, res) {
-        os.cpuUsage(function (v) {
+        os.cpuUsage(function (cpu) {
             res.writeHead(200, {'Content-Type': 'application/json'});
-            res.end(JSON.stringify({cpu: Number(v).toPrecision(2)}));
+            res.end(JSON.stringify({
+                cpu: Number(cpu).toPrecision(2),
+                total_memory: os.totalmem()/1000,
+                free_memory_percentage : os.freememPercentage(),
+                load_avg : os.loadavg(5)
+            }));
         });
     });
 

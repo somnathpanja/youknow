@@ -6,31 +6,57 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Fruits sold in First Quarter"
+                },
+                data : chartData
+            });
+
+            chart.render();
+        };
+    </script>
 </head>
 <body>
 
 
 <div style="padding-left: 20px;padding-right: 20px;">
-    <h1>Youknow</h1>
-    <cite class="clearfix disabled">Monitoring & security guard of your cloud..</cite>
-    <div class="container">
+    <h1 style="color:#0A9FF0;">Youknow</h1>
+    <h5 style="padding-top: -10px;color:gray;" class="clearfix disabled">Monitoring & security guard of your cloud
+        ..</h5>
 
+    <div class="container">
+        </br>
         <h2>Server current status</h2>
         <spec>Helps administrator to check the current status of any server running in production</spec>
         <table class="table table-condensed table-bordered table-hover" ng-controller="serverController as serverCtrl">
             <thead>
-            <tr>
+            <tr style="color:#0A9FF0;">
                 <td>Host</td>
                 <td>CPU Utilization</td>
+                <td>Total Memory</td>
+                <td>Free memory(%)</td>
+                <td>Load Avg (5 minutes avg)</td>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="server in serverCtrl.servers">
-                <td>{{server.host}}</td>
+                <td><h5>{{server.host}}</h5></td>
                 <td>{{server.status.cpu | number : 3}}</td>
+                <td>{{server.status.total_memory | number : 3}}</td>
+                <td>{{server.status.free_memory_percentage | number : 3}}</td>
+                <td>{{server.status.load_avg | number : 3}}</td>
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <script type="text/javascript" src="/canvasjs/canvasjs.min.js"></script>
+    </head>
+    <body>
+    <div id="chartContainer" style="height: 300px; width: 100%;">
     </div>
 </div>
 </body>
