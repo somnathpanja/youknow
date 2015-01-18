@@ -50,7 +50,7 @@
                 <td><h5>{{server.host}}</h5></td>
                 <td>{{server.status.cpu | number : 3}}</td>
                 <td>{{server.status.total_memory | number : 3}}</td>
-                <td>{{server.status.free_memory_percentage | number : 3}}</td>
+                <td>{{server.status.free_memory_percentage | number : 9}}</td>
                 <td>{{server.status.load_avg | number : 9}}</td>
                 <td><a href="" ng-click="serverCtrl.workload(server.host, server.port)">Increase Load</a></td>
             </tr>
