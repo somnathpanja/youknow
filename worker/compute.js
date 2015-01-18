@@ -26,7 +26,7 @@
             // out of function without calling a new one.
             if( this.currentPosition > this.elementsLength ) return;
             // Do computation
-            doHeavyLifting( element[ this.currentPosition ] );
+            doheavyWork( element[ this.currentPosition ] );
 
             // Add to counter
             this.currentPosition++;
