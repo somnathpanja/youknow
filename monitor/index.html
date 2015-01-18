@@ -11,6 +11,9 @@
             chart = new CanvasJS.Chart("chartContainer", {
                 title: {
                     text: "Realtime view of load average of nodes under ELB"
+                },	axisY: {
+                    title: "Load average (5)-->",
+                    interval: 0.5
                 },
                 data : chartData
             });
@@ -23,7 +26,7 @@
 
 
 <div style="padding-left: 20px;padding-right: 20px;">
-    <h1 style="color:#0A9FF0;">Youknow</h1>
+    <h1 style="color:#0A9FF0;">CloudMonitor</h1>
     <h5 style="padding-top: -10px;color:gray;" class="clearfix disabled">Monitoring & security guard of your cloud
         ..</h5>
 
@@ -53,12 +56,11 @@
             </tr>
             </tbody>
         </table>
-    </div>
-
-    <script type="text/javascript" src="/canvasjs/canvasjs.min.js"></script>
-    </head>
-    <body>
-    <div id="chartContainer" style="height: 300px; width: 100%;">
+        <script type="text/javascript" src="/canvasjs/canvasjs.min.js"></script>
+        </head>
+        <body>
+        <div id="chartContainer" style="height: 300px; width: 100%;">
+        </div>
     </div>
 </div>
 </body>
