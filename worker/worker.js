@@ -12,7 +12,7 @@
     var os = require('os-utils');
     var app = express();
     app.use(express.json());
-    app.use(express.urlencoded());
+    app.use(express.urlencoded({extended: true}));
 
     app.get('/monitor/status', function (req, res) {
         os.cpuUsage(function (cpu) {

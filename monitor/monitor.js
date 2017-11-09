@@ -12,7 +12,7 @@
     var app = express();
 
     app.use(express.json());
-    app.use(express.urlencoded());
+    app.use(express.urlencoded({extended:true}));
     app.use('/', express.static(__dirname));
 
     /**
@@ -36,9 +36,7 @@
 //    ];
 
     var HOST_LIST = [
-        {name: "Spiderman", host: "172.31.39.130", port: 1338},
-        {name: "Spiderman", host: "172.31.39.131", port: 1338},
-        {name: "Spiderman", host: "172.31.39.132", port: 1338}
+        {name: "Spiderman", host: "localhost", port: 1338}
     ];
 
     var SERVERS_STATUS = [];
@@ -57,21 +55,21 @@
         var pass = req.body.password;
 
         if (!uid) {
-            res.send(400, {err: 'User id not defined'});
+            res.status(400).send({err: 'User id not defined'});
             return;
         }
 
         if (!pass) {
-            res.send(400, {err: 'Password id not defined'});
+            res.status(400).send({err: 'Password id not defined'});
             return;
         }
 
         if (!USERS[uid] || (USERS[uid] !== pass)) {
-            res.send(500, {err: 'Invalid credential'});
+            res.status(400).send({err: 'Invalid credential'});
             return;
         }
 
-        res.send(200, {status: 'success', session: 'SESSION_' + (new Date()).getMilliseconds()});
+        res.status(200).send({status: 'success', session: 'SESSION_' + (new Date()).getMilliseconds()});
     });
 
     app.post('/monitor/register_host', function (req, res) {
@@ -87,11 +85,11 @@
         var sessionId = req.body.session_id;
 
         if (!isValidSession(sessionId)) {
-            res.send(401, {msg: 'Session expired'});
+            res.status(401).send({msg: 'Session expired'});
             return;
         }
 
-        res.send(200, {data: SERVERS_STATUS});
+        res.status(200).send({data: SERVERS_STATUS});
     });
 
     /**
@@ -185,27 +183,27 @@
             return;
         }
 
-        CallAlertManager.call(callAlert, function (err) {
-            // If failed then going for next round of checking..will try to call in a while again
-            if (err) {
-                console.log(err);
-                cb.apply(null, [
-                    {isStop: false}
-                ]);
-
-                return;
-            }
-
-            console.log('People called successfully..Monitoring process paused for 15 minutes.');
-
-            process.nextTick(function () {
-                setTimeout(function () {
-                    cb.apply(null, [
-                        {isStop: false}
-                    ]);
-                }, 2 * 60 * 1000);  //15 * 60 * 1000
-            });
-        });
+        // CallAlertManager.call(callAlert, function (err) {
+        //     // If failed then going for next round of checking..will try to call in a while again
+        //     if (err) {
+        //         console.log(err);
+        //         cb.apply(null, [
+        //             {isStop: false}
+        //         ]);
+        //
+        //         return;
+        //     }
+        //
+        //     console.log('People called successfully..Monitoring process paused for 15 minutes.');
+        //
+        //     process.nextTick(function () {
+        //         setTimeout(function () {
+        //             cb.apply(null, [
+        //                 {isStop: false}
+        //             ]);
+        //         }, 2 * 60 * 1000);  //15 * 60 * 1000
+        //     });
+        // });
     };
 
     app.listen(1337);
