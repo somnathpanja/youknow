@@ -1,0 +1,38 @@
+{
+  "nodes": [
+    {
+      "name": "localhost",
+      "host": "127.0.0.1",
+      "dataInterval": 3000,
+      "ws_port": 1337,
+      "process": [
+        "CnsSubscriptionServer",
+        "CnsMetricsScheduler",
+        "CnsMonitorServer",
+        "CnsRegistrationServer",
+        "CnsAuroraServer",
+        "CnsConfigServer",
+        "CnsActionsWorker",
+        "CnsMetricsScheduler",
+        "CnsSecurityServer",
+        "CnsReportingServer",
+        "CnsDeviceServer",
+        "CnsNotificationServer",
+        "CnsUpgradeServer",
+        "CnsWebServer",
+        "CnsRouterWebServer",
+        "CnsRouterDeviceServer",
+        "CnsRouterUserServer",
+        "CnsRouterAuditServer",
+        "CnsRouterOrganizationServer",
+        "CnsRouterSecurityServer",
+        "mongod",
+        "postgres",
+        "rabbit"
+      ]
+    }
+  ],
+  "monitor": {
+    "http_port": 1338
+  }
+}

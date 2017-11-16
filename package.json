@@ -4,8 +4,13 @@
   "description": "server process monitoring ststem",
   "main": "index.js",
   "dependencies": {
+    "async": "^2.6.0",
     "express": "^4.16.2",
-    "os-utils": "^0.0.14"
+    "jscollection": "^1.0.10",
+    "os-utils": "^0.0.14",
+    "pgrep": "0.0.6",
+    "pidusage": "^1.2.0",
+    "ws": "^3.3.1"
   },
   "devDependencies": {},
   "scripts": {
