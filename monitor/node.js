@@ -6,10 +6,14 @@
   'use strict';
 
   const WebSocket = require('ws');
+  var db;
 
   var Node = function (config) {
-    this._nodeConfig = config;
-    this._start(config);
+    var self = this;
+    self._nodeConfig = config;
+    self.initMongoDB(function (err) {
+      self._start(config);
+    })
   };
 
   Node.prototype._start = function (config) {
@@ -26,11 +30,14 @@
       data = JSON.parse(data);
       switch (data.status) {
         case 'SET_CONFIG_OK':
-          self.sendCMD('START_STATS');
+          setTimeout(function(){
+            self.sendCMD('START_STATS');
+          }, 2000);
           break;
         case 'START_STATS_OK':
           break;
         case 'STATS_DATA':
+          self._insertInMongoDb(data.msg);
           break;
         case 'STOP_STATS_OK':
           break;
@@ -44,6 +51,35 @@
         if (err) console.error(err);
       });
     }
+  };
+
+  Node.prototype._insertInMongoDb = function (appStat) {
+
+    var collection = db.collection(appStat.name);
+
+    collection.createIndex({name: 1, ts: 1, pid: 1}, {
+      unique: true,
+      expireAfterSeconds: 2 * 24 * 3600 // Delete after 2 days
+    });
+
+    collection.insertOne(appStat, function (err, result) {
+      if (err) console.error(err);
+    });
+  };
+
+  Node.prototype.initMongoDB = function (cb) {
+    var MongoClient = require('mongodb').MongoClient;
+
+    // Initialize connection once
+    MongoClient.connect("mongodb://localhost:27017/server_stats", {
+      reconnectInterval: 5000,
+      reconnectTries: 900000,
+      bufferMaxEntries: 0
+    }, function (err, database) {
+      if (err) throw err;
+      db = database;
+      cb();
+    });
   };
 
   module.exports = Node;

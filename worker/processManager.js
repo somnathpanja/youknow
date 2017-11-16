@@ -68,8 +68,8 @@
   ProcessManager.prototype.setConfig = function (config) {
     var self = this;
     self._dataInterval = config.dataInterval || self._dataInterval;
-
-    PidWatcher.setProcessNames2Watch(config.process);
+    PidWatcher.setConfig(config.process);
+    PidWatcher.setProcessNames2Watch(Object.keys(config.process));
     PidWatcher.setWatchInterval(self._dataInterval);
     self._isConfigSet = true;
   };

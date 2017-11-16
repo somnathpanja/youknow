@@ -3,33 +3,49 @@
     {
       "name": "localhost",
       "host": "127.0.0.1",
-      "dataInterval": 3000,
+      "dataInterval": 10000,
       "ws_port": 1337,
-      "process": [
-        "CnsSubscriptionServer",
-        "CnsMetricsScheduler",
-        "CnsMonitorServer",
-        "CnsRegistrationServer",
-        "CnsAuroraServer",
-        "CnsConfigServer",
-        "CnsActionsWorker",
-        "CnsMetricsScheduler",
-        "CnsSecurityServer",
-        "CnsReportingServer",
-        "CnsDeviceServer",
-        "CnsNotificationServer",
-        "CnsUpgradeServer",
-        "CnsWebServer",
-        "CnsRouterWebServer",
-        "CnsRouterDeviceServer",
-        "CnsRouterUserServer",
-        "CnsRouterAuditServer",
-        "CnsRouterOrganizationServer",
-        "CnsRouterSecurityServer",
-        "mongod",
-        "postgres",
-        "rabbit"
-      ]
+      "process": {
+        "CnsSubscriptionServer": {},
+        "CnsMetricsScheduler": {},
+        "CnsMonitorServer": {},
+        "CnsRegistrationServer": {},
+        "CnsAuroraServer": {},
+        "CnsConfigServer": {},
+        "CnsActionsWorker": {},
+        "CnsSecurityServer": {},
+        "CnsReportingServer": {},
+        "CnsDeviceServer": {},
+        "CnsNotificationServer": {},
+        "CnsUpgradeServer": {},
+        "CnsWebServer": {},
+        "CnsRouterWebServer": {},
+        "CnsRouterDeviceServer": {},
+        "CnsRouterUserServer": {},
+        "CnsRouterAuditServer": {},
+        "CnsRouterOrganizationServer": {},
+        "CnsRouterSecurityServer": {},
+        "mongod": {
+          "db": [
+            "stats",
+            "notifications"
+          ],
+          "commands": {
+            "serverStatus": 1,
+            "metrics": 0,
+            "wiredTiger": 0,
+            "encryptionAtRest": 0,
+            "extra_info": 0,
+            "locks": 0,
+            "globalLock": 0,
+            "opcountersRepl":0,
+            "tcmalloc":0,
+            "storageEngine":0
+          }
+        },
+        "postgres": {},
+        "rabbit": {}
+      }
     }
   ],
   "monitor": {
