@@ -1,3 +1,4 @@
 {
-  "ws_port": 1337
+  "ws_port": 2500,
+  "http_port": 2500
 }

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html ng-app="monitoring">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Server Monitoring</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript">
+      window.onload = function () {
+        cpuChart = new CanvasJS.Chart("cpuChartContainer", {
+          zoomEnabled: true,
+          title: {
+            text: "CPU Utilization (RealTime)"
+          }, axisY: {
+            title: "CPU %",
+            minimum: 0,
+            maximum: 100
+          },
+          axisX: {
+            title: "TIME",
+            crosshair: {
+              enabled: true
+            }
+          },
+          legend: {
+            itemclick: function (e) {
+              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined')? true: e.dataSeries.visible;
+              e.dataSeries.visible = !e.dataSeries.visible;
+              cpuChart.render();
+            }
+          },
+          data: cpuChartData
+        });
+
+        memChart = new CanvasJS.Chart("memChartContainer", {
+          zoomEnabled: true,
+          title: {
+            text: "Memory Utilization (RealTime)"
+          }, axisY: {
+            title: "Memory (MB)",
+            minimum: 0
+          },
+          axisX: {
+            title: "TIME",
+            crosshair: {
+              enabled: true
+            }
+          },
+          legend: {
+            itemclick: function (e) {
+              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined')? true: e.dataSeries.visible;
+              e.dataSeries.visible = !e.dataSeries.visible;
+              memChart.render();
+            }
+          },
+          data: memChartData
+        });
+
+        loadAvgChart = new CanvasJS.Chart("loadAvgChartContainer", {
+          zoomEnabled: true,
+          title: {
+            text: "SYSTEM LOAD AVG (RealTime)"
+          }, axisY: {
+            title: "Load Average",
+            minimum: 0
+          },
+          axisX: {
+            title: "Time",
+            crosshair: {
+              enabled: true
+            }
+          },
+          legend: {
+            itemclick: function (e) {
+              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined')? true: e.dataSeries.visible;
+              e.dataSeries.visible = !e.dataSeries.visible;
+              loadAvgChart.render();
+            }
+          },
+          data: loadAvgChartData
+        });
+      };
+    </script>
+</head>
+<body>
+
+
+<div style="padding-left: 20px;padding-right: 20px;">
+    <h1 style="color:#0A9FF0;">YouKnow</h1>
+    <h5 style="padding-top: -10px;color:gray;" class="clearfix disabled">Monitor your server. (Just using Node.js & local mongoDb)</h5>
+
+    <div > <!-- <div class="container">-->
+        </br>
+        <h2>Server current status</h2>
+
+        <table class="table table-condensed table-bordered table-hover" ng-controller="serverController as serverCtrl">
+            <thead>
+            <tr style="color:#0A9FF0;">
+                <td>Host</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="server in serverCtrl.servers">
+                <td><h5>{{server.host}}</h5></td>
+            </tr>
+            </tbody>
+        </table>
+        <script type="text/javascript" src="/canvasjs/canvasjs.min.js"></script>
+        <div class="container" style="width: 100%;">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div id="loadAvgChartContainer" style="height: 400px; width: 100%;"></div>
+                </div>
+                <div class="col-xs-6">
+                    <div id="cpuChartContainer" style="height: 400px; width: 100%;"></div>
+                </div>
+            </div>
+
+
+        </div>
+        <div id="memChartContainer" style="height: 400px; width: 100%;"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

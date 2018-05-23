@@ -1,0 +1,17 @@
+{
+  "nodes": [
+    {
+      "name": "localhost",
+      "host": "127.0.0.1",
+      "port": "2500",
+      "process": {
+        "mongod": {}
+      },
+      "commands": []
+    }
+  ],
+  "monitor": {
+    "http_port": 1338,
+    "dataIntervalInSec": 5000
+  }
+}

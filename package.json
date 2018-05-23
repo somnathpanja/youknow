@@ -7,7 +7,7 @@
     "async": "^2.6.0",
     "express": "^4.16.2",
     "jscollection": "^1.0.10",
-    "mongodb": "^2.2.33",
+    "mongodb": "^3.0.8",
     "os-utils": "^0.0.14",
     "pgrep": "0.0.6",
     "pidusage": "^1.2.0",
