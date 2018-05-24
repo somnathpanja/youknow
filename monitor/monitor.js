@@ -56,7 +56,7 @@ monitor._pullDataFromNode = function (node) {
       console.log(err);
     });
   }).on('error', (e) => {
-    console.error(`Failed to: ${e.message}, make sure worker in node is running`);
+    console.error(`Failed to: ${e.message}, make sure worker in node is running in ${node.host}`);
   });
 };
 
