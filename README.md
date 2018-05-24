@@ -1,4 +1,4 @@
-# youknow
+# YouKnow
 An easy server monitoring tools using node.js & mongodb
 
 #HOW TO
