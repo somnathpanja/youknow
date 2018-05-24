@@ -14,18 +14,20 @@
             text: "CPU Utilization (RealTime)"
           }, axisY: {
             title: "CPU %",
+            labelFontSize: 10,
             minimum: 0,
             maximum: 100
           },
           axisX: {
-            title: "TIME",
+            labelFontSize: 10,
             crosshair: {
               enabled: true
             }
           },
           legend: {
+            fontSize: 10,
             itemclick: function (e) {
-              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined')? true: e.dataSeries.visible;
+              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined') ? true : e.dataSeries.visible;
               e.dataSeries.visible = !e.dataSeries.visible;
               cpuChart.render();
             }
@@ -35,21 +37,24 @@
 
         memChart = new CanvasJS.Chart("memChartContainer", {
           zoomEnabled: true,
+          dataPointMinWidth: 4,
           title: {
             text: "Memory Utilization (RealTime)"
           }, axisY: {
             title: "Memory (MB)",
+            labelFontSize: 10,
             minimum: 0
           },
           axisX: {
-            title: "TIME",
+            labelFontSize: 10,
             crosshair: {
               enabled: true
             }
           },
           legend: {
+            fontSize: 10,
             itemclick: function (e) {
-              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined')? true: e.dataSeries.visible;
+              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined') ? true : e.dataSeries.visible;
               e.dataSeries.visible = !e.dataSeries.visible;
               memChart.render();
             }
@@ -66,14 +71,14 @@
             minimum: 0
           },
           axisX: {
-            title: "Time",
             crosshair: {
               enabled: true
             }
           },
           legend: {
+            fontSize: 10,
             itemclick: function (e) {
-              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined')? true: e.dataSeries.visible;
+              e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined') ? true : e.dataSeries.visible;
               e.dataSeries.visible = !e.dataSeries.visible;
               loadAvgChart.render();
             }
@@ -88,9 +93,10 @@
 
 <div style="padding-left: 20px;padding-right: 20px;">
     <h1 style="color:#0A9FF0;">YouKnow</h1>
-    <h5 style="padding-top: -10px;color:gray;" class="clearfix disabled">Monitor your server. (Just using Node.js & local mongoDb)</h5>
+    <h5 style="padding-top: -10px;color:gray;" class="clearfix disabled">Monitor your server. (Just using Node.js &
+        local mongoDb)</h5>
 
-    <div > <!-- <div class="container">-->
+    <div> <!-- <div class="container">-->
         </br>
         <h2>Server current status</h2>
 
@@ -116,12 +122,11 @@
                     <div id="cpuChartContainer" style="height: 400px; width: 100%;"></div>
                 </div>
             </div>
-
-
         </div>
+        </br>
         <div id="memChartContainer" style="height: 400px; width: 100%;"></div>
-        </div>
     </div>
+</div>
 </div>
 </body>
 </html>

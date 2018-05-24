@@ -91,8 +91,9 @@ app.get('/stats/mem', function (req, res) {
     var rows = new List(data);
     processNames.forEach(function (pName, index) {
       dataSeries[index] = {
-        type: 'line',
-        legendText: pName,
+        type: 'stackedColumn',
+        name: pName,
+        toolTipContent: "{label}<br/>{name}, <strong>{y}</strong>MB",
         showInLegend: true,
         lineThickness: 1,
         xValueType: "dateTime",
@@ -107,9 +108,11 @@ app.get('/stats/mem', function (req, res) {
       if (pName === 'SYS_TOTAL') {
         dataSeries[index].type = 'area';
         dataSeries[index].fillOpacity = .3;
+        dataSeries[index].toolTipContent = "Total Memory<br/>{name}, <strong>{y}</strong>MB";
       } else if (pName === 'SYS') {
         dataSeries[index].type = 'area';
         dataSeries[index].fillOpacity = .3;
+        dataSeries[index].toolTipContent = "Total Used Memory<br/>{name}, <strong>{y}</strong>MB";
       }
     });
 

@@ -4,6 +4,8 @@ const app = express();
 var PROCESS = require('./process');
 var os = require('os-utils');
 
+app.get('/', (req,res) => res.send('ok'));
+
 app.get('/process/stats', function (req, res) {
 
   var retVal = {
