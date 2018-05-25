@@ -28,13 +28,16 @@ function collectStats(req, res) {
       pGroup.eachAsync(function (group, gId, nextProcessGroup) {
         var pName = group.key;
         var processData = new List();
-        var lastStats;
+        var lastStats = {};
         var finalStats = {};
 
         group.value.eachAsync(function (pro, idx, nextProcess) {
           PROCESS.getStats(pro.pid, function (err, stats) {
-            processData.add(stats);
-            lastStats = stats;
+            if(stats) {
+              processData.add(stats);
+              lastStats = stats;
+            }
+            
             nextProcess();
           });
         }, function onDone(err) {
