@@ -79,6 +79,8 @@ function collectStats(req, res) {
   if(global.gc) global.gc();
 }
 
-collectStats({query: {process: JSON.stringify({"chrome": {}, "youknow-worker": {}})}}, {send: function () {}});
 app.get('/process/stats', collectStats);
 app.listen(CONF.http_port, () => console.log('Example app listening on port ' + CONF.http_port));
+
+// TEST
+//collectStats({query: {process: JSON.stringify({"chrome": {}, "youknow-worker": {}})}}, {send: function () {}});

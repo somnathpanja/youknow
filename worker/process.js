@@ -50,7 +50,7 @@ process.getStats = function (pid, cb) {
 };
 
 process.getCPU = function (pid, cb) {
-  var cmd = "TERM=xterm top -b -n 1 -p " + pid + " -n1 | awk '/ " + pid + " /{print $10}'"
+  var cmd = "TERM=xterm top -b -n 1 -p " + pid + " -n1 | awk '/ " + pid + " /{print $9}'";
   require('child_process').exec(cmd, function (error, stdout, stderr) {
     if (error || stdout === '') {
       return cb(null, 0);
