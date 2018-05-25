@@ -1,5 +1,5 @@
-const express = require('express');
 const CONF = require('./public/conf.json');
+const express = require('express');
 const app = express();
 var MONITOR = require('./monitor');
 var MONGO = require('./mongo');

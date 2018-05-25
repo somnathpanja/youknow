@@ -44,7 +44,7 @@ function collectStats(req, res) {
               finalStats[field] = processData.sum(field);
             } catch(e){
               console.log('processData:');
-              processData.printInConsoleAsTable();
+              processData.printInConsole();
             }
           });
           retVal[pName] = finalStats;
@@ -73,7 +73,8 @@ function collectStats(req, res) {
       });
     }
   });
-  global.gc();
+
+  if(global.gc) global.gc();
 }
 
 collectStats({query: {process: JSON.stringify({"chrome": {}, "youknow-worker": {}})}}, {send: function () {}});
