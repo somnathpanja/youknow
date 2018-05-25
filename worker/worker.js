@@ -37,7 +37,6 @@ function collectStats(req, res) {
               processData.add(stats);
               lastStats = stats;
             }
-            
             nextProcess();
           });
         }, function onDone(err) {
