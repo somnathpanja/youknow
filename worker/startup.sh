@@ -31,7 +31,7 @@ if [[ -n "$NODEJS_V8_ARGS" ]]; then
 fi
 
 echo "Starting app:"
-echo "> node $node_args"
+echo "> node $node_args > youknow_worker_stderr.log"
 
 # Start the process using `exec`.
 # This ensures that when node exits,
