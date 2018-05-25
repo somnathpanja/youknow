@@ -25,9 +25,11 @@ app.get('/stats/cpu', function (req, res) {
     processNames.forEach(function (processName, index) {
       dataSeries[index] = {
         type: 'line',
-        legendText: processName,
+        name: processName,
+        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,
         showInLegend: true,
+        yValueFormatString: "#######.00 %",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
@@ -55,9 +57,11 @@ app.get('/stats/loadavg', function (req, res) {
     processNames.forEach(function (processName, index) {
       dataSeries[index] = {
         type: 'line',
-        legendText: processName,
+        name: processName,
+        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,
         showInLegend: true,
+        yValueFormatString: "#######.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
@@ -93,9 +97,10 @@ app.get('/stats/mem', function (req, res) {
       dataSeries[index] = {
         type: 'stackedColumn',
         name: pName,
-        toolTipContent: "{label}<br/>{name}, <strong>{y}</strong>MB",
+        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}</span></strong> {x} | <strong>{y}</strong>",
         showInLegend: true,
         lineThickness: 1,
+        yValueFormatString: "#######.00 MB",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
@@ -104,15 +109,15 @@ app.get('/stats/mem', function (req, res) {
           };
         }).toArray()
       };
-
+//<span style='\"'color: {color};'\"'>{name}</span>
       if (pName === 'SYS_TOTAL') {
         dataSeries[index].type = 'area';
         dataSeries[index].fillOpacity = .3;
-        dataSeries[index].toolTipContent = "Total Memory<br/>{name}, <strong>{y}</strong>MB";
+        dataSeries[index].toolTipContent = "<span style='\"'color: {color};'\"'>Total Memory:</span> {x} | <strong>{y}</strong>";
       } else if (pName === 'SYS') {
         dataSeries[index].type = 'area';
         dataSeries[index].fillOpacity = .3;
-        dataSeries[index].toolTipContent = "Total Used Memory<br/>{name}, <strong>{y}</strong>MB";
+        dataSeries[index].toolTipContent = "<span style='\"'color: {color};'\"'>Used Memory:</span> {x} | <strong>{y}</strong>";
       }
     });
 
