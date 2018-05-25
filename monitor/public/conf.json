@@ -5,42 +5,11 @@
       "host": "127.0.0.1",
       "port": "2500",
       "process": {
-        "mongod": {}
-      },
-      "commands": []
-    },
-    {
-      "name": "localhost",
-      "host": "10.110.134.187",
-      "port": "2501",
-      "process": {
-        "nginx": {},
-        "mongod": {},
-        "CnsSubscriptionServer": {},
-        "CnsMetricsScheduler": {},
-        "CnsMonitorServer": {},
-        "CnsRegistrationServer": {},
-        "CnsAuroraServer": {},
-        "CnsConfigServer": {},
-        "CnsActionsWorker": {},
-        "CnsSecurityServer": {},
-        "CnsReportingServer": {},
-        "CnsDeviceServer": {},
-        "CnsNotificationServer": {},
-        "CnsUpgradeServer": {},
-        "CnsWebServer": {},
-        "CnsRouterWebSer": {},
-        "CnsRouterDeviceServer": {},
-        "CnsRouterUserServer": {},
-        "CnsRouterAuditServer": {},
-        "CnsRouterOrganizationServer": {},
-        "CnsRouterSecurityServer": {},
-        "postgres": {},
-        "rabbitmq": {}
+        "chrome": {},
+        "youknow-worker":{}
       },
       "commands": []
     }
-
   ],
   "monitor": {
     "http_port": 2600,

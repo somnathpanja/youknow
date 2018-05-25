@@ -19,3 +19,36 @@
 "CnsRouterSecurityServer": {},
 "postgres": {},
 "rabbitmq-server": {}
+
+
+{
+//      "name": "localhost",
+//      "host": "10.110.134.187",
+//      "port": "2501",
+//      "process": {
+//        "nginx": {},
+//        "mongod": {},
+//        "CnsSubscriptionServer": {},
+//        "CnsMetricsScheduler": {},
+//        "CnsMonitorServer": {},
+//        "CnsRegistrationServer": {},
+//        "CnsAuroraServer": {},
+//        "CnsConfigServer": {},
+//        "CnsActionsWorker": {},
+//        "CnsSecurityServer": {},
+//        "CnsReportingServer": {},
+//        "CnsDeviceServer": {},
+//        "CnsNotificationServer": {},
+//        "CnsUpgradeServer": {},
+//        "CnsWebServer": {},
+//        "CnsRouterWebSer": {},
+//        "CnsRouterDeviceServer": {},
+//        "CnsRouterUserServer": {},
+//        "CnsRouterAuditServer": {},
+//        "CnsRouterOrganizationServer": {},
+//        "CnsRouterSecurityServer": {},
+//        "postgres": {},
+//        "rabbitmq": {}
+//      },
+//      "commands": []
+//    }

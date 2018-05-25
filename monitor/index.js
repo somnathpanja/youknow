@@ -29,7 +29,7 @@ app.get('/stats/cpu', function (req, res) {
         toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}%</strong>",
         lineThickness: 1,
         showInLegend: true,
-        yValueFormatString: "###.00",
+        yValueFormatString: "##0.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
@@ -61,7 +61,7 @@ app.get('/stats/loadavg', function (req, res) {
         toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,
         showInLegend: true,
-        yValueFormatString: "###.00",
+        yValueFormatString: "##0.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {

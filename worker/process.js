@@ -23,23 +23,24 @@ process.getProcesses = function (processNames, cb) {
       if (line.length >= 1) list.add({pid: Number(line[0]), name: line[1]});
     }
 
-    cb(null, list);
+    setTimeout(function () {
+      cb(null, list);
+    }, 1000);
   });
 };
 
 process.getStats = function (pid, cb) {
   var retVal = {};
-  pusage.stat(pid, {advanced: true}, function (err, stat) {
+  pusage(pid, function (err, stat) {
     if (err) {
       console.log(err);
       cb(err);
       return;
     }
     retVal.pid = pid;
-    retVal.start = stat.start; // - `start` time process was started
+    retVal.start = stat.timestamp; // - `start` time process was started
     retVal.cpu = stat.cpu; // - `cpu` cpu percent
-    retVal.memoryMB = stat.memory / (1024 * 1024);  // - `memory` memory bytes
-    retVal.time = stat.time; // - `time` user + system time
+    retVal.memoryMB = stat.memory/1048576;  // - `memory` memory bytes
     cb(err, retVal);
   });
 };
