@@ -40,7 +40,12 @@ function collectStats(req, res) {
         }, function onDone(err) {
           // console.log(err);
           Object.keys(lastStats).forEach(function (field) {
-            finalStats[field] = processData.sum(field);
+            try{
+              finalStats[field] = processData.sum(field);
+            } catch(e){
+              console.log('processData:');
+              processData.printInConsoleAsTable();
+            }
           });
           retVal[pName] = finalStats;
           nextProcessGroup();
