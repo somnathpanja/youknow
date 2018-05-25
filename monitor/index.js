@@ -1,11 +1,11 @@
 const express = require('express');
-const CONF = require('./public/conf');
+const CONF = require('./public/conf.json');
 const app = express();
 var MONITOR = require('./monitor');
 var MONGO = require('./mongo');
 var List = require('jscollection').List;
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 app.get('/stats/cpu', function (req, res) {
 
