@@ -26,10 +26,10 @@ app.get('/stats/cpu', function (req, res) {
       dataSeries[index] = {
         type: 'line',
         name: processName,
-        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
+        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}%</strong>",
         lineThickness: 1,
         showInLegend: true,
-        yValueFormatString: "#######.00 %",
+        yValueFormatString: "###.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
@@ -61,7 +61,7 @@ app.get('/stats/loadavg', function (req, res) {
         toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,
         showInLegend: true,
-        yValueFormatString: "#######.00",
+        yValueFormatString: "###.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
@@ -109,7 +109,7 @@ app.get('/stats/mem', function (req, res) {
           };
         }).toArray()
       };
-//<span style='\"'color: {color};'\"'>{name}</span>
+
       if (pName === 'SYS_TOTAL') {
         dataSeries[index].type = 'area';
         dataSeries[index].fillOpacity = .3;

@@ -44,6 +44,6 @@
   ],
   "monitor": {
     "http_port": 2600,
-    "dataIntervalInSec": 5000
+    "dataIntervalInSec": 15000
   }
 }

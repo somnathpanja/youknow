@@ -1,5 +1,14 @@
 var cpuChart, memChart, loadAvgChart, cpuChartData = [], memChartData = [], loadAvgChartData = [];
 
+var clearAllCharts = function () {
+  cpuChartData = [];
+  memChartData = [];
+  loadAvgChartData = [];
+  cpuChart.render();
+  memChart.render();
+  loadAvgChart.render();
+};
+
 var updateCPUChartData = function (lastTs, chartType, dataSeries) {
   var chartData;
 
@@ -11,7 +20,7 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
     chartData = loadAvgChartData;
   }
 
-  if (lastTs === 0) {
+  if (chartData.length === 0) {
     Array.prototype.push.apply(chartData, dataSeries);
   } else {
     chartData.forEach(function (ds, index) {
@@ -37,8 +46,10 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
     $locationProvider.html5Mode(true);
   }]);
 
-  app.controller('serverController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+
+  app.controller('serverController', ['$window', '$scope', '$http', '$location', function ($window, $scope, $http, $location) {
     var thisC = this;
+    this.currentHost = '';
     this.servers = [];
     this.cpuDataSeries = [];
     this.memDataSeries = [];
@@ -47,11 +58,83 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
     this.nextCall4MEMTS = 0;
     this.nextCall4loadAvgTS = 0;
 
-    $http.get('conf.json').success(function (data){
+    $http.get('conf.json').success(function (data) {
       thisC.servers = data.nodes;
     });
 
-    var host = $location.search()['server'];
+    var params = $location.search();
+    var host = params['server'];
+    var fromTs = params['fromTs'];
+    var endTs = params['endTs'];
+
+    this.fromTs = (typeof params['fromTs'] !== 'undefined') ? fromTs : (Date.now() - 30 * 60 * 1000); // 30m from now
+    this.endTs = (typeof params['endTs'] !== 'undefined') ? endTs : Date.now();
+
+    this.currentHost = host;
+    this.selectedServer = host;
+    this.nextCall4CPUTS = Number(this.fromTs);
+    this.nextCall4MEMTS = Number(this.fromTs);
+    this.nextCall4loadAvgTS = Number(this.fromTs);
+
+    thisC.selectByDate = function (option) {
+      var newUrl = 'http://' + $location.host() + ':' + $location.port() + '/?server=' + host + '&fromTs=';
+      var fromTs = 0;
+      switch (option) {
+        case '5m':
+          fromTs = (Date.now() - 5 * 60 * 1000);
+          break;
+        case '15m':
+          fromTs = (Date.now() - 15 * 60 * 1000);
+          break;
+        case '30m':
+          fromTs = (Date.now() - 30 * 60 * 1000);
+          break;
+        case '1h':
+          fromTs = (Date.now() - 60 * 60 * 1000);
+          break;
+        case '2h':
+          fromTs = (Date.now() - 2 * 60 * 60 * 1000);
+          break;
+        case '3m':
+          fromTs = (Date.now() - 3 * 60 * 60 * 1000);
+          break;
+        case '6m':
+          fromTs = (Date.now() - 6 * 60 * 60 * 1000);
+          break;
+        case '12h':
+          fromTs = (Date.now() - 12 * 60 * 60 * 1000);
+          break;
+        case '1d':
+          fromTs = (Date.now() - 24 * 60 * 60 * 1000);
+          break;
+        case '2d':
+          fromTs = (Date.now() - 2 * 24 * 60 * 60 * 1000);
+          break;
+      }
+      newUrl += fromTs;
+      changeLocation(newUrl, true);
+    };
+
+    thisC.onServerSelected = function () {
+      var newUrl = 'http://' + $location.host() + ':' + $location.port() + '/?server=' + thisC.selectedServer.host;
+      $window.open(newUrl, '_blank');
+    };
+
+    //be sure to inject $scope and $location
+    var changeLocation = function (url, forceReload) {
+      $scope = $scope || angular.element(document).scope();
+      if (forceReload || $scope.$$phase) {
+        window.location = url;
+      }
+      else {
+        //only use this if you want to replace the history stack
+        //$location.path(url).replace();
+
+        //this this if you want to change the URL and add it to the history stack
+        $location.path(url);
+        $scope.$apply();
+      }
+    };
 
     function pullDataFromServer() {
       // Simple POST request (passing data)
