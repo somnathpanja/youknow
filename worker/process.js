@@ -40,10 +40,26 @@ process.getStats = function (pid, cb) {
     retVal.pid = pid;
     retVal.start = stat.timestamp; // - `start` time process was started
     retVal.cpu = stat.cpu; // - `cpu` cpu percent
-    retVal.memoryMB = stat.memory/1048576;  // - `memory` memory bytes
-    cb(err, retVal);
+    retVal.memoryMB = stat.memory / 1048576;  // - `memory` memory bytes
+
+    process.getCPU(pid, function (err, cpu) {
+      retVal.cpu = cpu;
+      cb(err, retVal);
+    });
   });
 };
+
+process.getCPU = function (pid, cb) {
+  var cmd = "TERM=xterm top -b -n 1 -p " + pid + " -n1 | awk '/ " + pid + " /{print $10}'"
+  require('child_process').exec(cmd, function (error, stdout, stderr) {
+    if (error || stdout === '') {
+      return cb(null, 0);
+    }
+
+    cb(null, Number(stdout.trim()));
+  });
+}
+
 
 process.getSysStats = function (cb) {
   os.cpuUsage(function (cpu) {
