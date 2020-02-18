@@ -80,6 +80,9 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
       var newUrl = 'http://' + $location.host() + ':' + $location.port() + '/?server=' + host + '&fromTs=';
       var fromTs = 0;
       switch (option) {
+        case 'auto':
+          fromTs = (Date.now() - 60 * 1000);
+          break;
         case '5m':
           fromTs = (Date.now() - 5 * 60 * 1000);
           break;

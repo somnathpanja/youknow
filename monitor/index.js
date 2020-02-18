@@ -24,7 +24,7 @@ app.get('/stats/cpu', function (req, res) {
     var rows = new List(data);
     processNames.forEach(function (processName, index) {
       dataSeries[index] = {
-        type: 'line',
+        type: 'column',
         name: processName,
         toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}%</strong>",
         lineThickness: 1,
@@ -56,7 +56,7 @@ app.get('/stats/loadavg', function (req, res) {
     var rows = new List(data);
     processNames.forEach(function (processName, index) {
       dataSeries[index] = {
-        type: 'line',
+        type: 'stackedArea',
         name: processName,
         toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,

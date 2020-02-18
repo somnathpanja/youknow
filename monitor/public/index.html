@@ -128,7 +128,8 @@
 <table></table>
     <h2>Monitoring {{serverCtrl.currentHost}}
     <span style="font-size: 12px;float:right;margin-right: 0px;">
-         <button ng-click="serverCtrl.selectByDate('5m');">5 Minutes</button>
+        <button ng-click="serverCtrl.selectByDate('auto');">Auto</button>
+        <button ng-click="serverCtrl.selectByDate('5m');">5 Minutes</button>
         <button ng-click="serverCtrl.selectByDate('15m')">15 Minutes</button>
         <button ng-click="serverCtrl.selectByDate('30m')">30 Minutes</button>
         <button ng-click="serverCtrl.selectByDate('1h')">1 Hour</button>
@@ -179,12 +180,22 @@
                     <div id="loadAvgChartContainer" style="height: 400px; width: 100%;"></div>
                 </div>
                 <div class="col-xs-6">
-                    <div id="cpuChartContainer" style="height: 400px; width: 100%;"></div>
+                    <div id="cpuRealTime" style="height: 400px; width: 100%;"></div>
                 </div>
             </div>
         </div>
         </br>
-        <div id="memChartContainer" style="height: 400px; width: 100%;"></div>
+        <div class="container" style="width: 100%;">
+          <div class="row">
+              <div class="col-xs-6">
+                <div id="memChartContainer" style="height: 400px; width: 100%;"></div>
+              </div>
+              <div class="col-xs-6">
+                  <div id="cpuChartContainer" style="height: 400px; width: 100%;"></div>
+              </div>
+          </div>
+      </div>
+        
     </div>
 </div>
 </div>

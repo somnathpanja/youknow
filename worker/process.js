@@ -1,4 +1,4 @@
-var process = {};
+var client = {};
 var List = require('jscollection').List;
 var pusage = require('pidusage');
 var os = require('os-utils');
@@ -8,7 +8,7 @@ var os = require('os-utils');
  * @param processNames
  * @param cb
  */
-process.getProcesses = function (processNames, cb) {
+client.getProcesses = function (processNames, cb) {
   //var command = 'pgrep -l Cns\\|mongo\\|postgres\\|rabbit | sort -k 2 -r';
   var command = 'pgrep -l ' + processNames.join('\\|') + ' | sort -k 2 -r';
   require('child_process').exec(command, function (error, stdout, stderr) {
@@ -29,7 +29,7 @@ process.getProcesses = function (processNames, cb) {
   });
 };
 
-process.getStats = function (pid, cb) {
+client.getStats = function (pid, cb) {
   var retVal = {};
   pusage(pid, function (err, stat) {
     if (err) {
@@ -42,14 +42,14 @@ process.getStats = function (pid, cb) {
     retVal.cpu = stat.cpu; // - `cpu` cpu percent
     retVal.memoryMB = stat.memory / 1048576;  // - `memory` memory bytes
 
-    process.getCPU(pid, function (err, cpu) {
+    client.getCPU(pid, function (err, cpu) {
       retVal.cpu = cpu;
       cb(err, retVal);
     });
   });
 };
 
-process.getCPU = function (pid, cb) {
+client.getCPU = function (pid, cb) {
   var cmd = "TERM=xterm top -b -n 1 -p " + pid + " -n1 | awk '/ " + pid + " /{print $9}'";
   require('child_process').exec(cmd, function (error, stdout, stderr) {
     if (error || stdout === '') {
@@ -61,7 +61,7 @@ process.getCPU = function (pid, cb) {
 }
 
 
-process.getSysStats = function (cb) {
+client.getSysStats = function (cb) {
   os.cpuUsage(function (cpu) {
     os.harddrive(function (total, free, used) {
       cb({
@@ -88,4 +88,4 @@ process.getSysStats = function (cb) {
   });
 };
 
-module.exports = process;
+module.exports = client;
