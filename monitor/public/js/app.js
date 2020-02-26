@@ -283,8 +283,6 @@ function loadHistoryData(fromDate, toDate) {
       });
     }
 
-
-
     function pullDataFromServer() {
       loadStaticData();
 
