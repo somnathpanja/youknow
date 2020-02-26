@@ -101,7 +101,7 @@ monitor._saveStaticData = function (profileType, node, data, cb) {
   var processNames = Object.keys(node.process);
 
   processNames.forEach(function (processName) {
-    if (processName !== 'SYS') {
+    if (processName !== 'SYS' && data[processName]) {
       staticData.processMem.push({
         x: processName,
         y: Math.round(data[processName]['memoryMB'])
@@ -154,7 +154,6 @@ monitor._saveAs = function (profileType, node, data, cb) {
       }
     }
   });
-
 
   List.exeAsync((next) => {
     MONGO.insert(collectionNameRaw, insertData, next);

@@ -98,7 +98,8 @@
       realTimeDiskChart = new ApexCharts(document.querySelector("#realTimeDiskChartDiv"), {
         chart: {
           type: 'pie',
-          animations: { enabled: false }
+          animations: { enabled: false },
+          height: 190,
         },
         title: { text: "Disk", offsetX: 1, offsetY: 170, floating: true },
         legend: { show: false },
@@ -368,7 +369,25 @@
       <a href="https://github.com/somnathpanja/youknow">https://github.com/somnathpanja/youknow</a>
       Also find in <a href="https://stackoverflow.com/users/189102/somnath">Stack Overflow.</a>
     </h5>
-    <span class="topcorner h4" style="top:40px;right: 20px">Select Server:
+    <span class="topcorner h4" style="top:40px;right: 20px">
+      Select data resolution:
+      <select ng-model="serverCtrl.selectedDataResolution" ng-change="serverCtrl.loadHistoryData()">
+        <option selected=1 value="raw,1,hour">--1 hour--</option>
+        <option value="raw,2,hour">--2 hours--</option>
+        <option value="raw,4,hour">--4 hours--</option>
+        <option value="raw,6,hour">--6 hours--</option>
+        <option value="minute,12,hour">--12 hours--</option>
+        <option value="minute,1,day">--1 day--</option>
+        <option value="hour,1,day">--2 days--</option>
+        <option value="hour,4,day">--4 days--</option>
+        <option value="hour,8,day">--8 days--</option>
+        <option value="hour,15,day">--15 days--</option>
+        <option value="day,1,month">--1 month--</option>
+        <option value="day,2,month">--2 months--</option>
+        <option value="day,12,month">--1 year--</option>
+        <option value="day,24,month">--2 years--</option>
+      </select>
+      Select Server:
       <select ng-model="serverCtrl.selectedServer" ng-options="server.host for server in serverCtrl.servers"
         ng-change="serverCtrl.onServerSelected()">
         <option value="">--Select Server--</option>
@@ -403,16 +422,15 @@
               <div class="col-xs-6" style="text-align: right;">Uptime:</div>
               <div class="col-xs-2">{{serverCtrl.sys_uptime}}</div>
             </div>
-
           </td>
           <td style="width: 240px;">
-            <div id="realTimeDiskChartDiv"></div>
+            <div id="realTimeDiskChartDiv" style="position: relative;left:-50px;padding: 10px;"></div>
           </td>
           <td style="width: 240px;">
-            <div id="realTimeMemChartDiv"></div>
+            <div id="realTimeMemChartDiv" style="position: relative;left:-120px;"></div>
           </td>
           <td style="width: 240px;">
-            <div id="realTimeCPUChartDiv"></div>
+            <div id="realTimeCPUChartDiv" style="position: relative;left:-200px;"></div>
           </td>
           <td>
             <!-- <textarea style="width: 200px;"></textarea> -->
@@ -426,31 +444,16 @@
             <div id="realTimeProcessMemoryChartDiv"></div>
           </td>
           <td colspan="2">
-            <span style="float:right; margin-left: 15px; margin-top: -20px;">
-              <span style="font-size: 18px;"><b>Select data resolution:</b></span>
-              <button ng-click="serverCtrl.loadHistoryData('raw', 1, 'hour');">1 hour</button>
-              <button ng-click="serverCtrl.loadHistoryData('raw', 2, 'hour');">2 hours</button>
-              <button ng-click="serverCtrl.loadHistoryData('raw', 4, 'hour');">4 hours</button>
-              <button ng-click="serverCtrl.loadHistoryData('raw', 6, 'hour');">6 hours</button>
-              <button ng-click="serverCtrl.loadHistoryData('minute', 12, 'hour');">12 hours</button>
-              <button ng-click="serverCtrl.loadHistoryData('minute', 1, 'day')">1 day</button>
-              <button ng-click="serverCtrl.loadHistoryData('hour', 1, 'day')">2 days</button>
-              <button ng-click="serverCtrl.loadHistoryData('hour', 4, 'day')">4 days</button>
-              <button ng-click="serverCtrl.loadHistoryData('hour', 8, 'day')">8 days</button>
-              <button ng-click="serverCtrl.loadHistoryData('hour', 15, 'day')">15 days</button>
-              <button ng-click="serverCtrl.loadHistoryData('day', 1, 'month')">1 month</button>
-              <button ng-click="serverCtrl.loadHistoryData('day', 2, 'month')">2 months</button>
-              <button ng-click="serverCtrl.loadHistoryData('day', 12, 'month')">1 year</button>
-              <button ng-click="serverCtrl.loadHistoryData('day', 24, 'month')">2 years</button>
-              <button ng-click="serverCtrl.loadHistoryData('day', 48, 'month')">history!</button>
-            </span>
-            <div id="historyBrushChartDiv" style="width: 100%;">
-              <div id="historyProcessCPUChartDiv" style="width: 100%; height: 200px;margin-top: 5px;margin-left: 15px;">
-              </div>
-              <div id="historyProcessMemoryChartDiv" style="width: 100%; height: 200px;"></div>
-              <div id="chart-line1"></div>
-              <div style="width: 100%;margin-top: -35px;">
-                <div id="chart-line2" style="width: 95%;float: right;"></div>
+            <div style="margin-top: -210px;">
+              <div id="historyBrushChartDiv" style="width: 100%;">
+                <div id="historyProcessCPUChartDiv"
+                  style="width: 99.5%; height: 300px;margin-top: 5px;margin-left: 15px;">
+                </div>
+                <div id="historyProcessMemoryChartDiv" style="width: 101%; height: 300px;"></div>
+                <div id="chart-line1"></div>
+                <div style="width: 100%;margin-top: -35px;">
+                  <div id="chart-line2" style="width: 95%;float: right;"></div>
+                </div>
               </div>
             </div>
           </td>

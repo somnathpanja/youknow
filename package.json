@@ -1,12 +1,13 @@
 {
   "name": "youknow",
   "version": "1.0.0",
-  "description": "server process monitoring ststem",
+  "description": "server process monitoring system",
   "main": "index.js",
   "dependencies": {
     "async": "^2.6.0",
+    "diskusage": "^1.1.3",
     "express": "^4.16.2",
-    "jscollection": "^1.0.10",
+    "jscollection": "^1.1.0",
     "mongodb": "^3.0.8",
     "os-utils": "^0.0.14",
     "pgrep": "0.0.6",

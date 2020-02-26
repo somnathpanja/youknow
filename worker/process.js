@@ -60,10 +60,21 @@ client.getCPU = function (pid, cb) {
   });
 }
 
+client.getDiskSize = function (cb) {
+  var cmd = 'TERM=xterm df -k -m |tail -n+1 | awk \'{n+=1} {t+=$2} {u+=$3} {f+=$4} {print "["t","u","f"]"}\' | tail -1';
+  require('child_process').exec(cmd, function (error, stdout, stderr) {
+    if (error || stdout === '') {
+      return cb(null, [0, 0, 0]);
+    }
+    let df = JSON.parse(stdout.trim());
+
+    cb(null, df[0], df[1], df[2]);
+  });
+}
 
 client.getSysStats = function (cb) {
   os.cpuUsage(function (cpu) {
-    os.harddrive(function (total, free, used) {
+    client.getDiskSize(function (err, total, used, free) {
       cb({
         name: 'SYS',
         ts: Date.now(),

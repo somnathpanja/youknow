@@ -105,6 +105,8 @@ function loadHistoryData(fromDate, toDate) {
     this.currentHost = '';
     this.servers = [];
     this.dataUnit = 'raw';
+    this.selectedDataResolution = 'raw,1,hour';
+
     this.cpuDataSeries = [];
     this.memDataSeries = [];
     this.loadAvgDataSeries = [];
@@ -165,8 +167,12 @@ function loadHistoryData(fromDate, toDate) {
       });
     };
 
-    thisC.loadHistoryData = function (unit, fromVal, fromUnit) {
+    thisC.loadHistoryData = function () {
       var hData = [], unitVal = 0;
+      let selectedDataResolution = thisC.selectedDataResolution.split(',');
+      var unit = selectedDataResolution[0],
+        fromVal = Number(selectedDataResolution[1]),
+        fromUnit = selectedDataResolution[2];
 
       switch (fromUnit) {
         case 'hour':
