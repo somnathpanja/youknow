@@ -140,11 +140,11 @@
 
       realTimeProcessCPUChart = new ApexCharts(document.querySelector("#realTimeProcessCPUChartDiv"), {
         chart: { type: 'bar', height: 550, toolbar: { show: false } },
-        plotOptions: { bar: { horizontal: true } },
+        plotOptions: { bar: { horizontal: true, dataLabels: { position: 'top' }, } },
         dataLabels: {
-          enabled: true, offsetX: -20, style: { fontSize: '12px', colors: ["#304758"] },
+          enabled: true, offsetX: 20, style: { fontSize: '12px', colors: ["#304758"] },
           formatter: function (val) {
-            return val + "%";
+            return val ? (val + "%") : '';
           }
         },
         title: { text: "CPU Usage(%)", offsetX: 0, offsetY: 0, floating: true },
@@ -157,9 +157,9 @@
 
       realTimeProcessMemoryChart = new ApexCharts(document.querySelector("#realTimeProcessMemoryChartDiv"), {
         chart: { type: 'bar', height: 550, offsetX: -20, toolbar: { show: false } },
-        plotOptions: { bar: { horizontal: true } },
+        plotOptions: { bar: { horizontal: true, dataLabels: { position: 'top' }, } },
         dataLabels: {
-          enabled: true, offsetX: -20, style: { fontSize: '12px', colors: ["#304758"] },
+          enabled: true, offsetX: 35, style: { fontSize: '12px', colors: ["#304758"] },
           formatter: function (val) {
             return val + " MB";
           }

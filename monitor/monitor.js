@@ -76,7 +76,6 @@ monitor._insertIn2Db = function (node, data) {
   });
 };
 
-
 monitor._saveStaticData = function (profileType, node, data, cb) {
   var collectionName = [node.host, profileType].join(':');
   let processName = 'SYS';

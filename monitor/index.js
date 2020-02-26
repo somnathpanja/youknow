@@ -17,10 +17,7 @@ app.get('/stats/system/static', function (req, res) {
   });
 });
 
-
-
 app.get('/stats/loadavg', function (req, res) {
-
   var ts = Number(req.query.ts);
   var host = req.query.host;
 
@@ -79,7 +76,7 @@ function getProcessHistoryData(req, res, field) {
   MONGO.readRange(collectionName, fromTs, toTs, function (err, data) {
     var rows = new List(data);
     processNames.forEach(function (pName, index) {
-      if (pName === 'SYS_TOTAL' || field == 'memoryMB') return;
+      //if (pName === 'SYS_TOTAL' && field === 'memoryMB') return;
 
       dataSeries[index] = {
         type: (pName === 'SYS_TOTAL') ? ((field == 'cpu') ? 'line' : 'area') : 'stackedArea',
