@@ -61,9 +61,9 @@ function collectStats(req, res) {
         });
       });
     } else {
-      process.eachAsync(function (process, id, next) {
-        PROCESS.getStats(process.pid, function (err, stats) {
-          retVal[process.name] = stats;
+      process.eachAsync(function (aProcess, id, next) {
+        PROCESS.getStats(aProcess.pid, function (err, stats) {
+          retVal[aProcess.name] = stats;
           next();
         });
       }, function onDone() {

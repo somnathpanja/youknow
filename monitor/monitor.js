@@ -4,6 +4,12 @@ var http = require('http');
 var MONGO = require('./mongo');
 var List = require('jscollection').List;
 
+let getRoundedDate = (minutes, ts) => {
+  let ms = 1000 * 60 * minutes; // convert minutes to ms
+  let roundedDate = new Date(Math.round(ts / ms) * ms);
+  return roundedDate.getTime();
+};
+
 monitor.start = function () {
   MONGO.connect(function (err) {
     if (err) {
@@ -31,7 +37,7 @@ monitor._pullDataFromNode = function (node) {
     agent: false,  // create a new agent just for this one request,
     useNewUrlParser: true
   }, (response) => {
-    const {statusCode} = response;
+    const { statusCode } = response;
 
     if (statusCode !== 200) {
       console.log('node:', node.host, 'returned. HTTP_CODE:', statusCode);
@@ -62,16 +68,65 @@ monitor._pullDataFromNode = function (node) {
 
 monitor._insertIn2Db = function (node, data) {
   List.exeAsync((next) => {
-    monitor._insertAs('cpu', node, data, next);
+    monitor._saveAs('cpu', node, data, next);
   }, (next) => {
-    monitor._insertAs('memoryMB', node, data, next);
+    monitor._saveAs('memoryMB', node, data, next);
+  }, (next) => {
+    monitor._saveStaticData('static', node, data, next);
   });
 };
 
-monitor._insertAs = function (profileType, node, data, cb) {
+
+monitor._saveStaticData = function (profileType, node, data, cb) {
   var collectionName = [node.host, profileType].join(':');
+  let processName = 'SYS';
+  let staticData = {
+    host: node.host,
+    ts: data.ts,
+    disk_size: data[processName]['hardDrive'].total,
+    disk_used: data[processName]['hardDrive'].used,
+    mem_total: data[processName]['totalMemoryMB'],
+    mem_used: data[processName]['memoryMB'],
+    sys_uptime: data[processName]['sysUptime'],
+    cpu: Math.round(data[processName]['cpu']),
+    cpu_count: data[processName]['cpuCount'],
+    platform: data[processName]['platform'],
+    loadavg1: data[processName]['loadavg1'],
+    loadavg5: data[processName]['loadavg5'],
+    loadavg15: data[processName]['loadavg15'],
+    processMem: [],
+    processCpu: []
+  };
+
   var processNames = Object.keys(node.process);
-  var insertData = {ts: data.ts};
+
+  processNames.forEach(function (processName) {
+    if (processName !== 'SYS') {
+      staticData.processMem.push({
+        x: processName,
+        y: Math.round(data[processName]['memoryMB'])
+      });
+
+      staticData.processCpu.push({
+        x: processName,
+        y: Math.round(data[processName]['cpu'])
+      });
+    }
+  });
+
+  MONGO.updateOne(collectionName, { host: node.host }, { $set: staticData }, function (err) {
+    cb();
+  });
+}
+
+monitor._saveAs = function (profileType, node, data, cb) {
+  var collectionNameRaw = [node.host, profileType].join(':');
+  var collectionNameMinute = [node.host, 'minute', profileType].join(':');
+  var collectionNameHour = [node.host, 'hour', profileType].join(':');
+  var collectionNameDay = [node.host, 'day', profileType].join(':');
+
+  var processNames = Object.keys(node.process);
+  var insertData = { ts: data.ts };
 
   processNames.unshift('SYS');
 
@@ -79,23 +134,51 @@ monitor._insertAs = function (profileType, node, data, cb) {
     if (data[processName]) {
       insertData[processName] = data[processName][profileType];
     } else {
-      insertData[processName] = null;
+      delete insertData[processName];
     }
 
     if (processName === 'SYS') {
-      if (profileType === 'memoryMB') {
-        insertData[processName + '_TOTAL'] = data[processName]['totalMemoryMB'];
-      } else if (profileType === 'cpu') {
-        insertData[processName + '_LOAD_AVG1'] = data[processName]['loadavg1'];
-        insertData[processName + '_LOAD_AVG5'] = data[processName]['loadavg5'];
-        insertData[processName + '_LOAD_AVG15'] = data[processName]['loadavg15'];
+      switch (profileType) {
+        case 'memoryMB':
+          insertData[processName + '_TOTAL'] = data[processName]['totalMemoryMB'];
+          break;
+        case 'cpu':
+          insertData[processName + '_LOAD_AVG1'] = data[processName]['loadavg1'];
+          insertData[processName + '_LOAD_AVG5'] = data[processName]['loadavg5'];
+          insertData[processName + '_LOAD_AVG15'] = data[processName]['loadavg15'];
+          break;
+        case 'disk':
+          insertData[processName + '_STORAGE_SIZE_TOTAL'] = data[processName]['hardDrive'].total;
+          insertData[processName + '_STORAGE_SIZE_USED'] = data[processName]['hardDrive'].used;
+          break;
       }
     }
   });
 
-  MONGO.insert(collectionName, insertData, function (err) {
-    cb();
-  })
+
+  List.exeAsync((next) => {
+    MONGO.insert(collectionNameRaw, insertData, next);
+  }, (next) => {
+    // Cleanup data for aggregation
+    delete insertData.ts;
+    delete insertData._id;
+    insertData.count = 1;
+    insertData = { $inc: insertData };
+    next();
+  }, (next) => {
+    var aggregationTs = getRoundedDate(1, data.ts);
+    MONGO.updateOne(collectionNameMinute, { ts: aggregationTs }, insertData, next);
+  }, (next) => {
+    var aggregationTs = getRoundedDate(60, data.ts);
+    MONGO.updateOne(collectionNameHour, { ts: aggregationTs }, insertData, next);
+  }, (next) => {
+    var aggregationTs = getRoundedDate(24 * 60, data.ts);
+    MONGO.updateOne(collectionNameDay, { ts: aggregationTs }, insertData, next);
+  }, () => cb());
+
+  // MONGO.insert(collectionNameRaw, insertData, function (err) {
+  //   cb();
+  // });
 };
 
 monitor.start();

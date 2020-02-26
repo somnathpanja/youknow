@@ -20,7 +20,7 @@ client.getProcesses = function (processNames, cb) {
     var list = new List();
     for (var l = 0; l <= lines.length; l++) {
       var line = lines[l] ? lines[l].split(' ') : '';
-      if (line.length >= 1) list.add({pid: Number(line[0]), name: line[1]});
+      if (line.length >= 1) list.add({ pid: Number(line[0]), name: line[1] });
     }
 
     setTimeout(function () {
@@ -33,7 +33,7 @@ client.getStats = function (pid, cb) {
   var retVal = {};
   pusage(pid, function (err, stat) {
     if (err) {
-      console.log(err);
+      console.log(err.toString());
       cb(err);
       return;
     }
@@ -75,7 +75,7 @@ client.getSysStats = function (cb) {
         loadavg1: os.loadavg(1),
         loadavg5: os.loadavg(5),
         loadavg15: os.loadavg(15),
-        cpu: 1 - cpu,
+        cpu: cpu * 100,
         memoryMB: os.totalmem() - os.freemem(),
         totalMemoryMB: os.totalmem(),
         hardDrive: {

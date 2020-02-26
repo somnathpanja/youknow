@@ -1,4 +1,44 @@
-var cpuChart, memChart, loadAvgChart, cpuChartData = [], memChartData = [], loadAvgChartData = [];
+var realTimeDiskChart, realTimeMemChart, realTimeCPUChart,
+  realTimeProcessCPUChart, realTimeProcessMemoryChart, historyProcessMemoryChart, historyProcessCPUChart,
+
+  cpuChart, memChart, loadAvgChart, cpuChartData = [], memChartData = [], loadAvgChartData = [];
+
+// add all charts (with axes) to be synced
+function syncHandler(e) {
+  var charts = [historyProcessCPUChart, historyProcessMemoryChart]; 
+  for (var i = 0; i < charts.length; i++) {
+    var chart = charts[i];
+
+    if (!chart.options.axisX)
+      chart.options.axisX = {};
+
+    if (!chart.options.axisY)
+      chart.options.axisY = {};
+
+    if (e.trigger === "reset") {
+
+      chart.options.axisX.viewportMinimum = chart.options.axisX.viewportMaximum = null;
+      chart.options.axisY.viewportMinimum = chart.options.axisY.viewportMaximum = null;
+
+      chart.render();
+
+    } else if (chart !== e.chart) {
+
+      chart.options.axisX.viewportMinimum = e.axisX.viewportMinimum;
+      chart.options.axisX.viewportMaximum = e.axisX.viewportMaximum;
+
+      chart.options.axisY.viewportMinimum = e.axisY.viewportMinimum;
+      chart.options.axisY.viewportMaximum = e.axisY.viewportMaximum;
+
+      chart.render();
+
+    }
+  }
+}
+
+var updateChart = function (chart, series) {
+  chart.updateSeries(series);
+}
 
 var clearAllCharts = function () {
   cpuChartData = [];
@@ -32,13 +72,34 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
   }
 
   if (chartType === 'cpu') {
-    cpuChart.render();
+    //cpuChart.render();
   } else if (chartType === 'mem') {
-    memChart.render();
+    // memChart.render();
   } else if (chartType === 'loadAvg') {
-    loadAvgChart.render();
+    //loadAvgChart.render();
   }
 };
+
+
+function toHHMMSS(sec) {
+  var sec_num = parseInt(sec, 10); // don't forget the second param
+  var hours = Math.floor(sec_num / 3600);
+  var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+  var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+  if (hours < 10) { hours = "0" + hours; }
+  if (minutes < 10) { minutes = "0" + minutes; }
+  if (seconds < 10) { seconds = "0" + seconds; }
+  return hours + ':' + minutes + ':' + seconds;
+}
+
+function loadHistoryData(unit, fromVal, fromUnit) {
+  alert(unit + fromVal + fromUnit);
+  var scope = angular.element(document.getElementById("MainWrap")).scope();
+  scope.$apply(function () {
+    scope.selectByDate(unit, fromVal, fromUnit);
+  });
+}
 
 (function () {
   var app = angular.module('monitoring', []);
@@ -58,6 +119,21 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
     this.nextCall4MEMTS = 0;
     this.nextCall4loadAvgTS = 0;
 
+    //------------STATIC-------
+    //this.host = '';
+    this.platform = '';
+    this.cpu_count = 0;
+    this.cpu = 0;
+    this.disk_size = 0;
+    this.disk_used = 0;
+    this.mem_total = 0;
+    this.mem_used = 0;
+    this.sys_uptime = 0;
+    this.loadavg1 = 0;
+    this.loadavg15 = 0;
+    this.loadavg5 = 0;
+
+
     $http.get('conf.json').success(function (data) {
       thisC.servers = data.nodes;
     });
@@ -76,46 +152,50 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
     this.nextCall4MEMTS = Number(this.fromTs);
     this.nextCall4loadAvgTS = Number(this.fromTs);
 
-    thisC.selectByDate = function (option) {
-      var newUrl = 'http://' + $location.host() + ':' + $location.port() + '/?server=' + host + '&fromTs=';
-      var fromTs = 0;
-      switch (option) {
-        case 'auto':
-          fromTs = (Date.now() - 60 * 1000);
+    thisC.loadHistoryData = function (unit, fromVal, fromUnit) {
+      switch (fromUnit) {
+        case 'hour':
+          fromVal = Date.now() - (fromVal * 60 * 60 * 1000);
           break;
-        case '5m':
-          fromTs = (Date.now() - 5 * 60 * 1000);
+        case 'day':
+          fromVal = Date.now() - (fromVal * 24 * 60 * 60 * 1000);
           break;
-        case '15m':
-          fromTs = (Date.now() - 15 * 60 * 1000);
+        case 'month':
+          fromVal = Date.now() - (fromVal * 30 * 24 * 60 * 60 * 1000);
           break;
-        case '30m':
-          fromTs = (Date.now() - 30 * 60 * 1000);
-          break;
-        case '1h':
-          fromTs = (Date.now() - 60 * 60 * 1000);
-          break;
-        case '2h':
-          fromTs = (Date.now() - 2 * 60 * 60 * 1000);
-          break;
-        case '3m':
-          fromTs = (Date.now() - 3 * 60 * 60 * 1000);
-          break;
-        case '6m':
-          fromTs = (Date.now() - 6 * 60 * 60 * 1000);
-          break;
-        case '12h':
-          fromTs = (Date.now() - 12 * 60 * 60 * 1000);
-          break;
-        case '1d':
-          fromTs = (Date.now() - 24 * 60 * 60 * 1000);
-          break;
-        case '2d':
-          fromTs = (Date.now() - 2 * 24 * 60 * 60 * 1000);
+        case 'year':
+          fromVal = Date.now() - (fromVal * 365 * 24 * 60 * 60 * 1000);
           break;
       }
-      newUrl += fromTs;
-      changeLocation(newUrl, true);
+
+      var urlMem = '/stats/mem?host=' + host + '&fromTs=' + fromVal + '&toTs=' + Date.now() + '&unit=' + unit;
+
+      $http.get(urlMem).success(function (resData, status, headers, config) {
+        //historyProcessMemoryChart.updateSeries(resData);
+        historyProcessMemoryChart.options.data = resData;
+        historyProcessMemoryChart.render();
+
+        historyBrushChart.updateSeries([{ data: resData[0].dataPoints }]);
+        historyBrushChart.updateOptions({
+          chart: {
+            selection: {
+              enabled: true,
+              xaxis: {
+                min: resData[0].dataPoints[0].x,
+                max: resData[0].dataPoints[resData[0].dataPoints.length - 1].x
+              }
+            },
+          }
+        });
+      });
+
+      var urlCpu = '/stats/cpu?host=' + host + '&fromTs=' + fromVal + '&toTs=' + Date.now() + '&unit=' + unit;
+
+      $http.get(urlCpu).success(function (resData, status, headers, config) {
+        historyProcessCPUChart.options.data = resData;
+        historyProcessCPUChart.render();
+        //historyProcessCPUChart.updateSeries(resData);
+      });
     };
 
     thisC.onServerSelected = function () {
@@ -139,7 +219,7 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
       }
     };
 
-    function pullDataFromServer() {
+    function loadHistoryProcessCpuData() {
       // Simple POST request (passing data)
       var urlCPU = '/stats/cpu?host=' + host + '&ts=' + thisC.nextCall4CPUTS;
 
@@ -153,7 +233,40 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
           thisC.nextCall4CPUTS = lastDSDps[lastDSDps.length - 1].x;
         }
       });
+    }
 
+    function loadStaticData() {
+      var urlStaticData = '/stats/system/static?host=' + host + '&ts=' + thisC.nextCall4loadAvgTS;
+
+      $http.get(urlStaticData).success(function (resData, status, headers, config) {
+        thisC.host = resData.host;
+        thisC.platform = resData.platform;
+        thisC.cpu_count = resData.cpu_count;
+        thisC.cpu = resData.cpu;
+        thisC.disk_size = resData.disk_size;
+        thisC.disk_used = resData.disk_used;
+        thisC.mem_total = Math.round(resData.mem_total * 0.001);//concerting to GB
+        thisC.mem_used = Math.round(resData.mem_used * 0.001);
+        thisC.sys_uptime = toHHMMSS(resData.sys_uptime);
+        thisC.loadavg1 = resData.loadavg1;
+        thisC.loadavg15 = resData.loadavg15;
+        thisC.loadavg5 = resData.loadavg5;
+
+        realTimeDiskChart.updateSeries([thisC.disk_used, thisC.disk_size - thisC.disk_used]);
+
+        setTimeout(() => {
+          realTimeMemChart.updateSeries([Math.round((resData.mem_used / resData.mem_total) * 100)]);
+          realTimeProcessMemoryChart.updateSeries([{ name: "Memory in MB", data: resData.processMem }]);
+        }, 500);
+
+        setTimeout(() => {
+          realTimeCPUChart.updateSeries([thisC.cpu]);
+          realTimeProcessCPUChart.updateSeries([{ name: "CPU(%)", data: resData.processCpu }]);
+        }, 1000);
+      });
+    }
+
+    function loadLoadAvgHistoryData(host) {
       var urlloadAvg = '/stats/loadavg?host=' + host + '&ts=' + thisC.nextCall4loadAvgTS;
 
       $http.get(urlloadAvg).success(function (resData, status, headers, config) {
@@ -166,7 +279,9 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
           thisC.nextCall4loadAvgTS = lastDSDps[lastDSDps.length - 1].x;
         }
       });
+    }
 
+    function loadHistoryProcessMemoryData(cb) {
       var urlMem = '/stats/mem?host=' + host + '&ts=' + thisC.nextCall4CPUTS;
 
       $http.get(urlMem).success(function (resData, status, headers, config) {
@@ -179,16 +294,24 @@ var updateCPUChartData = function (lastTs, chartType, dataSeries) {
           thisC.nextCall4MEMTS = lastDSDps[lastDSDps.length - 1].x;
         }
 
+        cb();
+      });
+    }
+
+    function pullDataFromServer() {
+
+      loadHistoryProcessCpuData();
+      loadStaticData();
+      loadLoadAvgHistoryData();
+      loadHistoryProcessMemoryData(function () {
         setTimeout(function () {
           pullDataFromServer();
         }, 5000);
       });
     }
 
-    pullDataFromServer();
+    //pullDataFromServer();
   }]);
-
-
 })();
 
 

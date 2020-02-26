@@ -5,44 +5,19 @@ var MONITOR = require('./monitor');
 var MONGO = require('./mongo');
 var List = require('jscollection').List;
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
-app.get('/stats/cpu', function (req, res) {
-
+// Get static system data
+app.get('/stats/system/static', function (req, res) {
   var ts = Number(req.query.ts);
   var host = req.query.host;
 
-  var dataSeries = [];
-  var node = new List(CONF.nodes).where(function (node) {
-    return node.host === host;
-  }).first();
-
-  var processNames = Object.keys(node.process);
-  processNames.unshift('SYS');
-
-  MONGO.read([host, 'cpu'].join(':'), ts, function (err, data) {
-    var rows = new List(data);
-    processNames.forEach(function (processName, index) {
-      dataSeries[index] = {
-        type: 'column',
-        name: processName,
-        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}%</strong>",
-        lineThickness: 1,
-        showInLegend: true,
-        yValueFormatString: "##0.00",
-        xValueType: "dateTime",
-        dataPoints: rows.select(function (row) {
-          return {
-            x: parseInt(row.ts),
-            y: row[processName]
-          };
-        }).toArray()
-      };
-    });
-
-    res.send(dataSeries);
+  MONGO.findOne([host, 'static'].join(':'), { host }, function (err, data) {
+    res.send(data);
   });
 });
+
+
 
 app.get('/stats/loadavg', function (req, res) {
 
@@ -76,11 +51,21 @@ app.get('/stats/loadavg', function (req, res) {
   });
 });
 
+app.get('/stats/cpu', function (req, res) {
+  getProcessHistoryData(req, res, 'cpu');
+});
 
 app.get('/stats/mem', function (req, res) {
+  getProcessHistoryData(req, res, 'memoryMB');
+});
 
-  var ts = Number(req.query.ts);
+function getProcessHistoryData(req, res, field) {
+  var fromTs = Number(req.query.fromTs);
+  var toTs = Number(req.query.toTs);
+  var unit = req.query.unit;
   var host = req.query.host;
+  var collectionName = (unit === 'raw') ? [host, field].join(':') : [host, unit, field].join(':');
+  var sampling = (unit !== 'raw');
 
   var dataSeries = [];
   var node = new List(CONF.nodes).where(function (node) {
@@ -91,40 +76,29 @@ app.get('/stats/mem', function (req, res) {
   processNames.unshift('SYS');
   processNames.unshift('SYS_TOTAL');
 
-  MONGO.read([host, 'memoryMB'].join(':'), ts, function (err, data) {
+  MONGO.readRange(collectionName, fromTs, toTs, function (err, data) {
     var rows = new List(data);
     processNames.forEach(function (pName, index) {
       dataSeries[index] = {
-        type: 'stackedColumn',
+        type: 'stackedArea',
         name: pName,
-        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}</span></strong> {x} | <strong>{y}</strong>",
-        showInLegend: true,
+        toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,
-        yValueFormatString: "#######.00 MB",
+        showInLegend: true,
+        yValueFormatString: "##0.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {
           return {
             x: parseInt(row.ts),
-            y: row[pName]
+            y: Math.round(sampling ? (row[pName] / row.count) : row[pName])
           };
         }).toArray()
       };
-
-      if (pName === 'SYS_TOTAL') {
-        dataSeries[index].type = 'area';
-        dataSeries[index].fillOpacity = .3;
-        dataSeries[index].toolTipContent = "<span style='\"'color: {color};'\"'>Total Memory:</span> {x} | <strong>{y}</strong>";
-      } else if (pName === 'SYS') {
-        dataSeries[index].type = 'area';
-        dataSeries[index].fillOpacity = .3;
-        dataSeries[index].toolTipContent = "<span style='\"'color: {color};'\"'>Used Memory:</span> {x} | <strong>{y}</strong>";
-      }
     });
 
     res.send(dataSeries);
   });
-});
-
+}
 
 app.get('/servers', function (req, res) {
   res.send(new List(CONF.nodes).select('host').toArray());
