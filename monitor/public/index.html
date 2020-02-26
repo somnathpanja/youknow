@@ -139,9 +139,15 @@
       realTimeCPUChart.render();
 
       realTimeProcessCPUChart = new ApexCharts(document.querySelector("#realTimeProcessCPUChartDiv"), {
-        chart: { type: 'bar', height: 550 },
+        chart: { type: 'bar', height: 550, toolbar: { show: false } },
         plotOptions: { bar: { horizontal: true } },
-        title: { text: "CPU Usage(%)", offsetX: 0, offsetY: 0, floating: false },
+        dataLabels: {
+          enabled: true, offsetX: -20, style: { fontSize: '12px', colors: ["#304758"] },
+          formatter: function (val) {
+            return val + "%";
+          }
+        },
+        title: { text: "CPU Usage(%)", offsetX: 0, offsetY: 0, floating: true },
         legend: { show: false },
         series: [{ data: [{ x: 'Apple', y: 54 }, { x: 'Orange', y: 66 }] }],
         xaxis: { type: 'category' }
@@ -150,9 +156,15 @@
       realTimeProcessCPUChart.render();
 
       realTimeProcessMemoryChart = new ApexCharts(document.querySelector("#realTimeProcessMemoryChartDiv"), {
-        chart: { type: 'bar', height: 550, offsetX: -20 },
+        chart: { type: 'bar', height: 550, offsetX: -20, toolbar: { show: false } },
         plotOptions: { bar: { horizontal: true } },
-        title: { text: "Memory Usage", offsetX: 20, offsetY: 0, floating: false },
+        dataLabels: {
+          enabled: true, offsetX: -20, style: { fontSize: '12px', colors: ["#304758"] },
+          formatter: function (val) {
+            return val + " MB";
+          }
+        },
+        title: { text: "Memory Usage", offsetX: 20, offsetY: 0, floating: true },
         legend: { show: false },
         series: [{ data: [{ x: 'Apple', y: 54 }, { x: 'Orange', y: 66 }] }],
         xaxis: { type: 'category' },
@@ -295,7 +307,7 @@
         zoomEnabled: true,
         zoomType: "x", // change it to "xy" to enable zooming on both axes
         title: {
-          text: "CPU Utilization (RealTime)",
+          text: "Historical Data",
           verticalAlign: "top",
           fontSize: 20
         }, axisY: {
@@ -314,7 +326,9 @@
           itemclick: function (e) {
             e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined') ? true : e.dataSeries.visible;
             e.dataSeries.visible = !e.dataSeries.visible;
-            cpuChart.render();
+            historyProcessMemoryChart.options.data[e.dataSeriesIndex].visible = e.dataSeries.visible;
+            historyProcessMemoryChart.render();
+            historyProcessCPUChart.render();
           }
         },
         data: [],
@@ -327,7 +341,7 @@
         zoomType: "x", // change it to "xy" to enable zooming on both axes
         dataPointMinWidth: 4,
         title: {
-          text: "Memory Utilization (RealTime)",
+          text: "",
           fontSize: 20
         }, axisY: {
           title: "Memory (MB)",
@@ -340,12 +354,14 @@
             enabled: true
           }
         },
+        showInLegend: false,
         legend: {
           fontSize: 10,
           itemclick: function (e) {
             e.dataSeries.visible = (typeof e.dataSeries.visible === 'undefined') ? true : e.dataSeries.visible;
             e.dataSeries.visible = !e.dataSeries.visible;
-            memChart.render();
+
+            historyProcessMemoryChart.render();
           }
         },
         data: [],
@@ -360,7 +376,7 @@
   <div id="MainWrap" style="padding-left: 20px;padding-right: 20px;font-size: 10px"
     ng-controller="serverController as serverCtrl">
     <h1 style="color:#0A9FF0;">YouKnow
-      <span style="position:absolute;top:60px;left:25px;color: black;font-size: 14px;">Simple realtime monitor of your
+      <span style="position:absolute;top:60px;left:30px;color: black;font-size: 14px;">Simple realtime monitor of your
         server</span>
     </h1>
 
@@ -447,9 +463,9 @@
             <div style="margin-top: -210px;">
               <div id="historyBrushChartDiv" style="width: 100%;">
                 <div id="historyProcessCPUChartDiv"
-                  style="width: 99.5%; height: 300px;margin-top: 5px;margin-left: 15px;">
+                  style="width: 99.5%; height: 310px;margin-top: 5px;margin-left: 15px;">
                 </div>
-                <div id="historyProcessMemoryChartDiv" style="width: 101%; height: 300px;"></div>
+                <div id="historyProcessMemoryChartDiv" style="width: 101%; height: 310px;"></div>
                 <div id="chart-line1"></div>
                 <div style="width: 100%;margin-top: -35px;">
                   <div id="chart-line2" style="width: 95%;float: right;"></div>

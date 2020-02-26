@@ -79,12 +79,14 @@ function getProcessHistoryData(req, res, field) {
   MONGO.readRange(collectionName, fromTs, toTs, function (err, data) {
     var rows = new List(data);
     processNames.forEach(function (pName, index) {
+      if (pName === 'SYS_TOTAL' || field == 'memoryMB') return;
+
       dataSeries[index] = {
-        type: 'stackedArea',
+        type: (pName === 'SYS_TOTAL') ? ((field == 'cpu') ? 'line' : 'area') : 'stackedArea',
         name: pName,
         toolTipContent: "<strong><span style='\"'color: {color};'\"'>{name}:</span></strong> {x} | <strong>{y}</strong>",
         lineThickness: 1,
-        showInLegend: true,
+        showInLegend: (field == 'cpu'),
         yValueFormatString: "##0.00",
         xValueType: "dateTime",
         dataPoints: rows.select(function (row) {

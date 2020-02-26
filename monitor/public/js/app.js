@@ -156,6 +156,7 @@ function loadHistoryData(fromDate, toDate) {
       $http.get(urlMem).success(function (resData, status, headers, config) {
         //historyProcessMemoryChart.updateSeries(resData);
         historyProcessMemoryChart.options.data = resData;
+        historyProcessMemoryChart.options.axisY.maximum = thisC.mem_total * 1000;
         historyProcessMemoryChart.render();
       });
 
@@ -163,6 +164,7 @@ function loadHistoryData(fromDate, toDate) {
 
       $http.get(urlCpu).success(function (resData, status, headers, config) {
         historyProcessCPUChart.options.data = resData;
+        historyProcessCPUChart.options.axisY.maximum = thisC.cpu_count * 100;
         historyProcessCPUChart.render();
       });
     };
@@ -231,6 +233,10 @@ function loadHistoryData(fromDate, toDate) {
       }
     };
 
+    function roundValue(num) {
+      return Math.round((num + Number.EPSILON) * 100) / 100;
+    }
+
     function loadStaticData() {
       var urlStaticData = '/stats/system/static?host=' + host + '&ts=' + thisC.nextCall4loadAvgTS;
 
@@ -241,8 +247,8 @@ function loadHistoryData(fromDate, toDate) {
         thisC.cpu = resData.cpu;
         thisC.disk_size = resData.disk_size;
         thisC.disk_used = resData.disk_used;
-        thisC.mem_total = Math.round(resData.mem_total * 0.001);//concerting to GB
-        thisC.mem_used = Math.round(resData.mem_used * 0.001);
+        thisC.mem_total = roundValue(resData.mem_total * 0.001);//concerting to GB
+        thisC.mem_used = roundValue(resData.mem_used * 0.001);
         thisC.sys_uptime = toHHMMSS(resData.sys_uptime);
         thisC.loadavg1 = resData.loadavg1;
         thisC.loadavg15 = resData.loadavg15;
@@ -252,7 +258,7 @@ function loadHistoryData(fromDate, toDate) {
 
         setTimeout(() => {
           realTimeMemChart.updateSeries([Math.round((resData.mem_used / resData.mem_total) * 100)]);
-          realTimeProcessMemoryChart.updateSeries([{ name: "Memory in MB", data: resData.processMem }]);
+          realTimeProcessMemoryChart.updateSeries([{ name: "Memory", data: resData.processMem }]);
         }, 500);
 
         setTimeout(() => {
