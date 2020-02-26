@@ -26,7 +26,7 @@ monitor._pullDataFromAllNodes = function () {
     monitor._pullDataFromNode(node);
   });
 
-  setTimeout(monitor._pullDataFromAllNodes, CONF.monitor.dataIntervalInSec)
+  setTimeout(monitor._pullDataFromAllNodes, CONF.monitor.dataIntervalInSec * 1000)
 };
 
 monitor._pullDataFromNode = function (node) {
