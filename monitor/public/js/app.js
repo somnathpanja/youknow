@@ -5,34 +5,26 @@ var realTimeDiskChart, realTimeMemChart, realTimeCPUChart,
 
 // add all charts (with axes) to be synced
 function syncHandler(e) {
-  var charts = [historyProcessCPUChart, historyProcessMemoryChart]; 
-  for (var i = 0; i < charts.length; i++) {
-    var chart = charts[i];
+  //console.log(e);
+  var chart = e.chart == historyProcessCPUChart ? historyProcessMemoryChart : historyProcessCPUChart;
 
-    if (!chart.options.axisX)
-      chart.options.axisX = {};
+  if (!chart.options.axisX)
+    chart.options.axisX = {};
 
-    if (!chart.options.axisY)
-      chart.options.axisY = {};
+  if (!chart.options.axisY)
+    chart.options.axisY = {};
 
-    if (e.trigger === "reset") {
+  if (e.trigger === "reset") {
+    chart.options.axisX.viewportMinimum = chart.options.axisX.viewportMaximum = null;
+    chart.options.axisY.viewportMinimum = chart.options.axisY.viewportMaximum = null;
+    chart.render();
+  } else if (chart !== e.chart) {
+    chart.options.axisX.viewportMinimum = e.axisX.viewportMinimum;
+    chart.options.axisX.viewportMaximum = e.axisX.viewportMaximum;
 
-      chart.options.axisX.viewportMinimum = chart.options.axisX.viewportMaximum = null;
-      chart.options.axisY.viewportMinimum = chart.options.axisY.viewportMaximum = null;
-
-      chart.render();
-
-    } else if (chart !== e.chart) {
-
-      chart.options.axisX.viewportMinimum = e.axisX.viewportMinimum;
-      chart.options.axisX.viewportMaximum = e.axisX.viewportMaximum;
-
-      chart.options.axisY.viewportMinimum = e.axisY.viewportMinimum;
-      chart.options.axisY.viewportMaximum = e.axisY.viewportMaximum;
-
-      chart.render();
-
-    }
+    chart.options.axisY.viewportMinimum = e.axisY.viewportMinimum;
+    chart.options.axisY.viewportMaximum = e.axisY.viewportMaximum;
+    chart.render();
   }
 }
 
@@ -93,11 +85,11 @@ function toHHMMSS(sec) {
   return hours + ':' + minutes + ':' + seconds;
 }
 
-function loadHistoryData(unit, fromVal, fromUnit) {
-  alert(unit + fromVal + fromUnit);
+function loadHistoryData(fromDate, toDate) {
+  //alert(unit + fromVal + fromUnit);
   var scope = angular.element(document.getElementById("MainWrap")).scope();
   scope.$apply(function () {
-    scope.selectByDate(unit, fromVal, fromUnit);
+    scope.loadHistoryCharts(fromDate, toDate);
   });
 }
 
@@ -112,6 +104,7 @@ function loadHistoryData(unit, fromVal, fromUnit) {
     var thisC = this;
     this.currentHost = '';
     this.servers = [];
+    this.dataUnit = 'raw';
     this.cpuDataSeries = [];
     this.memDataSeries = [];
     this.loadAvgDataSeries = [];
@@ -133,6 +126,9 @@ function loadHistoryData(unit, fromVal, fromUnit) {
     this.loadavg15 = 0;
     this.loadavg5 = 0;
 
+    $scope.hello = function (a, b) {
+      alert(a, b);
+    }
 
     $http.get('conf.json').success(function (data) {
       thisC.servers = data.nodes;
@@ -152,49 +148,59 @@ function loadHistoryData(unit, fromVal, fromUnit) {
     this.nextCall4MEMTS = Number(this.fromTs);
     this.nextCall4loadAvgTS = Number(this.fromTs);
 
-    thisC.loadHistoryData = function (unit, fromVal, fromUnit) {
-      switch (fromUnit) {
-        case 'hour':
-          fromVal = Date.now() - (fromVal * 60 * 60 * 1000);
-          break;
-        case 'day':
-          fromVal = Date.now() - (fromVal * 24 * 60 * 60 * 1000);
-          break;
-        case 'month':
-          fromVal = Date.now() - (fromVal * 30 * 24 * 60 * 60 * 1000);
-          break;
-        case 'year':
-          fromVal = Date.now() - (fromVal * 365 * 24 * 60 * 60 * 1000);
-          break;
-      }
-
-      var urlMem = '/stats/mem?host=' + host + '&fromTs=' + fromVal + '&toTs=' + Date.now() + '&unit=' + unit;
+    $scope.loadHistoryCharts = function (fromVal, toTs) {
+      var urlMem = '/stats/mem?host=' + host + '&fromTs=' + fromVal + '&toTs=' + toTs + '&unit=' + thisC.dataUnit;
 
       $http.get(urlMem).success(function (resData, status, headers, config) {
         //historyProcessMemoryChart.updateSeries(resData);
         historyProcessMemoryChart.options.data = resData;
         historyProcessMemoryChart.render();
-
-        historyBrushChart.updateSeries([{ data: resData[0].dataPoints }]);
-        historyBrushChart.updateOptions({
-          chart: {
-            selection: {
-              enabled: true,
-              xaxis: {
-                min: resData[0].dataPoints[0].x,
-                max: resData[0].dataPoints[resData[0].dataPoints.length - 1].x
-              }
-            },
-          }
-        });
       });
 
-      var urlCpu = '/stats/cpu?host=' + host + '&fromTs=' + fromVal + '&toTs=' + Date.now() + '&unit=' + unit;
+      var urlCpu = '/stats/cpu?host=' + host + '&fromTs=' + fromVal + '&toTs=' + toTs + '&unit=' + thisC.dataUnit;
 
       $http.get(urlCpu).success(function (resData, status, headers, config) {
         historyProcessCPUChart.options.data = resData;
         historyProcessCPUChart.render();
-        //historyProcessCPUChart.updateSeries(resData);
+      });
+    };
+
+    thisC.loadHistoryData = function (unit, fromVal, fromUnit) {
+      var hData = [], unitVal = 0;
+
+      switch (fromUnit) {
+        case 'hour':
+          unitVal = 60 * 60 * 1000;
+          break;
+        case 'day':
+          unitVal = 24 * 60 * 60 * 1000;
+          break;
+        case 'month':
+          unitVal = 30 * 24 * 60 * 60 * 1000;
+          break;
+        case 'year':
+          unitVal = 365 * 24 * 60 * 60 * 1000;
+          break;
+      }
+
+      thisC.dataUnit = unit;
+      fromVal = Date.now() - fromVal * unitVal;
+
+      for (let ts = fromVal; ts <= Date.now(); ts = ts + unitVal) {
+        hData.push([ts, Math.floor(Math.random() * 2)]);
+      }
+
+      historyBrushChart.updateSeries([{ data: hData }]);
+      historyBrushChart.updateOptions({
+        chart: {
+          selection: {
+            enabled: true,
+            xaxis: {
+              min: hData[0][0],
+              max: hData[hData.length - 1][1]
+            }
+          },
+        }
       });
     };
 
@@ -218,22 +224,6 @@ function loadHistoryData(unit, fromVal, fromUnit) {
         $scope.$apply();
       }
     };
-
-    function loadHistoryProcessCpuData() {
-      // Simple POST request (passing data)
-      var urlCPU = '/stats/cpu?host=' + host + '&ts=' + thisC.nextCall4CPUTS;
-
-      $http.get(urlCPU).success(function (resData, status, headers, config) {
-        thisC.cpuDataSeries = resData;
-        updateCPUChartData(thisC.nextCall4CPUTS, 'cpu', thisC.cpuDataSeries);
-
-        var lastDSDps = thisC.cpuDataSeries[0].dataPoints;
-
-        if (lastDSDps.length > 0) {
-          thisC.nextCall4CPUTS = lastDSDps[lastDSDps.length - 1].x;
-        }
-      });
-    }
 
     function loadStaticData() {
       var urlStaticData = '/stats/system/static?host=' + host + '&ts=' + thisC.nextCall4loadAvgTS;
@@ -281,36 +271,17 @@ function loadHistoryData(unit, fromVal, fromUnit) {
       });
     }
 
-    function loadHistoryProcessMemoryData(cb) {
-      var urlMem = '/stats/mem?host=' + host + '&ts=' + thisC.nextCall4CPUTS;
 
-      $http.get(urlMem).success(function (resData, status, headers, config) {
-        thisC.memDataSeries = resData;
-        updateCPUChartData(thisC.nextCall4MEMTS, 'mem', thisC.memDataSeries);
-
-        var lastDSDps = thisC.memDataSeries[0].dataPoints;
-
-        if (lastDSDps.length > 0) {
-          thisC.nextCall4MEMTS = lastDSDps[lastDSDps.length - 1].x;
-        }
-
-        cb();
-      });
-    }
 
     function pullDataFromServer() {
-
-      loadHistoryProcessCpuData();
       loadStaticData();
-      loadLoadAvgHistoryData();
-      loadHistoryProcessMemoryData(function () {
-        setTimeout(function () {
-          pullDataFromServer();
-        }, 5000);
-      });
+
+      setTimeout(function () {
+        pullDataFromServer();
+      }, 5000);
     }
 
-    //pullDataFromServer();
+    pullDataFromServer();
   }]);
 })();
 

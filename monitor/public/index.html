@@ -220,7 +220,8 @@
 
       var hData = [];
 
-      for (let ts = Date.now() - 10 * 24 * 60 * 60 * 1000; ts <= Date.now(); ts = ts + 24 * 60 * 60 * 1000) {
+      // loading for last 24 hours
+      for (let ts = Date.now() - 24 * 60 * 60 * 1000; ts <= Date.now(); ts = ts + 60 * 60 * 1000) {
         hData.push([ts, Math.floor(Math.random() * 11)]);
       }
 
@@ -251,14 +252,18 @@
           selection: {
             enabled: true,
             xaxis: {
-              min: new Date('24 Feb 2020').getTime(),
-              max: new Date('25 Feb 2020').getTime()
+              min: hData[0][0],
+              max: hData[hData.length - 1][0]
             }
           },
           events: {
             selection: function (a, b) {
               clearTimeout(dateRange.timer);
-              dateRange.timer = setTimeout(() => { console.log('a=', new Date(b.xaxis.min)); console.log('b=', new Date(b.xaxis.max)); }, 2000);
+              dateRange.timer = setTimeout(() => {
+                console.log('X_MIN=', new Date(b.xaxis.min));
+                console.log('X_MAX=', new Date(b.xaxis.max));
+                loadHistoryData(b.xaxis.min, b.xaxis.max);
+              }, 2000);
             }
           }
         },
@@ -440,10 +445,13 @@
               <button ng-click="serverCtrl.loadHistoryData('day', 48, 'month')">history!</button>
             </span>
             <div id="historyBrushChartDiv" style="width: 100%;">
-              <div id="historyProcessCPUChartDiv" style="width: 100%; height: 200px;margin-top: 5px;"></div>
+              <div id="historyProcessCPUChartDiv" style="width: 100%; height: 200px;margin-top: 5px;margin-left: 15px;">
+              </div>
               <div id="historyProcessMemoryChartDiv" style="width: 100%; height: 200px;"></div>
               <div id="chart-line1"></div>
-              <div id="chart-line2" style="width: 100%;margin-top: -35px;"></div>
+              <div style="width: 100%;margin-top: -35px;">
+                <div id="chart-line2" style="width: 95%;float: right;"></div>
+              </div>
             </div>
           </td>
         </tr>
