@@ -1,6 +1,6 @@
 var client = {};
 var List = require('jscollection').List;
-var pusage = require('pidusage');
+var pidusage = require('pidusage');
 var os = require('os-utils');
 
 /**
@@ -38,8 +38,8 @@ client.getStats = function (pid, cb) {
       return;
     }
     retVal.pid = pid;
-    retVal.start = stat.timestamp; // - `start` time process was started
-    retVal.cpu = stat.cpu; // - `cpu` cpu percent
+    retVal.start = stat.timestamp;    // - `start` time process was started
+    retVal.cpu = stat.cpu;            // - `cpu` cpu percent
     retVal.memoryMB = stat.memory / 1048576;  // - `memory` memory bytes
 
     client.getCPU(pid, function (err, cpu) {
