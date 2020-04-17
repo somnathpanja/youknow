@@ -8,13 +8,13 @@
       "type": "node",
       "request": "launch",
       "name": "Start Worker",
-      "program": "${workspaceFolder}/worker/worker.js"
+      "program": "${workspaceFolder}/agent/start.js"
     },
     {
       "type": "node",
       "request": "launch",
       "name": "Start Monitor",
-      "program": "${workspaceFolder}/monitor/index.js"
+      "program": "${workspaceFolder}/monitor/start.js"
     },
     {
       "type": "node",

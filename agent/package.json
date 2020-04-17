@@ -1,0 +1,32 @@
+{
+  "name": "youknow-worker",
+  "version": "2.0.0",
+  "description": "Youknow server monitoring agent",
+  "main": "start.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somnathpanja/youknow.git"
+  },
+  "keywords": [
+    "server",
+    "monitoring"
+  ],
+  "author": "Somnath Panja",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/somnathpanja/youknow/issues"
+  },
+  "homepage": "https://github.com/somnathpanja/youknow#readme",
+  "dependencies": {
+    "async": "^3.2.0",
+    "ip": "^1.1.5",
+    "os-utils": "0.0.14",
+    "pidusage": "^2.0.18"
+  }
+}

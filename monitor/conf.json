@@ -1,0 +1,10 @@
+{
+  "host": "127.0.0.1",
+  "port": "2600",
+  "protocol": "http",
+  "agent": {
+    "NOC_BOX1": {
+      "watch_process": ["node", "mongo", "redis"]
+    }
+  }
+}

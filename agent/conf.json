@@ -1,0 +1,8 @@
+{
+  "name": "NOC_BOX1",
+  "monitor": {
+    "host": "127.0.0.1",
+    "port": "2600",
+    "protocol": "http"
+  }
+}
