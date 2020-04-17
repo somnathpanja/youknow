@@ -1,5 +1,5 @@
 {
-  "name": "NOC_BOX1",
+  "unique_id": "NOC_BOX1",
   "monitor": {
     "host": "127.0.0.1",
     "port": "2600",
