@@ -5,7 +5,7 @@ class Process {
   }
 
   static getData() {
-    return OS.usageByNames(process.CONFIG.watchList);
+    return OS.usageByNames(process.CONFIG.watch_process);
   }
 }
 

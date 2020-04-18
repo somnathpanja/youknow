@@ -4,6 +4,7 @@
   "protocol": "http",
   "agent": {
     "NOC_BOX1": {
+      "stats_interval_ms" : 10000,
       "watch_process": ["node", "mongo", "redis"]
     }
   }

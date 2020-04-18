@@ -55,7 +55,7 @@ class OS {
           self._stats.mem_free_percent = os.freememPercentage();
           self._stats.mem_total_mb = os.totalmem();
           self._stats.mem_free_mb = os.freemem();
-          self._stats.mem_used_mb = self.mem_total_mb - self.mem_free_mb;
+          self._stats.mem_used_mb = self._stats.mem_total_mb - self._stats.mem_free_mb;
           next();
         }], function (err) {
           if (err) return reject(err);
@@ -84,22 +84,23 @@ class OS {
    * [{pid: 1916, virt: 8404972, res: 6.013g, cpu: 113.3, mem: 38.4, cmd: "mongod"}
       {pid: 11149, virt: 1301820, res: 111244, cpu: 0.0, mem: 0.7, cmd: "CnsWebServer"}]
    */
-  static top(pid, grep) {
-    return new Promise(accept, reject => {
-      pid = pid && Array.isArray(pid) ? pid : [pid];
+  top(pid, grep) {
+    return new Promise((accept, reject) => {
+      if (pid !== null) pid = pid && Array.isArray(pid) ? pid : [pid];
 
       var cmd = `top -b -n 1 ` + (pid ? `-p ${pid.join()}` : '') +
-        ` -n1 | awk '$1 ~ /^[[:digit:]]/ {print "{pid: " $1 ", virt: " $5 ", res: " $6 ", cpu: " $9 ", mem: " $10 ", cmd: \"" $12 "\"}" }'` +
-        (grep ? ` | grep ${grep} ` : '');
+        ` -n1 | awk '$1 ~ /^[[:digit:]]/ {print "{\\"pid\\": " $1 ", \\"virt\\": " $5 ", \\"res\\": " $6 ", \\"cpu\\": " $9 ", \\"mem\\": " $10 ", \\"cmd\\": \\"" $12 "\\"}" }'` +
+        (grep ? ` | grep '${grep}' ` : '');
 
       require('child_process').exec(cmd, function (error, stdout, stderr) {
         if (error || stdout === '') {
           return reject(null, []);
         }
 
-        var data = stdout.split("\n").map(element => {
-          return JSON.parse(element);
-        });;
+        var data = stdout.split("\n").filter(e => { return !!e; }).map(element => {
+          let k = JSON.parse(element);;
+          return k;
+        });
 
         accept(data);
       });
@@ -109,7 +110,7 @@ class OS {
   /**
    * @description returns all process names
    */
-  static processNames() {
+  processNames() {
     return this.top().then((process) => {
       Promise.accept(process.map(p => p.cmd));
     })
@@ -118,9 +119,10 @@ class OS {
   /**
   * @description returns all process names
   */
-  static usageByNames(pNames) {
-    return new Promise(accept, reject => {
-      return this.top(null, pNames.join('\\|')).then((process) => {
+  usageByNames(pNames) {
+    var self = this;
+    return new Promise((accept, reject) => {
+      self.top(null, pNames.join('\\|')).then((process) => {
         let pids = process.map(p => p.pid);
 
         pidusage(pids).then(stats => {
@@ -132,6 +134,8 @@ class OS {
         }).catch(err => {
           reject(err);
         });
+      }).catch(err => {
+        reject(err);
       });
     });
   }

@@ -7,7 +7,7 @@ class Request {
   }
 
   static post(path, data) {
-    return new Promise(accept, reject => {
+    return new Promise((accept, reject) => {
       data = JSON.stringify(data);
 
       const options = {
@@ -26,6 +26,7 @@ class Request {
         console.log(`statusCode: ${res.statusCode}`)
 
         res.on('data', d => {
+          d = JSON.parse(d.toString());
           accept(d);
         });
       });
@@ -53,6 +54,7 @@ class Request {
         console.log(`statusCode: ${res.statusCode}`);
 
         res.on('data', d => {
+          d = JSON.parse(d.toString());
           accept(d);
         });
       });
