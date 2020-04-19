@@ -41,11 +41,15 @@ class Worker {
    */
   _startPushData() {
     var self = this;
-    var timestamp = new Date();
+    var timestamp = Date.now();
 
     Promise.all([OS.getData(), Process.getData(process.CONFIG.watch_process)]).then(function ([osStats, processStats]) {
+      if (Object.keys(processStats).length > 0) {
+        timestamp = Object.values(processStats)[0].timestamp;
+      }
+
       osStats.timestamp = timestamp;
-      processStats.timestamp = timestamp;
+
       request.post(`/worker/${process.IP}/${process.CONFIG.unique_id}/push/os`, osStats)
         .then(request.post(`/worker/${process.IP}/${process.CONFIG.unique_id}/push/process`, processStats)).then(() => {
           console.log('> data pushed @ ', new Date(timestamp));

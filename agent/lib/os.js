@@ -11,9 +11,10 @@ var pidusage = require('pidusage');
 class OS {
   constructor() {
     this._stats = {
+      app : 'os',
       cpu_percent: 0,
-      platform: 0,
-      cpuCount: 0,
+      platform: os.platform(),
+      cpu_count: os.cpuCount(),
       uptime_sec: 0,
 
       disk_total: 0,
@@ -89,7 +90,7 @@ class OS {
       if (pid !== null) pid = pid && Array.isArray(pid) ? pid : [pid];
 
       var cmd = `top -b -n 1 ` + (pid ? `-p ${pid.join()}` : '') +
-        ` -n1 | awk '$1 ~ /^[[:digit:]]/ {print "{\\"pid\\": " $1 ", \\"virt\\": " $5 ", \\"res\\": " $6 ", \\"cpu\\": " $9 ", \\"mem\\": " $10 ", \\"cmd\\": \\"" $12 "\\"}" }'` +
+        ` -n1 | awk '$1 ~ /^[[:digit:]]/ {print "{\\"pid\\": " $1 ", \\"mem_virt\\": " $5 ", \\"mem_res\\": " $6 ", \\"cpu_percent\\": " $9 ", \\"mem_used_percent\\": " $10 ", \\"app\\": \\"" $12 "\\"}" }'` +
         (grep ? ` | grep '${grep}' ` : '');
 
       require('child_process').exec(cmd, function (error, stdout, stderr) {
@@ -125,9 +126,26 @@ class OS {
       self.top(null, pNames.join('\\|')).then((process) => {
         let pids = process.map(p => p.pid);
 
+        // => {
+        //   cpu: 10.0,            // percentage (from 0 to 100*vcore)
+        //   memory: 357306368,    // bytes
+        //   ppid: 312,            // PPID
+        //   pid: 727,             // PID
+        //   ctime: 867000,        // ms user + system time
+        //   elapsed: 6650000,     // ms since the start of the process
+        //   timestamp: 864000000  // ms since epoch
+        // }
         pidusage(pids).then(stats => {
           for (let idx in process) {
             Object.assign(stats[process[idx].pid], process[idx]);
+            stats[process[idx].pid].mem_used_mb = stats[process[idx].pid].memory / 1048576;
+            delete stats[process[idx].pid].memory;
+
+            stats[process[idx].pid].uptime_sec = stats[process[idx].pid].elapsed;
+            delete stats[process[idx].pid].elapsed;
+
+            stats[process[idx].pid].cpu_percent2 = stats[process[idx].pid].cpu;
+            delete stats[process[idx].pid].cpu;
           }
 
           accept(stats);

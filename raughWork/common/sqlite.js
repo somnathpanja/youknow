@@ -1,22 +1,38 @@
+if (global._SQLite) {
+  module.exports = global._SQLite;
+}
+
 var sqlite3 = require('sqlite3');
 
 class SQLite {
-  static getFileDb(fileName) {
+  static init() {
+    this._instance = {};
+  }
+
+  getFileDb(fileName) {
+    var self = this;
+
     return new Promise((resolve, reject) => {
-      console.log('PATH=', __dirname + `${fileName}.db`);
+      let path = __dirname + `${fileName}.db`;
+
+      if (self._instance[path]) {
+        return resolve(self._instance[path]);
+      }
+
       let db = new sqlite3.Database(__dirname + `${fileName}.db`, (err) => {
         if (err) {
           reject(err);
           return console.error(err.message);
         }
 
-        console.log('Connected to the chinook database.');
+        self._instance[path] = db;
+        console.log('Connected to the database:', path);
         resolve(db);
       });
     });
   }
 
-  static getMemoryDb() {
+   getMemoryDb() {
     return new Promise((resolve, reject) => {
       let db = new sqlite3.Database(':memory:', (err) => {
         if (err) {
@@ -32,4 +48,6 @@ class SQLite {
   }
 }
 
-module.exports = SQLite;
+global._SQLite = new SQLite();
+
+module.exports = global._SQLite;

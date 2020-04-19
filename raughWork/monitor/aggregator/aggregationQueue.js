@@ -75,8 +75,9 @@ class AggregationQueue {
    * @param {Object} reqAggregations {sum : true, avg : true, max : true, min : true}
    */
   push(ts, key, field, interval, value, reqAggregations) {
-    let data = [ts, key, field, interval, value, value, value, value, value, value, 1, (value ? 1 : 0),
-      value,
+    let data = [ts, key, interval, field, value, value, value, value, value, value, 1, (value ? 1 : 0),
+      value, value, value, value, value, value, value,
+      ts, key, interval, field
     ];
 
     // insert one row into the langs table
