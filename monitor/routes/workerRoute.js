@@ -3,11 +3,23 @@ var moment = require('moment');
 var workerCtrl = require('./../controller/workerCtrl');
 
 module.exports = function (app) {
+  // app.get('/worker/:agent_ip/:agent_id/config', function (req, res) {
+  //   let retConfig = conf.agent[req.params.agent_id];
+  //   Object.assign(retConfig, req.params);
+  //   console.log(`${moment().format()}> ${req.params.agent_id} collected its config.`);
+  //   res.send(retConfig);
+  // });
+
   app.get('/worker/:agent_ip/:agent_id/config', function (req, res) {
-    let retConfig = conf.agent[req.params.agent_id];
-    Object.assign(retConfig, req.params);
-    console.log(`${moment().format()}> ${req.params.agent_id} collected its config.`);
-    res.send(retConfig);
+    workerCtrl.getConfig(req.params.agent_id).then(aConfig => {
+      conf.agent[req.params.agent_id] = aConfig;
+      let retConfig = conf.agent[req.params.agent_id];
+      Object.assign(retConfig, req.params);
+      console.log(`${moment().format()}> ${req.params.agent_id} collected its config.`);
+      res.send(retConfig);
+    }).catch((err) => {
+      return res.status(500).send({ message: err });
+    });
   });
 
   app.post('/worker/:agent_ip/:agent_id/push/os', function (req, res) {

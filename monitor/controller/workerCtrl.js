@@ -1,10 +1,14 @@
 const _ = require('lodash');
 const async = require('async');
 const TimeTable = require('./../lib/timeTable');
-const InventorySchema = require('./../schema/inventory');
+const InventoryTable = require('./../lib/inventoryTable');
 const OSStatsSchema = require('./../schema/os.stats');
 
 class WorkerCtrl {
+
+  static getConfig(agent_id){
+    return InventoryTable.getAgentConfig(agent_id);
+  }
 
   static pushOSData(agent_id, data) {
     return TimeTable.push(agent_id, OSStatsSchema, data);
