@@ -1,8 +1,3 @@
-if (global._InventorySchema) {
-  module.exports = global._InventorySchema;
-  return;
-}
-
 var SchemaBase = require('./schemaBase');
 
 class InventorySchema extends SchemaBase {
@@ -25,4 +20,4 @@ class InventorySchema extends SchemaBase {
   }
 }
 
-module.exports = global._InventorySchema = InventorySchema;
+module.exports = new InventorySchema();

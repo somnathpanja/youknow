@@ -18,7 +18,7 @@ class Inventory {
    * @param {*} ts 
    * @param {*} tableName 
    */
-  _ensureTable(unit) {
+  _ensureTable() {
     let self = this;
     return new Promise((resolve, reject) => {
       Sqlite.getFileDb(self.fileName).then(db => {
@@ -78,11 +78,13 @@ class Inventory {
   }
 
   listAgents() {
-    let query = `SELECT * FROM ${self.tableName}(${self.schema.fields})`;
+    this._ensureTable();
+    let query = `SELECT * FROM ${this.tableName}(${this.schema.fields})`;
     return this._run(query, []);
   }
 
   getAgentConfig(agent_id) {
+    let self = this;
     let query = `SELECT * FROM ${self.tableName}(${self.schema.fields}) WHERE agent_id = ?`;
     return this._run(query, [agent_id]).then(data => {
       if (!data.length) return Promise.reject('not registered');
@@ -115,4 +117,4 @@ class Inventory {
 
 global._Inventory = new Inventory();
 
-module.exports = global._SQLite;
+module.exports = global._Inventory;

@@ -2,7 +2,6 @@ const _ = require('lodash');
 const async = require('async');
 const TimeTable = require('../lib/timeTable');
 const InventoryTable = require('./../lib/inventoryTable');
-const OSStatsSchema = require('../schema/os.stats');
 
 class WebCtrl {
 
@@ -11,7 +10,7 @@ class WebCtrl {
   }
 
   static listAgents() {
-    return InventoryTable.listAgents(data);
+    return InventoryTable.listAgents();
   }
 }
 

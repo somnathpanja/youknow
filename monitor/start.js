@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
-//const path = require('path');
+const path = require('path');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
@@ -13,9 +13,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 // to support URL-encoded bodies
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes/workerRoute')(app);
+require('./routes/webRouter')(app);
 
 var server;
 
