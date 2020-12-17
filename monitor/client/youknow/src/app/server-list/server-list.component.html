@@ -1,0 +1,27 @@
+<hr>
+
+<div class="container-fluid">
+  <h6>Servers Reporting</h6>
+  <table class="table">
+    <thead>
+      <tr class="bg-light">
+        <td style="width: 150px;">Server</td>
+        <td style="width: 150px;">Platform</td>
+        <td style="width: 150px;">IP</td>
+        <td style="width: 50px;">Core</td>
+        <td>Last Synced</td>
+        <td></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let server of servers">
+        <td><img height="15px" src="assets/image/online.png"> {{ server.agent_id }}</td>
+        <td> {{ server.platform }} </td>
+        <td> {{ server.ip }} </td>
+        <td> {{ server.cpu_count }} </td>
+        <td> {{ server.last_updated_ts }} </td>
+        <td><img height="15px" src="assets/image/edit-icon.png"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
