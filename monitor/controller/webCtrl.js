@@ -4,7 +4,6 @@ const TimeTable = require('../lib/timeTable');
 const InventoryTable = require('./../lib/inventoryTable');
 
 class WebCtrl {
-
   static addORUpdateAgent(data) {
     return InventoryTable.addORUpdateAgent(data);
   }

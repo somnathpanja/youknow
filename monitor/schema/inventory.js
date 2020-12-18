@@ -15,7 +15,8 @@ class InventorySchema extends SchemaBase {
       keys: [
         `PRIMARY KEY (agent_id)`
       ],
-      upsertKey: ['agent_id']
+      upsertKey: ['agent_id'],
+      noAggregation: ['agent_id', 'ip', 'cpu_count', 'platform', 'stats_interval_ms', 'watch_process', 'last_updated_ts']
     }, 'inventorySchema');
   }
 }

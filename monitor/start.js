@@ -8,6 +8,16 @@ const fs = require('fs');
 const conf = require('./conf.json');
 process.dataDir = __dirname + conf.data;
 
+var allowCrossDomain = function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+}
+
+app.use(allowCrossDomain);
+
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({
   extended: true

@@ -25,7 +25,7 @@ class SQLite {
           reject(err);
           return console.error(err.message);
         }
-
+        
         self._instance[path] = db;
         console.log('Connected to the database:', path);
         resolve(db);

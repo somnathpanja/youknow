@@ -51,13 +51,13 @@ class Inventory {
     // https://www.sqlite.org/lang_UPSERT.html
     let query = `INSERT INTO ${self.tableName}(${self.schema.fields}) VALUES (${self.schema.fieldValuesDummy}) ` +
       `ON CONFLICT (${self.schema.upsertKey.join()}) DO UPDATE SET ` +
-      self.schema.fields4Upsert.map((fldName => {
-        values.push(data[fldName])
-        return `${fldName} = ?`;
+      self.schema.fields4Upsert.map((fld => {
+        values.push(data[fld.name])
+        return `${fld.name} = ?`;
       })).join();
 
     return new Promise((resolve, reject) => {
-      self._ensureTable(data.timestamp, unit).then((db) => {
+      self._ensureTable().then((db) => {
         db.run(query, values, function (err) {
           if (err) {
             return console.log(query, err.message);
@@ -78,15 +78,14 @@ class Inventory {
   }
 
   listAgents() {
-    this._ensureTable();
-    let query = `SELECT * FROM ${this.tableName}(${this.schema.fields})`;
-    return this._run(query, []);
+    let query = `SELECT ${this.schema.fields} FROM ${this.tableName};`;
+    return this._select(query);
   }
 
   getAgentConfig(agent_id) {
     let self = this;
-    let query = `SELECT * FROM ${self.tableName}(${self.schema.fields}) WHERE agent_id = ?`;
-    return this._run(query, [agent_id]).then(data => {
+    let query = `SELECT * FROM ${self.tableName}(${self.schema.fields}) WHERE agent_id = ?;`;
+    return this._select(query, [agent_id]).then(data => {
       if (!data.length) return Promise.reject('not registered');
 
       return Promise.resolve({
@@ -100,10 +99,30 @@ class Inventory {
     let self = this;
 
     return new Promise((resolve, reject) => {
-      self._ensureTable(data.timestamp, unit).then((db) => {
+      self._ensureTable().then((db) => {
         db.run(query, values, function (err, data) {
           if (err) {
-            return console.log(query, err.message);
+            console.log(query, err.message);
+            return reject(err);
+          }
+
+          resolve(data);
+        });
+      }).catch(() => {
+        reject(err);
+      });
+    });
+  }
+
+  _select(query, values) {
+    let self = this;
+
+    return new Promise((resolve, reject) => {
+      self._ensureTable().then((db) => {
+        db.all(query, values, function (err, data) {
+          if (err) {
+            console.log(query, err.message);
+            return reject(err);
           }
 
           resolve(data);
