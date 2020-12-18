@@ -1,26 +1,41 @@
-import { Component, OnInit } from '@angular/core';
 import { Server } from './../../models/server';
 import { ServersService } from './../../services/servers.service';
+
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-servers',
   templateUrl: './servers.component.html',
   styleUrls: ['./servers.component.css']
 })
-export class ServersComponent implements OnInit {
-  servers: Server[];
+export class ServersComponent implements AfterViewInit, OnInit {
+  displayedColumns: string[] = [];
+  dataSource: MatTableDataSource<Server>;//([]);
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   constructor(private serversService: ServersService) {
-    this.servers = [];
+    //this.paginator = this.paginator;
   }
 
   ngOnInit() {
+    
+  }
+
+  ngAfterViewInit() {
     this.serversService.getServers().subscribe(servers => {
-      this.servers = servers;
+      this.displayedColumns = ['agent_id', 'ip', 'cpu_count', 'platform','delete','edit', 'watch']
+      this.dataSource = new MatTableDataSource<Server>(servers);
+      this.dataSource.paginator = this.paginator;
     });
     
-    // this.servers = [
-    //   new Server('NOC_1', '192.168.1.1', 2, 'linux64', 1000, ['node'], 111),
-    //   new Server('NOC_2', '192.168.1.3', 2, 'linux64', 1000, ['node'], 111)
-    // ];
   }
 }
+
+
+// this.serversService.getServers().subscribe(servers => {
+//   this.dataSource = new MatTableDataSource<Server>(servers);
+//   this.dataSource.paginator = this.paginator;
+// }); 

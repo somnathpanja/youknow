@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+.mat-column-delete {
+  width: 2rem;
+}
+
+.mat-column-edit {
+  width: 2rem;
+}
+
+.mat-column-watch {
+  width: 2rem;
+}
