@@ -12,7 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ServersComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [];
-  dataSource: MatTableDataSource<Server>;//([]);
+  dataSource: MatTableDataSource<Server> = new MatTableDataSource<Server>([]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 

@@ -1,58 +1,8 @@
 <div>
 
-  <mat-toolbar>
-    <mat-icon>self_improvement</mat-icon>
-    <span>{{title}}</span>
-    <span class="example-spacer"></span>
-    <!-- Server Menu -->
-    <button mat-button aria-label="Servers">
-      <mat-icon>desktop_mac</mat-icon>
-      <span> Servers</span>
-    </button>
-
-    <!-- Operations Menu -->
-
-    <button mat-button [matMenuTriggerFor]="operationsMenu" aria-label="Operations">
-      <mat-icon>engineering</mat-icon>
-      <span> Operations</span>
-    </button>
-    <mat-menu #operationsMenu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>shutter_speed</mat-icon>
-        <span> Watch Realtime</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>switch_camera</mat-icon>
-        <span> Compare Realtime</span>
-      </button>
-    </mat-menu>
-
-    <!-- Performance Menu -->
-    <button mat-button [matMenuTriggerFor]="performanceMenu" aria-label="Performance">
-      <mat-icon>auto_graph</mat-icon>
-      <span> Performance</span>
-    </button>
-    <mat-menu #performanceMenu="matMenu">
-      <button mat-menu-item>
-        <mat-icon>shutter_speed</mat-icon>
-        <span> Single Server</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>switch_camera</mat-icon>
-        <span> Comparison between 2 Servers</span>
-      </button>
-      <button mat-menu-item>
-        <mat-icon>analytics</mat-icon>
-        <span> Performance Deep Analysis</span>
-      </button>
-    </mat-menu>
-
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>favorite</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
-    </button>
-  </mat-toolbar>
-  <app-servers></app-servers>
+  
+  <!-- <app-servers></app-servers> -->
+  <app-nav-bar [title]='title'></app-nav-bar>
+  <router-outlet></router-outlet>
+  
 </div>
