@@ -1,9 +1,11 @@
 import { Server } from './../../models/server';
 import { ServersService } from './../../services/servers.service';
+import { ServerConfigComponent } from './../server-config/server-config.component';
 
 import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-servers',
@@ -16,24 +18,32 @@ export class ServersComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private serversService: ServersService) {
+  constructor(private serversService: ServersService, public configDialog: MatDialog) {
     //this.paginator = this.paginator;
   }
 
   ngOnInit() {
-    
+
   }
 
   ngAfterViewInit() {
     this.serversService.getServers().subscribe(servers => {
-      this.displayedColumns = ['agent_id', 'ip', 'cpu_count', 'platform','delete','edit', 'watch']
+      this.displayedColumns = ['agent_id', 'ip', 'cpu_count', 'platform', 'delete', 'edit', 'watch']
       this.dataSource = new MatTableDataSource<Server>(servers);
       this.dataSource.paginator = this.paginator;
     });
-    
+  }
+
+  openConfigDialog(server: Server) {
+    const dialogRef = this.configDialog.open(ServerConfigComponent, {
+      data: server
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }
-
 
 // this.serversService.getServers().subscribe(servers => {
 //   this.dataSource = new MatTableDataSource<Server>(servers);

@@ -8,13 +8,15 @@ import { MaterialModule } from './material/material.module';
 import { ServersComponent } from './components/servers/servers.component';
 import { ServerComponent } from './components/server/server.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { ServerConfigComponent } from './components/server-config/server-config.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ServersComponent,
     ServerComponent,
-    NavBarComponent
+    NavBarComponent,
+    ServerConfigComponent
   ],
   imports: [
     BrowserModule,

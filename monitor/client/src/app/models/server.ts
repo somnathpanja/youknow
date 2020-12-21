@@ -1,5 +1,5 @@
 export class Server {
-  agent_id: string;
+  agent_id?: string;
   ip: string;
   cpu_count: number;
   platform: string;
@@ -17,4 +17,6 @@ export class Server {
     this.watch_process = watch_process;
     this.last_updated_ts = last_updated_ts;
   }
+
+
 }
