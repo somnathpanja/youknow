@@ -54,7 +54,7 @@
     <ng-container matColumnDef="watch">
       <th mat-header-cell *matHeaderCellDef> </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="warn" aria-label="Watch the server">
+        <button mat-icon-button color="warn" aria-label="Watch the server" (click)="viewBtnClick(element);">
           <mat-icon>insert_chart</mat-icon>
         </button>
       </td>

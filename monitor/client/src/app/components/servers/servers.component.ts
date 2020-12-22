@@ -6,6 +6,8 @@ import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ServerComponent } from '../server/server.component';
 
 @Component({
   selector: 'app-servers',
@@ -18,7 +20,9 @@ export class ServersComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private serversService: ServersService, public configDialog: MatDialog) {
+  constructor(private serversService: ServersService,
+    public configDialog: MatDialog,
+    private router: Router) {
     //this.paginator = this.paginator;
   }
 
@@ -42,6 +46,10 @@ export class ServersComponent implements AfterViewInit, OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  viewBtnClick(server: Server) {
+    this.router.navigateByUrl('/server?agent_id=' + server.agent_id);
   }
 }
 

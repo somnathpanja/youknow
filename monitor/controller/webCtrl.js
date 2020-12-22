@@ -11,6 +11,10 @@ class WebCtrl {
   static listAgents() {
     return InventoryTable.listAgents();
   }
+
+  static getAgent(agent_id) {
+    return InventoryTable.getAgent(agent_id);
+  }
 }
 
 module.exports = WebCtrl;

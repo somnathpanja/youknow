@@ -82,9 +82,14 @@ class Inventory {
     return this._select(query);
   }
 
+  getAgent(agent_id) {
+    let query = `SELECT ${this.schema.fields} FROM ${this.tableName} WHERE agent_id = ?;`;
+    return this._select(query, [agent_id]);
+  }
+
   getAgentConfig(agent_id) {
     let self = this;
-    let query = `SELECT * FROM ${self.tableName}(${self.schema.fields}) WHERE agent_id = ?;`;
+    let query = `SELECT * FROM ${self.tableName} WHERE agent_id = ?;`;
     return this._select(query, [agent_id]).then(data => {
       if (!data.length) return Promise.reject('not registered');
 
