@@ -40,7 +40,10 @@ export class ServersComponent implements AfterViewInit, OnInit {
 
   openConfigDialog(server: Server) {
     const dialogRef = this.configDialog.open(ServerConfigComponent, {
-      data: server
+      data: server,
+      // width: '50%',
+      // minHeight: 'calc(100vh - 90px)',
+      // height: 'auto'
     });
 
     dialogRef.afterClosed().subscribe(result => {
