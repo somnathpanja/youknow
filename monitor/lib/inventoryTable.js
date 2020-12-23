@@ -38,12 +38,12 @@ class Inventory {
   }
 
   /**
- * @description Push the same value and perform continuous aggregation for a unit
- * @param {*} app 
- * @param {*} xValue nothing but timestamp
- * @param {*} yValue actual value
- * @param {AGGREGATION_DEPTH} unit 
- */
+   * @description Push the same value and perform continuous aggregation for a unit
+   * @param {*} app 
+   * @param {*} xValue nothing but timestamp
+   * @param {*} yValue actual value
+   * @param {AGGREGATION_DEPTH} unit 
+   */
   _push(data) {
     let self = this;
     let values = self.schema.pick(data);
@@ -60,7 +60,8 @@ class Inventory {
       self._ensureTable().then((db) => {
         db.run(query, values, function (err) {
           if (err) {
-            return console.log(query, err.message);
+            console.log(query, err.message);
+            return reject(err);
           }
 
           // Get the last insert id
@@ -73,7 +74,39 @@ class Inventory {
     });
   }
 
-  addORUpdateAgent(data) {
+  /**
+   * @description Push the same value and perform continuous aggregation for a unit
+   * @param {*} app 
+   * @param {*} xValue nothing but timestamp
+   * @param {*} yValue actual value
+   * @param {AGGREGATION_DEPTH} unit 
+   */
+  update(agentId, data) {
+    let self = this;
+    let values = self.schema.pick(data);
+    values.push(agentId);
+
+    // https://www.sqlite.org/lang_UPSERT.html
+    let query = `UPDATE ${self.tableName} SET ${self.schema.fieldsUpdateString} ` +
+      `WHERE agent_id=?`;
+
+    return new Promise((resolve, reject) => {
+      self._ensureTable().then((db) => {
+        db.run(query, values, function (err) {
+          if (err) {
+            console.log(query, err.message);
+            return reject(err);
+          }
+
+          resolve(this.lastID);
+        });
+      }).catch(() => {
+        reject(err);
+      });
+    });
+  }
+
+  upsert(data) {
     return this._push(data);
   }
 

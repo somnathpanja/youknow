@@ -15,19 +15,18 @@ import { ServerComponent } from '../server/server.component';
   styleUrls: ['./servers.component.css']
 })
 export class ServersComponent implements AfterViewInit, OnInit {
+  oldServer: Server;
+  selectedServer: Server;
   displayedColumns: string[] = [];
   dataSource: MatTableDataSource<Server> = new MatTableDataSource<Server>([]);
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private serversService: ServersService,
     public configDialog: MatDialog,
     private router: Router) {
-    //this.paginator = this.paginator;
   }
 
   ngOnInit() {
-
   }
 
   ngAfterViewInit() {
@@ -38,25 +37,51 @@ export class ServersComponent implements AfterViewInit, OnInit {
     });
   }
 
-  openConfigDialog(server: Server) {
+  openServerEditDialog(server: Server) {
+    let self = this;
+    this.oldServer = server;
+    this.selectedServer = Server.clone(server);
     const dialogRef = this.configDialog.open(ServerConfigComponent, {
-      data: server,
+      data: this.selectedServer,
       // width: '50%',
       // minHeight: 'calc(100vh - 90px)',
       // height: 'auto'
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.serversService.updateServer(this.oldServer.agent_id as string, this.selectedServer).then(data => {
+          console.log(data);
+          this.oldServer = this.selectedServer;
+        }).catch(err => {
+          console.log('error=', err);
+        });
+      }
     });
   }
 
   viewBtnClick(server: Server) {
     this.router.navigateByUrl('/server?agent_id=' + server.agent_id);
   }
-}
 
-// this.serversService.getServers().subscribe(servers => {
-//   this.dataSource = new MatTableDataSource<Server>(servers);
-//   this.dataSource.paginator = this.paginator;
-// }); 
+  addNewServer() {
+    this.selectedServer = Server.clone({});
+
+    const dialogRef = this.configDialog.open(ServerConfigComponent, {
+      data: this.selectedServer,
+      // width: '50%',
+      // minHeight: 'calc(100vh - 90px)',
+      // height: 'auto'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.serversService.addServer(this.selectedServer).then(data => {
+          console.log(data);   
+        }).catch(err => {
+          console.log('error=', err);
+        });
+      }
+    });
+  }
+}

@@ -4,8 +4,12 @@ const TimeTable = require('../lib/timeTable');
 const InventoryTable = require('./../lib/inventoryTable');
 
 class WebCtrl {
-  static addORUpdateAgent(data) {
-    return InventoryTable.addORUpdateAgent(data);
+  static addAgent(data) {
+    return InventoryTable.upsert(data);
+  }
+
+  static updateAgent(agentId, data) {
+    return InventoryTable.update(agentId, data);
   }
 
   static listAgents() {

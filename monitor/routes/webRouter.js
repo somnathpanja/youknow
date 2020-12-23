@@ -19,21 +19,19 @@ module.exports = function (app) {
     });
   });
 
-  app.post('/agent/:agent_ip/add', function (req, res) {
+  app.post('/agent/add', function (req, res) {
     let data = req.body;
-    data.agent_id = req.params.agent_id;
-    webCtrl.addORUpdateAgent(data).then(agents => {
-      res.send('ok');
+    webCtrl.addAgent(data).then(lastId => {
+      res.send({ success: true, lastId });
     }).catch((err) => {
       res.status(500).send({ err: err });
     });
   });
 
-  app.post('/agent/:agent_ip/update', function (req, res) {
+  app.post('/agent/update/:agent_id', function (req, res) {
     let data = req.body;
-    data.agent_id = req.params.agent_id;
-    webCtrl.addORUpdateAgent(data).then(agents => {
-      res.send('ok');
+    webCtrl.updateAgent(req.params.agent_id || '', data).then(lastId => {
+      res.send({ success: true, lastId });
     }).catch((err) => {
       res.status(500).send({ err: err });
     });

@@ -4,7 +4,7 @@ class InventorySchema extends SchemaBase {
   constructor() {
     super({
       fields: [
-        { name: 'agent_id', type: 'TEXT', default: 'os' },
+        { name: 'agent_id', type: 'TEXT', default: 'os', notNull: true },
         { name: 'ip', type: 'TEXT', default: 'os', upsert: true },
         { name: 'cpu_count', type: 'INTEGER', default: 0, upsert: true },
         { name: 'platform', type: 'TEXT', default: 0, upsert: true },

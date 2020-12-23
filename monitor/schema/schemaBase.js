@@ -7,7 +7,8 @@ class SchemaBase {
 
     this.fields = schema.fields.map(f => { return f.name; });
     this.fieldsSupportsAggregation = this.fields.filter(f => { return (schema.noAggregation && schema.noAggregation.indexOf(f) === -1); });
-    this.fieldsString = schema.fields.map(fld => { return `${fld.name} ${fld.type}`; }).join();
+    this.fieldsString = schema.fields.map(fld => { return `${fld.name} ${fld.type} ${fld.notNull ? 'NOT NULL' : ''}`; }).join();
+    this.fieldsUpdateString = schema.fields.map(fld => { return `${fld.name} = ?`; }).join();
     this.fieldValuesDummy = schema.fields.map(fld => { return `?`; }).join();
     this.keysString = schema.keys.map(key => { return key; }).join();
     this.fields4Upsert = schema.fields.filter(f => { return f.upsert; });
@@ -17,7 +18,7 @@ class SchemaBase {
   pick(data) {
     let retVal = [];
     for (let idx in this.fields) {
-      retVal.push(data[this.fields[idx]] || (_.isFunction(this.fields[idx].default) ? this.fields[idx].default() : this.fields[idx].default));
+      retVal.push(!_.isUndefined(data[this.fields[idx]]) ? data[this.fields[idx]] : (_.isFunction(this.fields[idx].default) ? this.fields[idx].default() : this.fields[idx].default));
     }
     return retVal;
   }
