@@ -31,7 +31,7 @@ export class ServersComponent implements AfterViewInit, OnInit {
 
   ngAfterViewInit() {
     this.serversService.getServers().subscribe(servers => {
-      this.displayedColumns = ['agent_id', 'ip', 'cpu_count', 'platform', 'delete', 'edit', 'watch']
+      this.displayedColumns = ['agent_id', 'ip', 'details', 'cpu_count', 'platform', 'delete', 'edit', 'watch']
       this.dataSource = new MatTableDataSource<Server>(servers);
       this.dataSource.paginator = this.paginator;
     });

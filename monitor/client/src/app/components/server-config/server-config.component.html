@@ -17,6 +17,12 @@
       </li>
       <li class="nostyle">
         <mat-form-field>
+          <mat-label>Details</mat-label>
+          <input matInput resizeToFitContent="true" [value]="server.details" (change)="setServerProperty('details', $event)">
+        </mat-form-field>
+      </li>
+      <li class="nostyle">
+        <mat-form-field>
           <mat-label>Periodic Data Interval</mat-label>
           <input matInput [value]="server.stats_interval_ms" (change)="setServerProperty('stats_interval_ms', $event)">
         </mat-form-field>

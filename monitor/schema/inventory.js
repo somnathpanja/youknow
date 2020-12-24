@@ -6,6 +6,7 @@ class InventorySchema extends SchemaBase {
       fields: [
         { name: 'agent_id', type: 'TEXT', default: 'os', notNull: true },
         { name: 'ip', type: 'TEXT', default: 'os', upsert: true },
+        { name: 'details', type: 'TEXT', default: '', upsert: true },
         { name: 'cpu_count', type: 'INTEGER', default: 0, upsert: true },
         { name: 'platform', type: 'TEXT', default: 0, upsert: true },
         { name: 'stats_interval_ms', type: 'INTEGER', default: 5000, upsert: true },

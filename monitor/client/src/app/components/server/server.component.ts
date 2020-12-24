@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./server.component.css']
 })
 export class ServerComponent implements OnInit {
-  @Input() server: Server = new Server('NOC', '12', 1, '212', 22, [], 3333);;
+  @Input() server: Server = new Server('NOC', '', '12', 1, '212', 22, [], 3333);;
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }
