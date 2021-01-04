@@ -16,16 +16,30 @@ var allowCrossDomain = function(req, res, next) {
   next();
 }
 
+function rawBody(req, res, next) {
+  req.setEncoding('utf8');
+  req.rawBody = '';
+  req.on('data', function(chunk) {
+    req.rawBody += chunk;
+  });
+  req.on('end', function(){
+    next();
+  });
+}
+
 app.use(allowCrossDomain);
 
+// to support URL-encoded bodies
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser.text());
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-// to support URL-encoded bodies
-app.use(express.static(path.join(__dirname, 'public')));
 
 require('./routes/workerRoute')(app);
+
 require('./routes/webRouter')(app);
 
 var server;

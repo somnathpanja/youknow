@@ -41,4 +41,19 @@ module.exports = function (app) {
       res.send({ ok: 0 });
     });
   });
+
+  app.get('/worker/cmd', function (req, res) {
+    console.dir('ok===>', req.body);
+    res.send('( hostname ; hostname -i )');
+  });
+
+  app.post('/worker/raw/system', function (req, res) {
+    console.dir('ok===>', req.body);
+    res.send({ ok: 0 });
+  });
+
+  app.post('/worker/raw/process', function (req, res) {
+    console.dir('ok===>', req.body);
+    res.send({ ok: 0 });
+  });
 };
