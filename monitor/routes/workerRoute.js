@@ -1,4 +1,5 @@
 var conf = require('./../conf.json');
+var async = require('async');
 var moment = require('moment');
 var workerCtrl = require('./../controller/workerCtrl');
 
@@ -48,8 +49,42 @@ module.exports = function (app) {
   });
 
   app.post('/worker/raw/system', function (req, res) {
-    console.dir('ok===>', req.body);
-    res.send({ ok: 0 });
+    let lines = req.body.trim().split('\n');
+    let agent_id = lines[0];
+    let agent_ip = lines[1];
+
+
+    lines.shift(); lines.shift();
+
+    for (let idx = 0; idx < lines.length; idx++) {
+      //console.log(lines[idx]);
+      lines[idx] = JSON.parse(lines[idx]);
+    }
+
+    let sys = Object.assign({}, lines.shift()); // uptime
+    sys = Object.assign(sys, lines.shift()); // disk
+    sys = Object.assign(sys, lines.shift()); // cpu
+    sys = Object.assign(sys, lines.shift()); // memory
+    sys = Object.assign(sys, lines.shift()); // swap
+
+    workerCtrl.pushOSData(agent_id, sys).then((err) => {
+      console.log(`${moment().format()}> ${agent_id} os data pushed successfully.`);
+    }).then(() => {
+      async.eachSeries(lines, function (item, next) {
+        workerCtrl.pushOSData(agent_id, item).then((err) => {
+          console.log(`${moment().format()}> ${agent_id} process(${item.app}) data pushed successfully.`);
+          next();
+        }).catch((err) => {
+          console.log(`${moment().format()}> ${agent_id} process(${item.app}) failed to push.`, err);
+          next();
+        });
+      }, () => {
+        res.send('OK');
+      });
+    }).catch((err) => {
+      console.log(`${moment().format()}> ${agent_id} failed to push OS data.`, err);
+      res.send('');
+    });
   });
 
   app.post('/worker/raw/process', function (req, res) {
