@@ -70,6 +70,7 @@ module.exports = function (app) {
 
     let sys = Object.assign({}, uptime); // uptime
     sys = Object.assign(sys, lines.shift()); // disk
+    sys = Object.assign(sys, lines.shift()); // load avg
     sys = Object.assign(sys, lines.shift()); // cpu
     sys = Object.assign(sys, lines.shift()); // memory
     sys = Object.assign(sys, lines.shift()); // swap
