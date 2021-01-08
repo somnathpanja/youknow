@@ -5,7 +5,8 @@ class InventorySchema extends SchemaBase {
     super({
       fields: [
         { name: 'agent_id', type: 'TEXT', default: 'os', notNull: true },
-        { name: 'ip', type: 'TEXT', default: 'os', upsert: true },
+        { name: 'ip', type: 'TEXT', default: 'ip', upsert: true },
+        { name: 'uptime', type: 'REAL', default: 0, upsert: true },
         { name: 'details', type: 'TEXT', default: '', upsert: true },
         { name: 'cpu_count', type: 'INTEGER', default: 0, upsert: true },
         { name: 'platform', type: 'TEXT', default: 0, upsert: true },

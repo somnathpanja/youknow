@@ -5,9 +5,12 @@ const InventoryTable = require('./../lib/inventoryTable');
 const OSStatsSchema = require('./../schema/os.stats');
 
 class WorkerCtrl {
-
-  static getConfig(agent_id){
+  static getConfig(agent_id) {
     return InventoryTable.getAgentConfig(agent_id);
+  }
+
+  static updateAgentInInventory(agentId, data) {
+    return InventoryTable.upsert(agentId, data);
   }
 
   static pushOSData(agent_id, data) {
@@ -16,10 +19,10 @@ class WorkerCtrl {
 
   static pushProcessData(agent_id, data) {
     var tasks = []
-    for (let pid in data){
+    for (let pid in data) {
       tasks.push(TimeTable.push(agent_id, OSStatsSchema, data[pid]));
     }
-    
+
     return Promise.all(tasks);
   }
 }

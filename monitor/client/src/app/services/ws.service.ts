@@ -12,6 +12,12 @@ interface EventDictionary<T> {
   [Key: string]: T;
 }
 
+enum Event {
+  Up = 1,
+  Down,
+  Left,
+  Right,
+}
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +30,6 @@ export class WsService {
   constructor() {
     this.callbacks = {};
     this.events = {};
-    this.initializeSocket();
-  }
-
-  private initializeSocket() {
     this.ws = webSocket('wss://example.com');
     this.callbacks = {};
     this.events = {};
@@ -35,7 +37,7 @@ export class WsService {
     this.ws.subscribe(
       this.onMessage,
       err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
-      () => { console.log('complete'); this.initializeSocket(); } // Called when connection is closed (for whatever reason).
+      () => { console.log('complete'); } // Called when connection is closed (for whatever reason).
     );
   }
 
@@ -44,8 +46,8 @@ export class WsService {
    * @param data 
    * @param callback 
    */
-  public send(data: string, callback: () => void) {
-    let packet = { token: uuidV4(), data }
+  public send(cmd: string, data: string, callback: () => void) {
+    let packet = { token: uuidV4(), cmd, data }
     this.ws.next(data);
     this.callbacks[packet.token] = callback;
   }

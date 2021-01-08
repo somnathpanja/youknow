@@ -1,5 +1,6 @@
 var Sqlite = require('./sqlite');
 var Agent = require('./agent');
+var _ = require('lodash');
 
 if (global._Inventory) {
   module.exports = global._Inventory;
@@ -49,9 +50,11 @@ class Inventory {
     let values = self.schema.pick(data);
 
     // https://www.sqlite.org/lang_UPSERT.html
-    let query = `INSERT INTO ${self.tableName}(${self.schema.fields}) VALUES (${self.schema.fieldValuesDummy}) ` +
+    let query = `INSERT INTO ${self.tableName}(${self.schema.fieldNames}) VALUES (${self.schema.fieldValuesDummy}) ` +
       `ON CONFLICT (${self.schema.upsertKey.join()}) DO UPDATE SET ` +
-      self.schema.fields4Upsert.map((fld => {
+      self.schema.fields4Upsert.filter((fld) => {
+        return !_.isUndefined(data[fld.name]);
+      }).map((fld => {
         values.push(data[fld.name])
         return `${fld.name} = ?`;
       })).join();
@@ -111,12 +114,12 @@ class Inventory {
   }
 
   listAgents() {
-    let query = `SELECT ${this.schema.fields} FROM ${this.tableName};`;
+    let query = `SELECT ${this.schema.fieldNames} FROM ${this.tableName};`;
     return this._select(query);
   }
 
   getAgent(agent_id) {
-    let query = `SELECT ${this.schema.fields} FROM ${this.tableName} WHERE agent_id = ?;`;
+    let query = `SELECT ${this.schema.fieldNames} FROM ${this.tableName} WHERE agent_id = ?;`;
     return this._select(query, [agent_id]);
   }
 

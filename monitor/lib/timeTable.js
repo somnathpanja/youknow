@@ -126,7 +126,7 @@ class TimeTable extends EventEmitter {
     let values = self.schema.pick(data);
 
     // https://www.sqlite.org/lang_UPSERT.html
-    let query = `INSERT INTO ${unit}(${self.schema.fields}) VALUES (${self.schema.fieldValuesDummy}) ` +
+    let query = `INSERT INTO ${unit}(${self.schema.fieldNames}) VALUES (${self.schema.fieldValuesDummy}) ` +
       `ON CONFLICT (${self.schema.upsertKey.join()}) DO UPDATE SET ` +
       self.schema.fieldsSupportsAggregation.map((fldName => {
         values.push(data[fldName])

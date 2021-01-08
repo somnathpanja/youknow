@@ -7,6 +7,8 @@
 using namespace std;
 
 static const string top = "(top -b -c -n 1 -n1 > /tmp/youknow_top.tmp ; cat /tmp/youknow_top.tmp  | head -n 5 > /tmp/youknow_sys.tmp)";
+static const string cpuCount = "cat /proc/cpuinfo | grep processor | wc -l | awk -v QT='\"' '{print \"{\" QT \"cpu_count\" QT \":\" $1 \"}\"}'";
+
 static const string disk = "TERM=xterm df -k -m |tail -n+1 | awk -v QT='\"' '{n+=1} {t+=$2} {u+=$3} {f+=$4} {print \"{\" QT \"disk_total\" QT \":\"t\",\" QT \"disk_used\" QT \":\"u\",\" QT \"disk_free\" QT \":\"f\"}\"}' | tail -1";
 // top -b -c -n 1 -n1 | awk 'FNR==1 {print "{ \"up_time\":" $5 "\"load_avg1\":" $10 "\"load_avg5\":" $11 "\"load_avg15\":" $12 " }"}'
 static const string uptime = "awk -v QT='\"' '{print \"{\" QT \"uptime\" QT \":\" $1 \"}\"}' /proc/uptime ";
@@ -17,7 +19,7 @@ static const string topCPUPercentage = "cat /tmp/youknow_sys.tmp | awk -v QT='\"
 static const string topMemory = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==4 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"mem_total\" QT \":\" $4 \", \" QT \"mem_free\" QT \":\" $6 \", \" QT \"mem_used\" QT \":\" $8 \", \" QT \"mem_buff_cache\" QT \":\" $10 \"}\"}'";
 static const string topSwapMemory = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==5 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"mem_swap_total\" QT \":\" $3 \", \" QT \"mem_swap_free\" QT \":\" $5 \", \" QT \"mem_swap_used\" QT \":\" $7 \", \" QT \"mem_swap_avail\" QT \":\" $9 \"}\"}'";
 
-static const string upload = "curl -H \"Content-Type: text/plain\" -X POST --data-binary @- http://localhost:2600/worker/raw/system";
+static const string upload = "curl --silent -H \"Content-Type: text/plain\" -X POST --data-binary @- http://localhost:2600/worker/raw/system";
 static const string process = "cat /tmp/youknow_top.tmp | grep \"Cns\" | awk -v QT='\"' '$1 ~ /^[[:digit:]]/ {print \"{\" QT \"pid\" QT \": \" $1 \", \" QT \"mem_virt\" QT \": \" $5 \", \" QT \"mem_res\" QT \": \" $6 \", \" QT \"cpu_percent\" QT \": \" $9 \", \" QT \"mem_used_percent\" QT \": \" $10 \", \" QT \"app\" QT \": \" QT $12 QT \"}\" }'";
 //static const string uploadProcess = "curl -H \"Content-Type: text/plain\" -X POST --data-binary @- http://localhost:2600/worker/raw/process";
 
@@ -42,7 +44,9 @@ string getCMD(void)
 
 int main()
 {
-  cout << "Hello, this is my first C++ program on Linux" << endl;
+  cout << "Youknow is started successfully" << endl;
+  system("curl http://localhost:2600/status");
+  cout << "\n" << endl;
 
   while (true)
   {
@@ -50,16 +54,18 @@ int main()
 
     system(top.c_str());
 
-    system(("( hostname ; hostname -i ; " + uptime +
+    system(("( hostname ; hostname -i ; " + cpuCount +
+            "; " + uptime +
             "; " + disk +
             "; " + loadAvg +
             "; " + topCPUPercentage +
             "; " + topMemory +
             "; " + topSwapMemory +
             "; " + process +
-            ") | " + upload)
+            ") | " + upload + " | awk 'FNR==1 { {printf \"\rUPLOAD STATUS: %s              \",$0} }'; tput civis;")
                .c_str());
   }
+  //")5
 
   // POST A SINGLE FILE CONTENT
   //system("curl --data-binary \"@/tmp/youknow_sys.tmp\" http://localhost:2600/worker");

@@ -10,6 +10,9 @@ module.exports = function (app) {
   //   console.log(`${moment().format()}> ${req.params.agent_id} collected its config.`);
   //   res.send(retConfig);
   // });
+  app.get('/status', function (req, res) {
+    res.send('YouKnow Monitor Communication: OK')
+  });
 
   app.get('/worker/:agent_ip/:agent_id/config', function (req, res) {
     workerCtrl.getConfig(req.params.agent_id).then(aConfig => {
@@ -51,8 +54,7 @@ module.exports = function (app) {
   app.post('/worker/raw/system', function (req, res) {
     let lines = req.body.trim().split('\n');
     let agent_id = lines[0];
-    let agent_ip = lines[1];
-
+    let ip = lines[1];
 
     lines.shift(); lines.shift();
 
@@ -61,29 +63,42 @@ module.exports = function (app) {
       lines[idx] = JSON.parse(lines[idx]);
     }
 
-    let sys = Object.assign({}, lines.shift()); // uptime
+    let cpu_count = lines.shift();
+    let uptime = lines.shift();
+
+    let inventory = Object.assign({ agent_id, ip, last_updated_ts: Date.now() }, cpu_count, uptime);
+
+    let sys = Object.assign({}, uptime); // uptime
     sys = Object.assign(sys, lines.shift()); // disk
     sys = Object.assign(sys, lines.shift()); // cpu
     sys = Object.assign(sys, lines.shift()); // memory
     sys = Object.assign(sys, lines.shift()); // swap
 
-    workerCtrl.pushOSData(agent_id, sys).then((err) => {
-      console.log(`${moment().format()}> ${agent_id} os data pushed successfully.`);
+    workerCtrl.updateAgentInInventory(inventory).catch((err) => {
+      console.log(`${moment().format()}> ${agent_id} failed to push Inventory data.`, err);
     }).then(() => {
-      async.eachSeries(lines, function (item, next) {
-        workerCtrl.pushOSData(agent_id, item).then((err) => {
-          console.log(`${moment().format()}> ${agent_id} process(${item.app}) data pushed successfully.`);
-          next();
-        }).catch((err) => {
-          console.log(`${moment().format()}> ${agent_id} process(${item.app}) failed to push.`, err);
-          next();
-        });
-      }, () => {
-        res.send('OK');
+      return workerCtrl.pushOSData(agent_id, sys).then((err) => {
+        console.log(`${moment().format()}> ${agent_id} os data pushed successfully.`);
+      }).catch((err) => {
+        console.log(`${moment().format()}> ${agent_id} failed to push OS data.`, err);
+        res.send('');
       });
-    }).catch((err) => {
-      console.log(`${moment().format()}> ${agent_id} failed to push OS data.`, err);
-      res.send('');
+    }).then(() => {
+      return new Promise((resolve) => {
+        async.eachSeries(lines, function (item, next) {
+          workerCtrl.pushOSData(agent_id, item).then((err) => {
+            console.log(`${moment().format()}> ${agent_id} process(${item.app}) data pushed successfully.`);
+            next();
+          }).catch((err) => {
+            console.log(`${moment().format()}> ${agent_id} process(${item.app}) failed to push.`, err);
+            next();
+          });
+        }, () => {
+          resolve();
+        });
+      });
+    }).then(() => {
+      res.send(Math.floor(Math.random() * 101) + '%');
     });
   });
 

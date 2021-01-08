@@ -1,3 +1,4 @@
+var WebSocketServer = require("ws").Server;
 const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
@@ -6,9 +7,10 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const conf = require('./conf.json');
+
 process.dataDir = __dirname + conf.data;
 
-var allowCrossDomain = function(req, res, next) {
+var allowCrossDomain = function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -19,10 +21,10 @@ var allowCrossDomain = function(req, res, next) {
 function rawBody(req, res, next) {
   req.setEncoding('utf8');
   req.rawBody = '';
-  req.on('data', function(chunk) {
+  req.on('data', function (chunk) {
     req.rawBody += chunk;
   });
-  req.on('end', function(){
+  req.on('end', function () {
     next();
   });
 }
@@ -39,7 +41,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 require('./routes/workerRoute')(app);
-
 require('./routes/webRouter')(app);
 
 var server;
@@ -54,6 +55,23 @@ if (conf.protocol === 'https') {
 } else {
   server = http.createServer(app);
 }
+
+var wss = new WebSocketServer({ server: server, path: "/youknow/ws" });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    message = JSON.stringify(message);
+    if (message.cmd) {
+      console.log('received: cmd %s', message);
+    } else if (message.event) {
+      console.log('received: event %s', message);
+    } else {
+      console.log('received: %s', message);
+    }
+  });
+
+ // ws.send('something');
+});
 
 server.listen(conf.port, function () {
   console.log(`App is listening listening on port ${conf.port}! > on `, conf.protocol);
