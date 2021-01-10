@@ -64,11 +64,12 @@ module.exports = function (app) {
     }
 
     let cpu_count = lines.shift();
+    let platform = lines.shift().platform;
     let uptime = lines.shift();
 
-    let inventory = Object.assign({ agent_id, ip, last_updated_ts: Date.now() }, cpu_count, uptime);
+    let inventory = Object.assign({ agent_id, ip, last_updated_ts: Date.now(), platform }, cpu_count, uptime);
 
-    let sys = Object.assign({}, uptime); // uptime
+    let sys = Object.assign({}, uptime);     // uptime
     sys = Object.assign(sys, lines.shift()); // disk
     sys = Object.assign(sys, lines.shift()); // load avg
     sys = Object.assign(sys, lines.shift()); // cpu

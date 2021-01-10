@@ -213,6 +213,9 @@ class ServersComponent {
         this.selectedServer = _models_server__WEBPACK_IMPORTED_MODULE_0__["Server"].clone(server);
         const dialogRef = this.configDialog.open(_server_config_server_config_component__WEBPACK_IMPORTED_MODULE_1__["ServerConfigComponent"], {
             data: this.selectedServer,
+            width: '30%',
+            // minHeight: 'calc(100vh - 90px)',
+            height: 'auto'
         });
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
@@ -355,7 +358,7 @@ class ServerConfigComponent {
     }
 }
 ServerConfigComponent.ɵfac = function ServerConfigComponent_Factory(t) { return new (t || ServerConfigComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_1__["MAT_DIALOG_DATA"])); };
-ServerConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerConfigComponent, selectors: [["app-server-config"]], decls: 35, vars: 6, consts: [["mat-dialog-title", ""], [1, "mat-typography"], [1, "nostyle"], ["matInput", "", 3, "value", "change"], ["matInput", "", "resizeToFitContent", "true", 3, "value", "change"], [1, "full-width"], ["align", "end"], ["mat-button", "", "mat-dialog-close", ""], ["mat-button", "", "cdkFocusInitial", "", 3, "mat-dialog-close"]], template: function ServerConfigComponent_Template(rf, ctx) { if (rf & 1) {
+ServerConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerConfigComponent, selectors: [["app-server-config"]], decls: 35, vars: 6, consts: [["mat-dialog-title", ""], [1, "mat-typography"], [1, "nostyle"], ["matInput", "", "disabled", "true", 3, "value", "change"], ["matInput", "", "disabled", "true", "resizeToFitContent", "true", 3, "value", "change"], ["matInput", "", "resizeToFitContent", "true", 3, "value", "change"], ["matInput", "", 3, "value", "change"], [1, "full-width"], ["align", "end"], ["mat-button", "", "mat-dialog-close", ""], ["mat-button", "", "cdkFocusInitial", "", 3, "mat-dialog-close"]], template: function ServerConfigComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "h2", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Config Server");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -387,7 +390,7 @@ ServerConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "mat-label");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18, "Details");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "input", 4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "input", 5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function ServerConfigComponent_Template_input_change_19_listener($event) { return ctx.setServerProperty("details", $event); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -397,17 +400,17 @@ ServerConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "mat-label");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](23, "Periodic Data Interval");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "input", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "input", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function ServerConfigComponent_Template_input_change_24_listener($event) { return ctx.setServerProperty("stats_interval_ms", $event); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](25, "li", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](26, "mat-form-field", 5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](26, "mat-form-field", 7);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "mat-label");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](28, "Process to watch");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "input", 3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "input", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("change", function ServerConfigComponent_Template_input_change_29_listener($event) { return ctx.setServerProperty("watch_process", $event); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -415,11 +418,11 @@ ServerConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "mat-dialog-actions", 6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](31, "button", 7);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "mat-dialog-actions", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](31, "button", 9);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](32, "Cancel");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "button", 8);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "button", 10);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](34, "Apply");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -899,7 +902,7 @@ MaterialModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInj
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Server", function() { return Server; });
 class Server {
-    constructor(agent_id, details, ip, cpu_count, platform, stats_interval_ms, watch_process, last_updated_ts) {
+    constructor(agent_id, ip, details, cpu_count, platform, stats_interval_ms, watch_process, last_updated_ts) {
         this.agent_id = agent_id;
         this.ip = ip;
         this.details = details;
@@ -913,7 +916,7 @@ class Server {
      * @description Clone this server object
      */
     static clone(server) {
-        return new Server(server.agent_id || '', server.ip || '', server.details || '', server.cpu_count || 0, server.platform || '', server.stats_interval_ms || 5000, server.watch_process || [], server.last_updated_ts || 0);
+        return new Server(server.agent_id || '', server.ip || 'N/A', server.details || 'N/A', server.cpu_count || 0, server.platform || 'N/A', server.stats_interval_ms || 5000, server.watch_process || '[]', server.last_updated_ts || 0);
     }
     /**
      * @description Update reference of this server with the updated data

@@ -8,7 +8,7 @@ export class Server {
   watch_process: string[];
   last_updated_ts: number;
 
-  constructor(agent_id: string, details: string, ip: string, cpu_count: number, platform: string,
+  constructor(agent_id: string, ip: string, details: string, cpu_count: number, platform: string,
     stats_interval_ms: number, watch_process: string[], last_updated_ts: number) {
     this.agent_id = agent_id;
     this.ip = ip;
@@ -25,12 +25,12 @@ export class Server {
    */
   public static clone(server: any) {
     return new Server(server.agent_id as string || '',
-      server.ip || '',
-      server.details || '',
+      server.ip || 'N/A',
+      server.details || 'N/A',
       server.cpu_count || 0,
-      server.platform || '',
+      server.platform || 'N/A',
       server.stats_interval_ms || 5000,
-      server.watch_process || [],
+      server.watch_process || '[]',
       server.last_updated_ts || 0);
   }
 
@@ -42,5 +42,4 @@ export class Server {
     return new Server(this.agent_id as string, server.details, server.ip, server.cpu_count, server.platform,
       server.stats_interval_ms, server.watch_process, server.last_updated_ts);
   }
-
 }

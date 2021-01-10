@@ -43,9 +43,9 @@ export class ServersComponent implements AfterViewInit, OnInit {
     this.selectedServer = Server.clone(server);
     const dialogRef = this.configDialog.open(ServerConfigComponent, {
       data: this.selectedServer,
-      // width: '50%',
+      width: '30%',
       // minHeight: 'calc(100vh - 90px)',
-      // height: 'auto'
+      height: 'auto'
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -1,24 +1,25 @@
 <h2 mat-dialog-title>Config Server</h2>
 <mat-dialog-content class="mat-typography">
-  <form >
+  <form>
     <ol>
       <li class="nostyle">
         <mat-form-field>
           <mat-label>Unique Name Of the Server</mat-label>
-          <input matInput [value]="server.agent_id" (change)="setServerProperty('agent_id', $event)">
-          <!-- <input matInput [(ngModel)]="server.agent_id"> -->
+          <input matInput [value]="server.agent_id" disabled="true" (change)="setServerProperty('agent_id', $event)">
         </mat-form-field>
       </li>
       <li class="nostyle">
         <mat-form-field>
           <mat-label>IP Address(IPv4)</mat-label>
-          <input matInput resizeToFitContent="true" [value]="server.ip" (change)="setServerProperty('ip', $event)">
+          <input matInput disabled="true" [value]="server.ip" (change)="setServerProperty('ip', $event)"
+            resizeToFitContent="true">
         </mat-form-field>
       </li>
       <li class="nostyle">
         <mat-form-field>
           <mat-label>Details</mat-label>
-          <input matInput resizeToFitContent="true" [value]="server.details" (change)="setServerProperty('details', $event)">
+          <input matInput [value]="server.details" (change)="setServerProperty('details', $event)"
+            resizeToFitContent="true">
         </mat-form-field>
       </li>
       <li class="nostyle">

@@ -7,7 +7,10 @@
 using namespace std;
 
 static const string top = "(top -b -c -n 1 -n1 > /tmp/youknow_top.tmp ; cat /tmp/youknow_top.tmp  | head -n 5 > /tmp/youknow_sys.tmp)";
+
 static const string cpuCount = "cat /proc/cpuinfo | grep processor | wc -l | awk -v QT='\"' '{print \"{\" QT \"cpu_count\" QT \":\" $1 \"}\"}'";
+
+static const string platform = "uname -s -m | awk -v QT='\"' '{print \"{\" QT \"platform\" QT \":\" QT $1 \" \" $2 QT \"}\"}'";
 
 static const string disk = "TERM=xterm df -k -m |tail -n+1 | awk -v QT='\"' '{n+=1} {t+=$2} {u+=$3} {f+=$4} {print \"{\" QT \"disk_total\" QT \":\"t\",\" QT \"disk_used\" QT \":\"u\",\" QT \"disk_free\" QT \":\"f\"}\"}' | tail -1";
 // top -b -c -n 1 -n1 | awk 'FNR==1 {print "{ \"up_time\":" $5 "\"load_avg1\":" $10 "\"load_avg5\":" $11 "\"load_avg15\":" $12 " }"}'
@@ -46,7 +49,8 @@ int main()
 {
   cout << "Youknow is started successfully" << endl;
   system("curl http://localhost:2600/status");
-  cout << "\n" << endl;
+  cout << "\n"
+       << endl;
 
   while (true)
   {
@@ -55,6 +59,7 @@ int main()
     system(top.c_str());
 
     system(("( hostname ; hostname -i ; " + cpuCount +
+            "; " + platform +
             "; " + uptime +
             "; " + disk +
             "; " + loadAvg +
