@@ -13,7 +13,11 @@ module.exports = function (app) {
 
   app.get('/agent/:agent_id/', function (req, res) {
     webCtrl.getAgent(req.params.agent_id).then(agents => {
-      res.send(agents);
+      if(agents.length){
+        res.send(agents[0]);
+      } else {
+        res.status(200).send({ err: 'Agent not found with agent id!' });
+      }     
     }).catch((err) => {
       res.status(500).send({ err: err });
     });

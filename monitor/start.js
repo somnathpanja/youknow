@@ -7,6 +7,9 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const conf = require('./conf.json');
+const EventTypes = require('./public/assets/common/eventTypes.json');
+var EventDistributor = require('./eventDistributor');
+var workerRoute;
 
 process.dataDir = __dirname + conf.data;
 
@@ -40,7 +43,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-require('./routes/workerRoute')(app);
+workerRoute = new (require('./routes/workerRoute'))(app);
 require('./routes/webRouter')(app);
 
 var server;
@@ -57,20 +60,35 @@ if (conf.protocol === 'https') {
 }
 
 var wss = new WebSocketServer({ server: server, path: "/youknow/ws" });
+wss.getUniqueID = function () {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  }
+  return s4() + s4() + '-' + s4();
+};
 
 wss.on('connection', function connection(ws) {
+  ws.id = wss.getUniqueID();
   ws.on('message', function incoming(message) {
-    message = JSON.stringify(message);
+    message = JSON.parse(message);
+
     if (message.cmd) {
       console.log('received: cmd %s', message);
     } else if (message.event) {
+      EventDistributor.process(message, ws);
       console.log('received: event %s', message);
     } else {
       console.log('received: %s', message);
     }
   });
 
- // ws.send('something');
+  ws.on('close', function close() {
+    EventDistributor.unsubscribeAll(ws);
+  });
+});
+
+workerRoute.on(EventTypes.OS_UPDATE, (data) => { 
+  EventDistributor.distribute(EventTypes.OS_UPDATE, data); 
 });
 
 server.listen(conf.port, function () {

@@ -1,8 +1,11 @@
-<p>HELLO</p>
-<p>{{server.agent_id}}</p>
-<p>{{server.ip}}</p>
-<p>{{server.cpu_count}}</p>
-<p>{{server.platform}}</p>
-<p>{{server.stats_interval_ms}}</p>
-<p>{{server.watch_process}}</p>
-<p>{{server.last_updated_ts}}</p>
+<div class="container">
+  <h1><span class="header1 blue">{{server.agent_id}} </span>
+    | IP: {{server.ip}}
+    | CPU: {{server.cpu_count}}
+    | PLATFORM: {{server.platform}}
+    | Refresh Interval: {{server.stats_interval_ms}}
+    | Last Updated: {{server.last_updated_ts}}
+    </h1>
+</div>
+
+<!-- <h2>{{server.watch_process}}</h2> -->

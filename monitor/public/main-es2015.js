@@ -455,6 +455,95 @@ ServerConfigComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
 
 /***/ }),
 
+/***/ "Swid":
+/*!****************************************!*\
+  !*** ./src/app/services/ws.service.ts ***!
+  \****************************************/
+/*! exports provided: WsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WsService", function() { return WsService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs_webSocket__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs/webSocket */ "3uOa");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "4USb");
+
+
+
+
+var Event;
+(function (Event) {
+    Event[Event["Up"] = 1] = "Up";
+    Event[Event["Down"] = 2] = "Down";
+    Event[Event["Left"] = 3] = "Left";
+    Event[Event["Right"] = 4] = "Right";
+})(Event || (Event = {}));
+class WsService {
+    constructor() {
+        this.callbacks = {};
+        this.events = {};
+        this.callbacks = {};
+        this.events = {};
+        console.log(window.location.host);
+        this.host = 'ws://' + ((window.location.host === 'localhost:4200') ? 'localhost:2600' : window.location.host);
+        this.ws = Object(rxjs_webSocket__WEBPACK_IMPORTED_MODULE_1__["webSocket"])(this.host + '/youknow/ws');
+        this.callbacks = {};
+        this.events = {};
+        this.ws.subscribe((packet) => { this.onMessage(packet); }, err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
+        () => { console.log('complete'); } // Called when connection is closed (for whatever reason).
+        );
+    }
+    /**
+     * @description send message and receive a response over callback
+     * @param data
+     * @param callback
+     */
+    send(cmd, data, callback) {
+        let packet = { token: Object(uuid__WEBPACK_IMPORTED_MODULE_2__["v4"])(), cmd, data };
+        this.ws.next(data);
+        this.callbacks[packet.token] = callback;
+    }
+    /**
+     * @description Attach permanent event
+     * @param data
+     * @param callback
+     */
+    attachEvent(event, agent_id, callback) {
+        this.events[event] = callback;
+        this.ws.next({ event, agent_id, action: 'subscribe' });
+    }
+    /**
+     * @description Attach permanent event
+     * @param data
+     * @param callback
+     */
+    detachEvent(event) {
+        delete this.events[event];
+        this.ws.next({ event, action: 'unsubscribe' });
+    }
+    onMessage(packet) {
+        if (packet.token) {
+            this.callbacks[packet.token].call(packet.data);
+            delete this.callbacks[packet.token];
+        }
+        else if (this.events[packet.event]) { // If its not simple function call then it must be event if not detached
+            this.events[packet.event].call(null, packet.data);
+        }
+    }
+}
+WsService.ɵfac = function WsService_Factory(t) { return new (t || WsService)(); };
+WsService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: WsService, factory: WsService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](WsService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return []; }, null); })();
+
+
+/***/ }),
+
 /***/ "Sy1n":
 /*!**********************************!*\
   !*** ./src/app/app.component.ts ***!
@@ -729,66 +818,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ServerComponent", function() { return ServerComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _models_server__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../models/server */ "jL0J");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../assets/common/eventTypes.json */ "wtnX");
+var _assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ./../../../assets/common/eventTypes.json */ "wtnX", 1);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _services_ws_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../services/ws.service */ "Swid");
+/* harmony import */ var _services_servers_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../services/servers.service */ "xeQw");
+
+
+
 
 
 
 
 class ServerComponent {
-    constructor(route, router) {
+    constructor(route, router, wsService, serversService) {
         this.route = route;
         this.router = router;
+        this.wsService = wsService;
+        this.serversService = serversService;
         this.server = new _models_server__WEBPACK_IMPORTED_MODULE_1__["Server"]('NOC', '', '12', 1, '212', 22, [], 3333);
+        this.agent_id = '';
     }
-    ;
     ngOnInit() {
         this.route.queryParams.subscribe((params) => {
-            this.server.agent_id = params['agent_id'];
+            this.agent_id = params['agent_id'];
+        });
+    }
+    ngAfterViewInit() {
+        this.serversService.getServer(this.agent_id).subscribe(server => {
+            this.server = server;
+        });
+        this.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], this.agent_id, function (data) {
+            console.log(data);
         });
     }
 }
-ServerComponent.ɵfac = function ServerComponent_Factory(t) { return new (t || ServerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"])); };
-ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerComponent, selectors: [["app-server"]], inputs: { server: "server" }, decls: 16, vars: 7, template: function ServerComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "HELLO");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "p");
+ServerComponent.ɵfac = function ServerComponent_Factory(t) { return new (t || ServerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_ws_service__WEBPACK_IMPORTED_MODULE_4__["WsService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_servers_service__WEBPACK_IMPORTED_MODULE_5__["ServersService"])); };
+ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerComponent, selectors: [["app-server"]], inputs: { server: "server" }, decls: 5, vars: 6, consts: [[1, "container"], [1, "header1", "blue"]], template: function ServerComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h1");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "span", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](8, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](9);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "p");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.agent_id);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.ip);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.cpu_count);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.platform);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.stats_interval_ms);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.watch_process);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.server.last_updated_ts);
-    } }, styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzZXJ2ZXIuY29tcG9uZW50LmNzcyJ9 */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", ctx.server.agent_id, " ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate5"](" | IP: ", ctx.server.ip, " | CPU: ", ctx.server.cpu_count, " | PLATFORM: ", ctx.server.platform, " | Refresh Interval: ", ctx.server.stats_interval_ms, " | Last Updated: ", ctx.server.last_updated_ts, " ");
+    } }, styles: [".blue[_ngcontent-%COMP%] {\n  color:dodgerblue\n}\n\n.red[_ngcontent-%COMP%] {\n  color:indianred\n}\n\n.header1[_ngcontent-%COMP%] {\n  font-size: 35px;\n}\n\n.container[_ngcontent-%COMP%] {\n  padding: 1rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZlci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7QUFDRjs7QUFFQTtFQUNFO0FBQ0Y7O0FBRUE7RUFDRSxlQUFlO0FBQ2pCOztBQUVBO0VBQ0UsYUFBYTtBQUNmIiwiZmlsZSI6InNlcnZlci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmJsdWUge1xuICBjb2xvcjpkb2RnZXJibHVlXG59XG5cbi5yZWQge1xuICBjb2xvcjppbmRpYW5yZWRcbn1cblxuLmhlYWRlcjEge1xuICBmb250LXNpemU6IDM1cHg7XG59XG5cbi5jb250YWluZXIge1xuICBwYWRkaW5nOiAxcmVtO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ServerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -796,7 +876,7 @@ ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 templateUrl: './server.component.html',
                 styleUrls: ['./server.component.css']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] }]; }, { server: [{
+    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }, { type: _services_ws_service__WEBPACK_IMPORTED_MODULE_4__["WsService"] }, { type: _services_servers_service__WEBPACK_IMPORTED_MODULE_5__["ServersService"] }]; }, { server: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }] }); })();
 
@@ -976,6 +1056,17 @@ AppRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineI
 
 /***/ }),
 
+/***/ "wtnX":
+/*!*******************************************!*\
+  !*** ./src/assets/common/eventTypes.json ***!
+  \*******************************************/
+/*! exports provided: OS_UPDATE, SELECTIVE_PROCESS_UPDATE, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"OS_UPDATE\":\"OS_UPDATE\",\"SELECTIVE_PROCESS_UPDATE\":\"SELECTIVE_PROCESS_UPDATE\"}");
+
+/***/ }),
+
 /***/ "xeQw":
 /*!*********************************************!*\
   !*** ./src/app/services/servers.service.ts ***!
@@ -998,19 +1089,22 @@ __webpack_require__.r(__webpack_exports__);
 class ServersService {
     constructor(http) {
         this.http = http;
+        this.host = window.location.protocol + '//' + ((window.location.host === 'localhost:4200') ? 'localhost:2600' : window.location.host);
+        console.log(this.host);
     }
     getServers() {
-        return this.http.get('http://localhost:2600/agents');
+        // https://stackoverflow.com/questions/49297680/angular-5-get-host-name-and-app-name-from-url
+        return this.http.get(this.host + '/agents');
     }
     getServer(agent_id) {
-        return this.http.get('http://localhost:2600/agent/' + agent_id);
+        return this.http.get(this.host + '/agent/' + agent_id);
     }
     updateServer(agent_id, server) {
-        let url = 'http://localhost:2600/agent/update/' + agent_id;
+        let url = this.host + '/agent/update/' + agent_id;
         return this.http.post(url, server).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError)).toPromise();
     }
     addServer(server) {
-        let url = 'http://localhost:2600/agent/add';
+        let url = this.host + '/agent/add';
         return this.http.post(url, server).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError)).toPromise();
     }
     handleError(error) {

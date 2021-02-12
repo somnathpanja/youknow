@@ -25,17 +25,20 @@ enum Event {
 export class WsService {
   ws: WebSocketSubject<string>;
   callbacks: CallbackDictionary<() => void> = {};
-  events: EventDictionary<() => void> = {};
+  events: EventDictionary<Function> = {};
+  host: string;
 
   constructor() {
     this.callbacks = {};
     this.events = {};
-    this.ws = webSocket('wss://example.com');
+    console.log(window.location.host);
+    this.host = 'ws://' + ((window.location.host === 'localhost:4200') ? 'localhost:2600' : window.location.host);
+    this.ws = webSocket(this.host + '/youknow/ws');
     this.callbacks = {};
     this.events = {};
 
     this.ws.subscribe(
-      this.onMessage,
+      (packet)=> {this.onMessage(packet)},
       err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
       () => { console.log('complete'); } // Called when connection is closed (for whatever reason).
     );
@@ -57,9 +60,9 @@ export class WsService {
    * @param data 
    * @param callback 
    */
-  public attachEvent(event: string, callback: () => void) {
+  public attachEvent(event: string, agent_id: string, callback: Function) {
     this.events[event] = callback;
-    this.ws.next(JSON.stringify({ event, action: 'subscribe' }));
+    this.ws.next({ event, agent_id, action: 'subscribe' } as any);
   }
 
   /**
@@ -69,17 +72,15 @@ export class WsService {
    */
   public detachEvent(event: string) {
     delete this.events[event];
-    this.ws.next(JSON.stringify({ event, action: 'unsubscribe' }));
+    this.ws.next({ event, action: 'unsubscribe' } as any);
   }
 
-  private onMessage(msg: string) {
-    let packet = JSON.parse(msg);
-
+  private onMessage(packet: any) {
     if (packet.token) {
       this.callbacks[packet.token].call(packet.data);
       delete this.callbacks[packet.token];
     } else if (this.events[packet.event]) { // If its not simple function call then it must be event if not detached
-      this.events[packet.event].call(packet.data);
+      this.events[packet.event].call(null, packet.data);
     }
   }
 }
