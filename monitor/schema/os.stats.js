@@ -28,6 +28,7 @@ class OSStatsSchema extends SchemaBase {
         { name: 'cpu_wa', type: 'REAL', default: 0 },
         { name: 'cpu_hi', type: 'REAL', default: 0 },
         { name: 'cpu_si', type: 'REAL', default: 0 },
+        { name: 'cpu_st', type: 'REAL', default: 0 },
 
         { name: 'mem_total', type: 'INTEGER', default: 0 },
         { name: 'mem_free', type: 'INTEGER', default: 0 },

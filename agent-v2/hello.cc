@@ -6,8 +6,10 @@
 #include <unistd.h>
 using namespace std;
 
-static const string top = "(top -b -c -n 1 -n1 > /tmp/youknow_top.tmp ; cat /tmp/youknow_top.tmp  | head -n 5 > /tmp/youknow_sys.tmp)";
-
+//static const string top = "(COLUMNS=9999 top -b -c -n 1 -n1 > /tmp/youknow_top.tmp ; cat /tmp/youknow_top.tmp  | head -n 5 > /tmp/youknow_sys.tmp)";
+static const string top = "COLUMNS=9999 top -b -c -n2 > /tmp/youknow_top.tmp";
+static const string optimizeTop = "one=1 ; lineno=$(cat /tmp/youknow_top.tmp | fgrep -n \"load average\" | tail -1 | cut -f1 -d:) ; lineno=$(( $lineno - $one )) ;  sed -i '1,'\"$lineno\"' d' /tmp/youknow_top.tmp";
+static const string copySys = "cat /tmp/youknow_top.tmp | head -n 5 > /tmp/youknow_sys.tmp";
 static const string cpuCount = "cat /proc/cpuinfo | grep processor | wc -l | awk -v QT='\"' '{print \"{\" QT \"cpu_count\" QT \":\" $1 \"}\"}'";
 
 static const string platform = "uname -s -m | awk -v QT='\"' '{print \"{\" QT \"platform\" QT \":\" QT $1 \" \" $2 QT \"}\"}'";
@@ -17,7 +19,7 @@ static const string disk = "TERM=xterm df -k -m |tail -n+1 | awk -v QT='\"' '{n+
 static const string uptime = "awk -v QT='\"' '{print \"{\" QT \"uptime\" QT \":\" $1 \"}\"}' /proc/uptime ";
 static const string loadAvg = "cat /proc/loadavg | awk -v QT='\"' 'FNR==1 { print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \",\" QT \"load_avg1\" QT \":\" $1 \",\" QT \"load_avg5\" QT \":\" $2 \",\" QT \"load_avg15\" QT \":\" $3 \"}\"}'";
 // top -b -c -n 1 -n1 | awk 'FNR==3 {print "{ \"cpu_us\":" $2 ", \"cpu_sy\":" $4 ", \"cpu_ni\":" $6 ", \"cpu_id\":" $8 ", \"cpu_wa\":" $10 ", \"cpu_hi\":" $12 ", \"cpu_si\":" $14 "}"}'
-static const string topCPUPercentage = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==3 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"cpu_us\" QT \":\" $2 \", \" QT \"cpu_sy\" QT \":\" $4 \", \" QT \"cpu_ni\" QT \":\" $6 \", \" QT \"cpu_id\" QT \":\" $8 \", \" QT \"cpu_wa\" QT \":\" $10 \", \" QT \"cpu_hi\" QT \":\" $12 \", \" QT \"cpu_si\" QT \":\" $14 \"}\"}'";
+static const string topCPUPercentage = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==3 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"cpu_us\" QT \":\" $2 \", \" QT \"cpu_sy\" QT \":\" $4 \", \" QT \"cpu_ni\" QT \":\" $6 \", \" QT \"cpu_id\" QT \":\" $8 \", \" QT \"cpu_wa\" QT \":\" $10 \", \" QT \"cpu_hi\" QT \":\" $12 \", \" QT \"cpu_si\" QT \":\" $14 \", \" QT \"cpu_st\" QT \":\" $16 \"}\"}'";
 
 static const string topMemory = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==4 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"mem_total\" QT \":\" $4 \", \" QT \"mem_free\" QT \":\" $6 \", \" QT \"mem_used\" QT \":\" $8 \", \" QT \"mem_buff_cache\" QT \":\" $10 \"}\"}'";
 static const string topSwapMemory = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==5 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"mem_swap_total\" QT \":\" $3 \", \" QT \"mem_swap_free\" QT \":\" $5 \", \" QT \"mem_swap_used\" QT \":\" $7 \", \" QT \"mem_swap_avail\" QT \":\" $9 \"}\"}'";
@@ -57,6 +59,8 @@ int main()
     sleep(5);
 
     system(top.c_str());
+    system(optimizeTop.c_str());
+    system(copySys.c_str());
 
     system(("( hostname ; hostname -i ; " + cpuCount +
             "; " + platform +

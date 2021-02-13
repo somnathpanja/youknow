@@ -24,7 +24,7 @@ export class ServersService {
   getServer(agent_id: string): Observable<Server> {
     return this.http.get<Server>(this.host + '/agent/' + agent_id);
   }
-
+  
   updateServer(agent_id: string, server: Server) {
     let url = this.host + '/agent/update/' + agent_id;
     return this.http.post<Server>(url, server).pipe(catchError(this.handleError)).toPromise();

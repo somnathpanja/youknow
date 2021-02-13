@@ -28,4 +28,5 @@ import { ServerConfigComponent } from './components/server-config/server-config.
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

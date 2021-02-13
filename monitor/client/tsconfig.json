@@ -15,6 +15,8 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
+    // "noImplicitAny": false,
+    "strictPropertyInitialization": false,
     "target": "es2015",
     "module": "es2020",
     "lib": [
