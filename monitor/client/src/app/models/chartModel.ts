@@ -1,4 +1,4 @@
-export class Chart {
+export class ChartModel {
   constructor(public data: any, public options?: any) {
   }
 }

@@ -1120,11 +1120,27 @@
       /*! @angular/router */
       "tyNb");
 
-      var AppComponent = function AppComponent() {
-        _classCallCheck(this, AppComponent);
+      var AppComponent = /*#__PURE__*/function () {
+        function AppComponent() {
+          _classCallCheck(this, AppComponent);
 
-        this.title = 'YouKnow';
-      };
+          this.title = 'YouKnow';
+        }
+
+        _createClass(AppComponent, [{
+          key: "ngOnInit",
+          value: function ngOnInit() {
+            google.charts.load('current', {
+              packages: ['corechart', 'bar']
+            });
+          }
+        }, {
+          key: "ngAfterViewInit",
+          value: function ngAfterViewInit() {}
+        }]);
+
+        return AppComponent;
+      }();
 
       AppComponent.ɵfac = function AppComponent_Factory(t) {
         return new (t || AppComponent)();
@@ -1656,6 +1672,9 @@
       /*! ./../../services/servers.service */
       "xeQw");
 
+      var SJ = SilverJs;
+      var Chart = SilverJs.Chart;
+
       var ServerComponent = /*#__PURE__*/function () {
         function ServerComponent(route, router, wsService, serversService) {
           _classCallCheck(this, ServerComponent);
@@ -1675,6 +1694,10 @@
 
             this.route.queryParams.subscribe(function (params) {
               _this5.agent_id = params['agent_id'];
+
+              _this5.serversService.getServer(_this5.agent_id).subscribe(function (server) {
+                _this5.server = server;
+              });
             });
           }
         }, {
@@ -1682,12 +1705,132 @@
           value: function ngAfterViewInit() {
             var _this6 = this;
 
-            this.serversService.getServer(this.agent_id).subscribe(function (server) {
-              _this6.server = server;
+            var self = this;
+            google.charts.setOnLoadCallback(function () {
+              _this6.createCPUGraph();
+
+              _this6.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], _this6.agent_id, function (data) {
+                console.log(data);
+                self.updateCPUGraph(data);
+              });
             });
-            this.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], this.agent_id, function (data) {
-              console.log(data);
-            });
+          }
+        }, {
+          key: "createCPUGraph",
+          value: function createCPUGraph() {
+            this.cpuChart = new Chart("cpuChartDiv", {
+              // width: 300, height: 160,
+              border: 0.001,
+              bevel: false,
+              shadow: true,
+              cornerRadius: [12, 12, 12, 12],
+              titles: [{
+                text: "CPU",
+                fontSize: 10
+              }],
+              axesY: [{
+                tickEnabled: false,
+                tickLength: 1,
+                max: 100,
+                min: 0,
+                interval: 2,
+                axisLineThickness: 0.2
+              }],
+              axesX: [{
+                tickEnabled: false,
+                tickLength: 1,
+                axisLineThickness: 0.2
+              }]
+            }); // this.cpuChart = new google.visualization.BarChart(document.getElementById('cpuChartDiv'));
+            // this.cpuChart.__options = {
+            //   title: 'CPU Usage',
+            //   chartArea: { width: '90%' },
+            //   colors: ['#b0120a', '#ffab91'],
+            //   vAxis: {
+            //     minValue: 0,
+            //     maxValue: 100
+            //   },
+            //   hAxis: {
+            //     minValue: 0,
+            //     ticks: []
+            //   },
+            //   legend: { position: "none" }
+            // };
+          }
+        }, {
+          key: "updateCPUGraph",
+          value: function updateCPUGraph(data) {
+            var data = [{
+              plotAs: 'bar',
+              tooltipText: "<b style='color:{color};'>{xLabel}</b>:{yValue}%<br>user cpu time (or) % CPU time spent in user space",
+              points: [{
+                xLabel: 'ST',
+                yValue: data.sys.cpu_st
+              }, {
+                xLabel: 'SI',
+                yValue: data.sys.cpu_si
+              }, {
+                xLabel: 'HI',
+                yValue: data.sys.cpu_hi
+              }, {
+                xLabel: 'WA',
+                yValue: data.sys.cpu_wa
+              }, {
+                xLabel: 'ID',
+                yValue: data.sys.cpu_id
+              }, {
+                xLabel: 'NI',
+                yValue: data.sys.cpu_ni
+              }, {
+                xLabel: 'SY',
+                yValue: data.sys.cpu_sy
+              }, {
+                xLabel: 'US',
+                yValue: data.sys.cpu_us
+              }]
+            }];
+            this.cpuChart.setData(data);
+            this.cpuChart.render();
+            /*us:
+            sy: system cpu time (or) % CPU time spent in kernel space
+            ni: user nice cpu time (or) % CPU time spent on low priority processes
+            id: idle cpu time (or) % CPU time spent idle
+            wa: io wait cpu time (or) % CPU time spent in wait (on disk)
+            hi: hardware irq (or) % CPU time spent servicing/handling hardware interrupts
+            si: software irq (or) % CPU time spent servicing/handling software interrupts
+            st: steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine
+            */
+            // var chartData = google.visualization.arrayToDataTable([
+            //   ["Element", "Density", { role: "style" }],
+            //   ["US", data.sys.cpu_us, "#b87333"],
+            //   ["SY", data.sys.cpu_si, "silver"],
+            //   ["NI", data.sys.cpu_ni, "gold"],
+            //   ["ID", data.sys.cpu_id, "color: #e5e4e2"],
+            //   ["WA", data.sys.cpu_wa, "color: #e5e4e2"],
+            //   ["HI", data.sys.cpu_hi, "color: #e5e4e2"],
+            //   ["SI", data.sys.cpu_si, "color: #e5e4e2"]
+            // ]);
+            // var view = new google.visualization.DataView(chartData);
+            // view.setColumns([0, 1,
+            //   {
+            //     calc: "stringify",
+            //     sourceColumn: 1,
+            //     type: "string",
+            //     role: "annotation"
+            //   },
+            //   2]);
+            // this.cpuChart.draw(view, this.cpuChart.__options);
+          }
+        }, {
+          key: "loadScript",
+          value: function loadScript(url) {
+            var body = document.body;
+            var script = document.createElement('script');
+            script.innerHTML = '';
+            script.src = url;
+            script.async = false;
+            script.defer = true;
+            body.appendChild(script);
           }
         }]);
 
@@ -1704,9 +1847,9 @@
         inputs: {
           server: "server"
         },
-        decls: 5,
+        decls: 7,
         vars: 6,
-        consts: [[1, "container"], [1, "header1", "blue"]],
+        consts: [[1, "container"], [1, "header1", "blue"], ["id", "cpuChartDiv", 2, "width", "400px", "height", "200px"], ["src", "assets/image/icons/info-24px.svg", 1, "infoIcon"]],
         template: function ServerComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -1720,6 +1863,12 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "img", 3);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 

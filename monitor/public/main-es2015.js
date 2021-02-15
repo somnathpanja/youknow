@@ -565,6 +565,11 @@ class AppComponent {
     constructor() {
         this.title = 'YouKnow';
     }
+    ngOnInit() {
+        google.charts.load('current', { packages: ['corechart', 'bar'] });
+    }
+    ngAfterViewInit() {
+    }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(); };
 AppComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AppComponent, selectors: [["app-root"]], decls: 3, vars: 1, consts: [[3, "title"]], template: function AppComponent_Template(rf, ctx) { if (rf & 1) {
@@ -830,6 +835,8 @@ var _assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#_
 
 
 
+var SJ = SilverJs;
+var Chart = SilverJs.Chart;
 class ServerComponent {
     constructor(route, router, wsService, serversService) {
         this.route = route;
@@ -842,25 +849,127 @@ class ServerComponent {
     ngOnInit() {
         this.route.queryParams.subscribe((params) => {
             this.agent_id = params['agent_id'];
+            this.serversService.getServer(this.agent_id).subscribe(server => {
+                this.server = server;
+            });
         });
     }
     ngAfterViewInit() {
-        this.serversService.getServer(this.agent_id).subscribe(server => {
-            this.server = server;
+        let self = this;
+        google.charts.setOnLoadCallback(() => {
+            this.createCPUGraph();
+            this.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], this.agent_id, function (data) {
+                console.log(data);
+                self.updateCPUGraph(data);
+            });
         });
-        this.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], this.agent_id, function (data) {
-            console.log(data);
+    }
+    createCPUGraph() {
+        this.cpuChart = new Chart("cpuChartDiv", {
+            // width: 300, height: 160,
+            border: 0.001,
+            bevel: false,
+            shadow: true,
+            cornerRadius: [12, 12, 12, 12],
+            titles: [{ text: "CPU", fontSize: 10 }],
+            axesY: [{
+                    tickEnabled: false,
+                    tickLength: 1,
+                    max: 100,
+                    min: 0,
+                    interval: 2,
+                    axisLineThickness: 0.2,
+                }],
+            axesX: [{
+                    tickEnabled: false,
+                    tickLength: 1,
+                    axisLineThickness: 0.2,
+                }]
         });
+        // this.cpuChart = new google.visualization.BarChart(document.getElementById('cpuChartDiv'));
+        // this.cpuChart.__options = {
+        //   title: 'CPU Usage',
+        //   chartArea: { width: '90%' },
+        //   colors: ['#b0120a', '#ffab91'],
+        //   vAxis: {
+        //     minValue: 0,
+        //     maxValue: 100
+        //   },
+        //   hAxis: {
+        //     minValue: 0,
+        //     ticks: []
+        //   },
+        //   legend: { position: "none" }
+        // };
+    }
+    updateCPUGraph(data) {
+        var data = [{
+                plotAs: 'bar',
+                tooltipText: "<b style='color:{color};'>{xLabel}</b>:{yValue}%<br>user cpu time (or) % CPU time spent in user space",
+                points: [
+                    { xLabel: 'ST', yValue: data.sys.cpu_st, },
+                    { xLabel: 'SI', yValue: data.sys.cpu_si },
+                    { xLabel: 'HI', yValue: data.sys.cpu_hi },
+                    { xLabel: 'WA', yValue: data.sys.cpu_wa },
+                    { xLabel: 'ID', yValue: data.sys.cpu_id },
+                    { xLabel: 'NI', yValue: data.sys.cpu_ni },
+                    { xLabel: 'SY', yValue: data.sys.cpu_sy },
+                    { xLabel: 'US', yValue: data.sys.cpu_us },
+                ]
+            }];
+        this.cpuChart.setData(data);
+        this.cpuChart.render();
+        /*us:
+        sy: system cpu time (or) % CPU time spent in kernel space
+        ni: user nice cpu time (or) % CPU time spent on low priority processes
+        id: idle cpu time (or) % CPU time spent idle
+        wa: io wait cpu time (or) % CPU time spent in wait (on disk)
+        hi: hardware irq (or) % CPU time spent servicing/handling hardware interrupts
+        si: software irq (or) % CPU time spent servicing/handling software interrupts
+        st: steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine
+        */
+        // var chartData = google.visualization.arrayToDataTable([
+        //   ["Element", "Density", { role: "style" }],
+        //   ["US", data.sys.cpu_us, "#b87333"],
+        //   ["SY", data.sys.cpu_si, "silver"],
+        //   ["NI", data.sys.cpu_ni, "gold"],
+        //   ["ID", data.sys.cpu_id, "color: #e5e4e2"],
+        //   ["WA", data.sys.cpu_wa, "color: #e5e4e2"],
+        //   ["HI", data.sys.cpu_hi, "color: #e5e4e2"],
+        //   ["SI", data.sys.cpu_si, "color: #e5e4e2"]
+        // ]);
+        // var view = new google.visualization.DataView(chartData);
+        // view.setColumns([0, 1,
+        //   {
+        //     calc: "stringify",
+        //     sourceColumn: 1,
+        //     type: "string",
+        //     role: "annotation"
+        //   },
+        //   2]);
+        // this.cpuChart.draw(view, this.cpuChart.__options);
+    }
+    loadScript(url) {
+        const body = document.body;
+        const script = document.createElement('script');
+        script.innerHTML = '';
+        script.src = url;
+        script.async = false;
+        script.defer = true;
+        body.appendChild(script);
     }
 }
 ServerComponent.ɵfac = function ServerComponent_Factory(t) { return new (t || ServerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_ws_service__WEBPACK_IMPORTED_MODULE_4__["WsService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_servers_service__WEBPACK_IMPORTED_MODULE_5__["ServersService"])); };
-ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerComponent, selectors: [["app-server"]], inputs: { server: "server" }, decls: 5, vars: 6, consts: [[1, "container"], [1, "header1", "blue"]], template: function ServerComponent_Template(rf, ctx) { if (rf & 1) {
+ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerComponent, selectors: [["app-server"]], inputs: { server: "server" }, decls: 7, vars: 6, consts: [[1, "container"], [1, "header1", "blue"], ["id", "cpuChartDiv", 2, "width", "400px", "height", "200px"], ["src", "assets/image/icons/info-24px.svg", 1, "infoIcon"]], template: function ServerComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h1");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "span", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "img", 3);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {
