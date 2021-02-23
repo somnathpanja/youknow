@@ -24,7 +24,9 @@ export class ServerComponent implements OnInit {
   private swapMemGraph: any;
   private diskGraph: any;
 
-  private cornerRadius: Array<number> = [8, 8, 8, 8];
+  private cornerRadius: Array<number> = [7,7,7,7];
+  private shadowEnabled: boolean = true;
+  private borderThickness: number = 0.01;
 
   constructor(private route: ActivatedRoute, private router: Router,
     private wsService: WsService, private serversService: ServersService) {
@@ -63,9 +65,9 @@ export class ServerComponent implements OnInit {
   createCPUGraph() {
     this.cpuChart = new Chart("cpuChartDiv", {
       // width: 300, height: 160,
-      border: 0.001,
+      border: this.borderThickness,
       bevel: false,
-      shadow: true,
+      shadow: this.shadowEnabled,
       borderColor: 'black',
       cornerRadius: this.cornerRadius,
       padding: [0, 3, 0, -5],
@@ -88,9 +90,9 @@ export class ServerComponent implements OnInit {
   createLoadAvgGraph() {
     this.loadAvgChart = new Chart("loadAvgChartDiv", {
       // width: 300, height: 160,
-      border: 0.001,
+      border: this.borderThickness,
       bevel: false,
-      shadow: true,
+      shadow: this.shadowEnabled,
       borderColor: 'black',
       cornerRadius: this.cornerRadius,
       padding: [0, 0, 0, 0],
@@ -114,9 +116,9 @@ export class ServerComponent implements OnInit {
   createRamGraph() {
     this.ramGraph = new Chart("ramChartDiv", {
       // width: 300, height: 160,
-      border: 0.001,
+      border: this.borderThickness,
       bevel: false,
-      shadow: true,
+      shadow: this.shadowEnabled,
       borderColor: 'black',
       cornerRadius: this.cornerRadius,
       padding: [0, 0, 0, 0],
@@ -139,9 +141,9 @@ export class ServerComponent implements OnInit {
   createSwapMemGraph() {
     this.swapMemGraph = new Chart("swapChartDiv", {
       // width: 300, height: 160,
-      border: 0.001,
+      border: this.borderThickness,
       bevel: false,
-      shadow: true,
+      shadow: this.shadowEnabled,
       borderColor: 'black',
       cornerRadius: this.cornerRadius,
       padding: [0, 0, 0, 0],
@@ -167,9 +169,9 @@ export class ServerComponent implements OnInit {
   createDiskGraph() {
     this.diskGraph = new Chart("diskChartDiv", {
       // width: 300, height: 160,
-      border: 0.001,
+      border: this.borderThickness,
       bevel: false,
-      shadow: true,
+      shadow: this.shadowEnabled,
       borderColor: 'black',
       cornerRadius: this.cornerRadius,
       padding: [0, 0, 0, 0],

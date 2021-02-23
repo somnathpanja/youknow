@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 const MaterialComponents = [
   MatButtonModule,
@@ -24,7 +26,9 @@ const MaterialComponents = [
   MatInputModule,
   MatTooltipModule,
   BrowserModule,
-  MatListModule
+  MatListModule,
+  MatCardModule,
+  MatGridListModule
 ];
 
 @NgModule({
