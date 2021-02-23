@@ -13,15 +13,34 @@
 
 .container {
   padding: 1rem;
+  width: 100%;
 }
 
 .infoIcon {
   position: relative;
   z-index: 10000000;
   float: right;
-  font-size: 10px;
+  font-size: 12px;
+  height: 20px;
+  opacity: 0.5;
 }
 
 .my-tooltip {
   white-space: pre-line;
+}
+
+.nano-chart {
+  display: inline;
+  float: left;
+  width: 300px; 
+  height: 100px;
+  margin: 0.5rem;
+}
+
+.mini-chart {
+  display: inline;
+  float: left;
+  width: 300px; 
+  height: 150px;
+  margin-right: 1rem;
 }
