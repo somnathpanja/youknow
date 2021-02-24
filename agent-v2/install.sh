@@ -1,2 +1,2 @@
-wget https://github.com/somnathpanja/youknow/blob/master/agent-v2/youknow
+wget https://github.com/somnathpanja/youknow/raw/master/agent-v2/youknow
 sudo chmod +rwx youknow
