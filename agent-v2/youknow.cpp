@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
                    "\" QT \"args\" QT \": [\" QT $13 QT \",\" QT $14 QT \",\" QT $15 QT \"]\""
                    "\"}\" }'";
   //string uploadProcess = "curl -H \"Content-Type: text/plain\" -X POST --data-binary @- " + monitor + "/worker/raw/process";
-cout << process << endl;
+
   while (true)
   {
     sleep(5);

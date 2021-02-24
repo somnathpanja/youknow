@@ -1,1 +1,1 @@
-g++ hello.cpp -o youknow
+g++ youknow.cpp -o youknow
