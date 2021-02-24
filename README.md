@@ -18,7 +18,7 @@
 
 ## How to install YouKnow agent
   ```
-  sudo wget https://github.com/somnathpanja/youknow/raw/master/agent-v2/install_youknow.sh && chmod +rwx install_youknow.sh && ./install_youknow.sh
+  sudo wget https://github.com/somnathpanja/youknow/raw/master/agent/install_youknow.sh && sudo chmod +rwx install_youknow.sh && sudo ./install_youknow.sh
 ```
 ## How to start the agent
 
