@@ -1,8 +1,8 @@
-  sudo apt-get update
-  sudo apt-get -f dist-upgrade
-  sudo apt-get -f install
-  sudo apt-get install git-all
-  git clone https://github.com/somnathpanja/youknow.git
-  cd monitor
+  wget -q https://codeload.github.com/somnathpanja/youknow/zip/master -O youknow.zip
+  sudo apt-get install unzip
+  unzip youknow.zip
+  cd youknow/monitor
   npm install
   cd ..
+
+  
