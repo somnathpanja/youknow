@@ -8,7 +8,7 @@
 ## Start Monitor Server
 
   ```
-  cd monitor
+  cd youknow-master/monitor
   sudo node start.js
   ```
 ## Edit Monitor Server config if required
