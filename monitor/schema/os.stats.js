@@ -11,6 +11,7 @@ class OSStatsSchema extends SchemaBase {
   constructor() {
     super({
       fields: [
+        { name: 'agent_id', type: 'TEXT', default: 'na', notNull: true },
         { name: 'app', type: 'TEXT', default: 'os' },
         { name: 'timestamp', type: 'INTEGER', default: 0 },
         { name: 'count', type: 'INTEGER', default: 1 },
@@ -46,16 +47,17 @@ class OSStatsSchema extends SchemaBase {
 
         // For APPS
         { name: 'pid', type: 'INTEGER', default: 0 },
+        { name: 'ppid', type: 'INTEGER', default: 0 },
         { name: 'mem_virt', type: 'INTEGER', default: 0 },
         { name: 'mem_res', type: 'INTEGER', default: 0 },
         { name: 'cpu_percent', type: 'REAL', default: 0 },
         { name: 'mem_used_percent', type: 'REAL', default: 0 }
       ],
       keys: [
-        `PRIMARY KEY (app, timestamp)`
+        `PRIMARY KEY (agent_id, app, timestamp)`
       ],
-      upsertKey: ['app', 'timestamp'],
-      noAggregation: ['count', 'ppid', 'pid', 'app', 'timestamp']
+      upsertKey: ['agent_id', 'app', 'timestamp'],
+      noAggregation: ['agent_id', 'timestamp', 'app', 'count', 'ppid', 'pid']
     }, 'OSStatsSchema');
   }
 }

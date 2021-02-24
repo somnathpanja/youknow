@@ -4,6 +4,7 @@ var moment = require('moment');
 var workerCtrl = require('./../controller/workerCtrl');
 var EventEmitter = require('events');
 const EventTypes = require('../public/assets/common/eventTypes.json');
+const { worker } = require('cluster');
 
 class workerRoute extends EventEmitter {
   constructor(app) {
@@ -50,6 +51,16 @@ class workerRoute extends EventEmitter {
       });
     });
 
+    this.app.get('/worker/watchlist/:agent_id', function (req, res) {
+      // req.params.agent_id
+      workerCtrl.getConfig(req.params.agent_id).then(config => {
+        let regex = config.watch_process.join('\\|');
+        res.send(regex? regex : 'unknown');
+      }).catch(e => {
+        res.send('unknown');
+      });
+    });
+
     this.app.get('/worker/cmd', function (req, res) {
       console.dir('ok===>', req.body);
       res.send('( hostname ; hostname -i )');
@@ -58,23 +69,27 @@ class workerRoute extends EventEmitter {
     this.app.post('/worker/raw/system', function (req, res) {
       console.dir('ok===>', req.body);
       let lines = req.body.trim().split('\n');
-      let agent_id = lines[0];
-      let ip = lines[1];
-
-      lines.shift(); lines.shift();
+      let agent_id = lines.shift();
+      let hostname = lines.shift();
+      let ip = lines.shift();
 
       for (let idx = 0; idx < lines.length; idx++) {
         //console.log(lines[idx]);
-        lines[idx] = JSON.parse(lines[idx]);
-      }
+        try {
+          lines[idx] = JSON.parse(lines[idx]);
+        } catch (e) {
+          console.log('ERROR_DATA=', lines[idx]);
+          console.error(e);
+        }
+     }
 
       let cpu_count = lines.shift();
       let platform = lines.shift().platform;
       let uptime = lines.shift();
 
-      let inventory = Object.assign({ agent_id, ip, last_updated_ts: Date.now(), platform }, cpu_count, uptime);
+      let inventory = Object.assign({ agent_id, hostname, ip, last_updated_ts: Date.now(), platform }, cpu_count, uptime);
 
-      let sys = Object.assign({}, uptime);     // uptime
+      let sys = Object.assign({ agent_id }, uptime);     // uptime
       sys = Object.assign(sys, lines.shift()); // disk
       sys = Object.assign(sys, lines.shift()); // load avg
       sys = Object.assign(sys, lines.shift()); // cpu
@@ -93,6 +108,16 @@ class workerRoute extends EventEmitter {
       }).then(() => {
         return new Promise((resolve) => {
           async.eachSeries(lines, function (item, next) {
+            item.agent_id = agent_id;
+
+            // Sometimes app command returns a path
+            if(item.app.includes('/')){
+              item.app = item.app.split('/');
+              item.app = item.app[item.app.length -1];
+            } else {
+              item.app += item.args.join('');
+            }             
+
             workerCtrl.pushOSData(agent_id, item).then((err) => {
               console.log(`${moment().format()}> ${agent_id} process(${item.app}) data pushed successfully.`);
               next();

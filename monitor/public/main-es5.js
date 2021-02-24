@@ -1389,9 +1389,9 @@
         inputs: {
           title: "title"
         },
-        decls: 56,
+        decls: 59,
         vars: 3,
-        consts: [[1, "example-spacer"], ["mat-button", "", "aria-label", "Servers"], ["mat-button", "", "aria-label", "Operations", 3, "matMenuTriggerFor"], ["operationsMenu", "matMenu"], ["mat-menu-item", ""], ["mat-button", "", "aria-label", "Performance", 3, "matMenuTriggerFor"], ["performanceMenu", "matMenu"], ["mat-icon-button", "", "aria-label", "Example icon-button with heart icon", 1, "example-icon", "favorite-icon"], ["mat-icon-button", "", "aria-label", "Example icon-button with share icon", 1, "example-icon"]],
+        consts: [[1, "small-caption"], [1, "example-spacer"], ["mat-button", "", "aria-label", "Servers"], ["mat-button", "", "aria-label", "Operations", 3, "matMenuTriggerFor"], ["operationsMenu", "matMenu"], ["mat-menu-item", ""], ["mat-button", "", "aria-label", "Performance", 3, "matMenuTriggerFor"], ["performanceMenu", "matMenu"], ["mat-icon-button", "", "aria-label", "Example icon-button with heart icon", 1, "example-icon", "favorite-icon"], ["mat-icon-button", "", "aria-label", "Example icon-button with share icon", 1, "example-icon"]],
         template: function NavBarComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-toolbar");
@@ -1408,137 +1408,79 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](5, "span", 0);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "div", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "mat-icon");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "desktop_mac");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10, " Servers");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](7, "The farther you go the less you know. ~ Socrates");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "button", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](8, "span", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "mat-icon");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "button", 2);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](13, "engineering");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](10, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15, " Operations");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](11, "desktop_mac");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "span");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "mat-menu", null, 3);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](18, "button", 4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "mat-icon");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](20, "shutter_speed");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](22, " Watch Realtime");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](13, " Servers");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](23, "button", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "button", 3);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "mat-icon");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](15, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](25, "switch_camera");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](26, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](27, " Compare Realtime");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](16, "engineering");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "span");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](28, "button", 5);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "mat-icon");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](30, "auto_graph");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](31, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](32, " Performance");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18, " Operations");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "mat-menu", null, 6);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "mat-menu", null, 4);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "button", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](21, "button", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](36, "mat-icon");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](37, "shutter_speed");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](38, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](39, " Single Server");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](23, "shutter_speed");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](24, "span");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](40, "button", 4);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "mat-icon");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](42, "switch_camera");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](43, "span");
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](44, " Comparison between 2 Servers");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](25, " Watch Realtime");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](45, "button", 4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](26, "button", 5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](46, "mat-icon");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](27, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](47, "analytics");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](28, "switch_camera");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](48, "span");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](29, "span");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](49, " Performance Deep Analysis");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](30, " Compare Realtime");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -1546,11 +1488,69 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](50, "button", 7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](31, "button", 6);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](51, "mat-icon");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](32, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](52, "favorite");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](33, "auto_graph");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](35, " Performance");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](36, "mat-menu", null, 7);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](38, "button", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](39, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](40, "shutter_speed");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](42, " Single Server");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](43, "button", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](44, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](45, "switch_camera");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](46, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](47, " Comparison between 2 Servers");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](48, "button", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](49, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](50, "analytics");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](51, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](52, " Performance Deep Analysis");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -1560,7 +1560,17 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](54, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](55, "share");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](55, "favorite");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](56, "button", 9);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](57, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](58, "share");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -1570,15 +1580,15 @@
           }
 
           if (rf & 2) {
-            var _r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](17);
+            var _r0 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](20);
 
-            var _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](34);
+            var _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](37);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.title);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](10);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("matMenuTriggerFor", _r0);
 
@@ -1588,7 +1598,7 @@
           }
         },
         directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_1__["MatToolbar"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_2__["MatIcon"], _angular_material_button__WEBPACK_IMPORTED_MODULE_3__["MatButton"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuTrigger"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenu"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuItem"]],
-        styles: [".example-spacer[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5hdi1iYXIuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGNBQWM7QUFDaEIiLCJmaWxlIjoibmF2LWJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmV4YW1wbGUtc3BhY2VyIHtcbiAgZmxleDogMSAxIGF1dG87XG59Il19 */"]
+        styles: [".example-spacer[_ngcontent-%COMP%] {\n  flex: 1 1 auto;\n}\n\n.small-caption[_ngcontent-%COMP%] {\n  position: relative;\n  font-size: 10px;\n  left:-82px;\n  height: 8px;\n  top:20px;\n  -webkit-text-size-adjust: auto;\n     -moz-text-size-adjust: auto;\n          text-size-adjust: auto;\n  line-height: 0px;\n  color:lightslategray;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm5hdi1iYXIuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGNBQWM7QUFDaEI7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLFVBQVU7RUFDVixXQUFXO0VBQ1gsUUFBUTtFQUNSLDhCQUFzQjtLQUF0QiwyQkFBc0I7VUFBdEIsc0JBQXNCO0VBQ3RCLGdCQUFnQjtFQUNoQixvQkFBb0I7QUFDdEIiLCJmaWxlIjoibmF2LWJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmV4YW1wbGUtc3BhY2VyIHtcbiAgZmxleDogMSAxIGF1dG87XG59XG5cbi5zbWFsbC1jYXB0aW9uIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBmb250LXNpemU6IDEwcHg7XG4gIGxlZnQ6LTgycHg7XG4gIGhlaWdodDogOHB4O1xuICB0b3A6MjBweDtcbiAgdGV4dC1zaXplLWFkanVzdDogYXV0bztcbiAgbGluZS1oZWlnaHQ6IDBweDtcbiAgY29sb3I6bGlnaHRzbGF0ZWdyYXk7XG59XG4iXX0= */"]
       });
       /*@__PURE__*/
 
@@ -1671,6 +1681,36 @@
       var _services_servers_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
       /*! ./../../services/servers.service */
       "xeQw");
+      /* harmony import */
+
+
+      var _angular_material_button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+      /*! @angular/material/button */
+      "bTqV");
+      /* harmony import */
+
+
+      var _angular_material_icon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+      /*! @angular/material/icon */
+      "NFeN");
+      /* harmony import */
+
+
+      var _angular_material_divider__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(
+      /*! @angular/material/divider */
+      "f0Cb");
+      /* harmony import */
+
+
+      var _angular_material_list__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(
+      /*! @angular/material/list */
+      "MutI");
+      /* harmony import */
+
+
+      var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
+      /*! @angular/material/tooltip */
+      "Qu3c");
 
       var SJ = SilverJs;
       var Chart = SilverJs.Chart;
@@ -1685,6 +1725,9 @@
           this.serversService = serversService;
           this.server = new _models_server__WEBPACK_IMPORTED_MODULE_1__["Server"]('NOC', '', '12', 1, '212', 22, [], 3333);
           this.agent_id = '';
+          this.cornerRadius = [7, 7, 7, 7];
+          this.shadowEnabled = true;
+          this.borderThickness = 0.01;
         }
 
         _createClass(ServerComponent, [{
@@ -1709,9 +1752,21 @@
             google.charts.setOnLoadCallback(function () {
               _this6.createCPUGraph();
 
+              _this6.createLoadAvgGraph();
+
+              _this6.createRamGraph();
+
+              _this6.createSwapMemGraph();
+
+              _this6.createDiskGraph();
+
               _this6.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], _this6.agent_id, function (data) {
                 console.log(data);
                 self.updateCPUGraph(data);
+                self.updateLoadAvgGraph(data);
+                self.updateRAMGraph(data);
+                self.updateSwapMemGraph(data);
+                self.updateDiskGraph(data);
               });
             });
           }
@@ -1720,68 +1775,176 @@
           value: function createCPUGraph() {
             this.cpuChart = new Chart("cpuChartDiv", {
               // width: 300, height: 160,
-              border: 0.001,
+              border: this.borderThickness,
               bevel: false,
-              shadow: true,
-              cornerRadius: [12, 12, 12, 12],
-              titles: [{
-                text: "CPU",
-                fontSize: 10
-              }],
+              shadow: this.shadowEnabled,
+              borderColor: 'black',
+              cornerRadius: this.cornerRadius,
+              padding: [0, 3, 0, -5],
+              // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
               axesY: [{
-                tickEnabled: false,
-                tickLength: 1,
-                max: 100,
+                visible: false,
+                max: 120,
                 min: 0,
                 interval: 2,
                 axisLineThickness: 0.2
+              }],
+              axesX: [{
+                tickLength: 1,
+                axisLineThickness: 0.2,
+                title: "CPU %"
+              }]
+            });
+          }
+        }, {
+          key: "createLoadAvgGraph",
+          value: function createLoadAvgGraph() {
+            this.loadAvgChart = new Chart("loadAvgChartDiv", {
+              // width: 300, height: 160,
+              border: this.borderThickness,
+              bevel: false,
+              shadow: this.shadowEnabled,
+              borderColor: 'black',
+              cornerRadius: this.cornerRadius,
+              padding: [0, 0, 0, 0],
+              titles: [{
+                text: "Load Average",
+                fontSize: 12,
+                fontWeight: 'bold',
+                padding: [0, 0, 0, 0]
+              }],
+              axesY: [{
+                visible: false,
+                tickEnabled: false,
+                tickLength: 1,
+                min: 0,
+                interval: 2,
+                axisLineThickness: 0.2
+              }],
+              axesX: [{
+                tickLength: 1,
+                axisLineThickness: 0.2,
+                tickEnabled: false
+              }]
+            });
+          }
+        }, {
+          key: "createRamGraph",
+          value: function createRamGraph() {
+            this.ramGraph = new Chart("ramChartDiv", {
+              // width: 300, height: 160,
+              border: this.borderThickness,
+              bevel: false,
+              shadow: this.shadowEnabled,
+              borderColor: 'black',
+              cornerRadius: this.cornerRadius,
+              padding: [0, 0, 0, 0],
+              titles: [{
+                text: "Physical Memory",
+                fontSize: 12,
+                fontWeight: 'bold'
+              }],
+              axesY: [{
+                visible: false,
+                min: 0,
+                interval: 4,
+                valueFormat: "0",
+                valueFormatRange: [1, 'KB', 1000, 'MB', 1e+6, 'GB']
+              }],
+              axesX: [{
+                axisLineThickness: 0.2,
+                tickLength: 1,
+                tickEnabled: false
+              }]
+            });
+          }
+        }, {
+          key: "createSwapMemGraph",
+          value: function createSwapMemGraph() {
+            this.swapMemGraph = new Chart("swapChartDiv", {
+              // width: 300, height: 160,
+              border: this.borderThickness,
+              bevel: false,
+              shadow: this.shadowEnabled,
+              borderColor: 'black',
+              cornerRadius: this.cornerRadius,
+              padding: [0, 0, 0, 0],
+              titles: [{
+                text: "Swap Memory",
+                fontSize: 12,
+                fontWeight: 'bold'
+              }],
+              axesY: [{
+                visible: false,
+                tickEnabled: false,
+                tickLength: 1,
+                axisLineThickness: 0.2,
+                interval: 5,
+                min: 0,
+                valueFormat: "0",
+                valueFormatRange: [1, 'KB', 1000, 'MB', 1e+6, 'GB']
               }],
               axesX: [{
                 tickEnabled: false,
                 tickLength: 1,
                 axisLineThickness: 0.2
               }]
-            }); // this.cpuChart = new google.visualization.BarChart(document.getElementById('cpuChartDiv'));
-            // this.cpuChart.__options = {
-            //   title: 'CPU Usage',
-            //   chartArea: { width: '90%' },
-            //   colors: ['#b0120a', '#ffab91'],
-            //   vAxis: {
-            //     minValue: 0,
-            //     maxValue: 100
-            //   },
-            //   hAxis: {
-            //     minValue: 0,
-            //     ticks: []
-            //   },
-            //   legend: { position: "none" }
-            // };
+            });
+          }
+        }, {
+          key: "createDiskGraph",
+          value: function createDiskGraph() {
+            this.diskGraph = new Chart("diskChartDiv", {
+              // width: 300, height: 160,
+              border: this.borderThickness,
+              bevel: false,
+              shadow: this.shadowEnabled,
+              borderColor: 'black',
+              cornerRadius: this.cornerRadius,
+              padding: [0, 0, 0, 0],
+              titles: [{
+                text: "Disk",
+                fontSize: 12,
+                fontWeight: 'bold'
+              }],
+              axesY: [{
+                visible: false,
+                includeZero: true,
+                min: 0,
+                axisLineThickness: 0.2,
+                valueFormat: "0.00",
+                valueFormatRange: [1, 'MB', 1000, 'GB']
+              }],
+              axesX: [{
+                tickEnabled: false,
+                tickLength: 1,
+                axisLineThickness: 0.2,
+                labelFont: {
+                  fontSize: 14
+                }
+              }]
+            });
           }
         }, {
           key: "updateCPUGraph",
           value: function updateCPUGraph(data) {
             var data = [{
               plotAs: 'bar',
-              tooltipText: "<b style='color:{color};'>{xLabel}</b>:{yValue}%<br>user cpu time (or) % CPU time spent in user space",
+              tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
+              labelEnabled: true,
               points: [{
                 xLabel: 'ST',
                 yValue: data.sys.cpu_st
-              }, {
-                xLabel: 'SI',
-                yValue: data.sys.cpu_si
-              }, {
-                xLabel: 'HI',
-                yValue: data.sys.cpu_hi
-              }, {
+              }, //{ xLabel: 'si', yValue: data.sys.cpu_si },
+              //{ xLabel: 'hi', yValue: data.sys.cpu_hi },
+              {
                 xLabel: 'WA',
                 yValue: data.sys.cpu_wa
               }, {
                 xLabel: 'ID',
                 yValue: data.sys.cpu_id
-              }, {
-                xLabel: 'NI',
-                yValue: data.sys.cpu_ni
-              }, {
+              }, // { xLabel: 'ni', yValue: data.sys.cpu_ni },
+              {
                 xLabel: 'SY',
                 yValue: data.sys.cpu_sy
               }, {
@@ -1791,35 +1954,116 @@
             }];
             this.cpuChart.setData(data);
             this.cpuChart.render();
-            /*us:
-            sy: system cpu time (or) % CPU time spent in kernel space
-            ni: user nice cpu time (or) % CPU time spent on low priority processes
-            id: idle cpu time (or) % CPU time spent idle
-            wa: io wait cpu time (or) % CPU time spent in wait (on disk)
-            hi: hardware irq (or) % CPU time spent servicing/handling hardware interrupts
-            si: software irq (or) % CPU time spent servicing/handling software interrupts
-            st: steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine
-            */
-            // var chartData = google.visualization.arrayToDataTable([
-            //   ["Element", "Density", { role: "style" }],
-            //   ["US", data.sys.cpu_us, "#b87333"],
-            //   ["SY", data.sys.cpu_si, "silver"],
-            //   ["NI", data.sys.cpu_ni, "gold"],
-            //   ["ID", data.sys.cpu_id, "color: #e5e4e2"],
-            //   ["WA", data.sys.cpu_wa, "color: #e5e4e2"],
-            //   ["HI", data.sys.cpu_hi, "color: #e5e4e2"],
-            //   ["SI", data.sys.cpu_si, "color: #e5e4e2"]
-            // ]);
-            // var view = new google.visualization.DataView(chartData);
-            // view.setColumns([0, 1,
-            //   {
-            //     calc: "stringify",
-            //     sourceColumn: 1,
-            //     type: "string",
-            //     role: "annotation"
-            //   },
-            //   2]);
-            // this.cpuChart.draw(view, this.cpuChart.__options);
+          }
+        }, {
+          key: "updateLoadAvgGraph",
+          value: function updateLoadAvgGraph(data) {
+            var ds = [{
+              plotAs: 'bar',
+              tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}",
+              labelText: "{yValue}",
+              labelEnabled: true,
+              points: [{
+                xLabel: 'LoadAvg 1m',
+                color: "orange",
+                yValue: data.sys.load_avg1
+              }, {
+                xLabel: 'LoadAvg 5m',
+                color: "green",
+                yValue: data.sys.load_avg5
+              }, {
+                xLabel: 'LoadAvg 15m',
+                color: "red",
+                yValue: data.sys.load_avg15
+              }]
+            }];
+            var max = Math.max(data.sys.load_avg1, data.sys.load_avg5, data.sys.load_avg15);
+            this.loadAvgChart.axesY[0].max(max + 1);
+            this.loadAvgChart.setData(ds);
+            this.loadAvgChart.render();
+          }
+        }, {
+          key: "updateRAMGraph",
+          value: function updateRAMGraph(data) {
+            var ds = [{
+              plotAs: 'bar',
+              tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}",
+              labelEnabled: true,
+              points: [{
+                xLabel: 'Buffer/Cache',
+                color: "orange",
+                yValue: data.sys.mem_buff_cache
+              }, {
+                xLabel: 'Free',
+                color: "green",
+                yValue: data.sys.mem_free
+              }, {
+                xLabel: 'Used',
+                color: "red",
+                yValue: data.sys.mem_used
+              }, {
+                xLabel: 'Total',
+                color: "gray",
+                yValue: data.sys.mem_total
+              }]
+            }]; // this.ramGraph.axesY[0].max(data.sys.mem_total);
+
+            this.ramGraph.setData(ds);
+            this.ramGraph.render();
+          }
+        }, {
+          key: "updateSwapMemGraph",
+          value: function updateSwapMemGraph(data) {
+            var ds = [{
+              plotAs: 'bar',
+              tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}",
+              labelEnabled: true,
+              points: [{
+                xLabel: 'Available',
+                color: "orange",
+                yValue: data.sys.mem_swap_avail
+              }, {
+                xLabel: 'Free',
+                color: "green",
+                yValue: data.sys.mem_swap_free
+              }, {
+                xLabel: 'Used',
+                color: "red",
+                yValue: data.sys.mem_swap_used
+              }, {
+                xLabel: 'Total',
+                color: "gray",
+                yValue: data.sys.mem_swap_total
+              }]
+            }]; //this.swapMemGraph.axesY[0].max(Math.max(data.sys.mem_swap_total, data.sys.mem_swap_avail));
+
+            this.swapMemGraph.setData(ds);
+            this.swapMemGraph.render();
+          }
+        }, {
+          key: "updateDiskGraph",
+          value: function updateDiskGraph(data) {
+            var ds = [{
+              plotAs: 'bar',
+              tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}",
+              labelEnabled: true,
+              points: [{
+                xLabel: 'Free',
+                color: "green",
+                yValue: data.sys.disk_free
+              }, {
+                xLabel: 'Used',
+                color: "red",
+                yValue: data.sys.disk_used
+              }, {
+                xLabel: 'Total',
+                color: "gray",
+                yValue: data.sys.disk_total
+              }]
+            }]; //this.diskGraph.axesY[0].max(data.sys.disk_total);
+
+            this.diskGraph.setData(ds);
+            this.diskGraph.render();
           }
         }, {
           key: "loadScript",
@@ -1847,28 +2091,112 @@
         inputs: {
           server: "server"
         },
-        decls: 7,
-        vars: 6,
-        consts: [[1, "container"], [1, "header1", "blue"], ["id", "cpuChartDiv", 2, "width", "400px", "height", "200px"], ["src", "assets/image/icons/info-24px.svg", 1, "infoIcon"]],
+        decls: 37,
+        vars: 5,
+        consts: [[1, "container"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["cellpadding", "5"]],
         template: function ServerComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h1");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "button", 1);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "span", 1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "mat-icon");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](4);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](3, "computer");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](5, "div", 2);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](4, "span");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](6, "img", 3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](6, "button", 2);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](7, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](8, "business");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](9, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](10);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](11, "button", 3);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](12, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](13, "select_all");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](14, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](15);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](16, "button", 4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](17, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](18, "dns");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](19, "span");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](20);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](21, "mat-divider");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](22, "mat-nav-list", 5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](23, "div", 6);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](24, "img", 7, 8);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](26, "div", 9);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](27, "div", 10);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](28, "div", 11);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](29, "div", 12);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](30, "table", 13);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](31, "tr");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](32, "td");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](33, "td");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](34, "td");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](35, "td");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](36, "td");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -1876,16 +2204,29 @@
           }
 
           if (rf & 2) {
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("", ctx.server.agent_id, " ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("\xA0", ctx.server.agent_id, "");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate5"](" | IP: ", ctx.server.ip, " | CPU: ", ctx.server.cpu_count, " | PLATFORM: ", ctx.server.platform, " | Refresh Interval: ", ctx.server.stats_interval_ms, " | Last Updated: ", ctx.server.last_updated_ts, " ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("\xA0", ctx.server.platform, "");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("\xA0", ctx.server.cpu_count, " CPU");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("\xA0", ctx.server.ip, "");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("matTooltipClass", "my-tooltip");
           }
         },
-        styles: [".blue[_ngcontent-%COMP%] {\n  color:dodgerblue\n}\n\n.red[_ngcontent-%COMP%] {\n  color:indianred\n}\n\n.header1[_ngcontent-%COMP%] {\n  font-size: 35px;\n}\n\n.container[_ngcontent-%COMP%] {\n  padding: 1rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZlci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0U7QUFDRjs7QUFFQTtFQUNFO0FBQ0Y7O0FBRUE7RUFDRSxlQUFlO0FBQ2pCOztBQUVBO0VBQ0UsYUFBYTtBQUNmIiwiZmlsZSI6InNlcnZlci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmJsdWUge1xuICBjb2xvcjpkb2RnZXJibHVlXG59XG5cbi5yZWQge1xuICBjb2xvcjppbmRpYW5yZWRcbn1cblxuLmhlYWRlcjEge1xuICBmb250LXNpemU6IDM1cHg7XG59XG5cbi5jb250YWluZXIge1xuICBwYWRkaW5nOiAxcmVtO1xufSJdfQ== */"]
+        directives: [_angular_material_button__WEBPACK_IMPORTED_MODULE_6__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_7__["MatIcon"], _angular_material_divider__WEBPACK_IMPORTED_MODULE_8__["MatDivider"], _angular_material_list__WEBPACK_IMPORTED_MODULE_9__["MatNavList"], _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_10__["MatTooltip"]],
+        styles: [".blue[_ngcontent-%COMP%] {\n  color:dodgerblue\n}\n\n.red[_ngcontent-%COMP%] {\n  color:indianred\n}\n\n.header1[_ngcontent-%COMP%] {\n  font-size: 35px;\n}\n\n.container[_ngcontent-%COMP%] {\n  padding: 1rem;\n  padding-top: 0.2rem;\n}\n\n.infoIcon[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 10000000;\n  float: right;\n  font-size: 12px;\n  height: 20px;\n  opacity: 0.5;\n}\n\n.my-tooltip[_ngcontent-%COMP%] {\n  white-space: pre-line;\n}\n\n.nano-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 300px; \n  height: 100px;\n  margin: 0.5rem;\n}\n\n.mini-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 300px; \n  height: 150px;\n  margin-right: 1rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZlci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQTtFQUNFO0FBQ0Y7O0FBRUE7RUFDRTtBQUNGOztBQUVBO0VBQ0UsZUFBZTtBQUNqQjs7QUFFQTtFQUNFLGFBQWE7RUFDYixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsaUJBQWlCO0VBQ2pCLFlBQVk7RUFDWixlQUFlO0VBQ2YsWUFBWTtFQUNaLFlBQVk7QUFDZDs7QUFFQTtFQUNFLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLGVBQWU7RUFDZixXQUFXO0VBQ1gsWUFBWTtFQUNaLGFBQWE7RUFDYixjQUFjO0FBQ2hCOztBQUVBO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxZQUFZO0VBQ1osYUFBYTtFQUNiLGtCQUFrQjtBQUNwQiIsImZpbGUiOiJzZXJ2ZXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxuLmJsdWUge1xuICBjb2xvcjpkb2RnZXJibHVlXG59XG5cbi5yZWQge1xuICBjb2xvcjppbmRpYW5yZWRcbn1cblxuLmhlYWRlcjEge1xuICBmb250LXNpemU6IDM1cHg7XG59XG5cbi5jb250YWluZXIge1xuICBwYWRkaW5nOiAxcmVtO1xuICBwYWRkaW5nLXRvcDogMC4ycmVtO1xufVxuXG4uaW5mb0ljb24ge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IDEwMDAwMDAwO1xuICBmbG9hdDogcmlnaHQ7XG4gIGZvbnQtc2l6ZTogMTJweDtcbiAgaGVpZ2h0OiAyMHB4O1xuICBvcGFjaXR5OiAwLjU7XG59XG5cbi5teS10b29sdGlwIHtcbiAgd2hpdGUtc3BhY2U6IHByZS1saW5lO1xufVxuXG4ubmFuby1jaGFydCB7XG4gIGRpc3BsYXk6IGlubGluZTtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiAzMDBweDsgXG4gIGhlaWdodDogMTAwcHg7XG4gIG1hcmdpbjogMC41cmVtO1xufVxuXG4ubWluaS1jaGFydCB7XG4gIGRpc3BsYXk6IGlubGluZTtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiAzMDBweDsgXG4gIGhlaWdodDogMTUwcHg7XG4gIG1hcmdpbi1yaWdodDogMXJlbTtcbn0iXX0= */"]
       });
       /*@__PURE__*/
 
@@ -2002,8 +2343,32 @@
       var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(
       /*! @angular/platform-browser */
       "jhN1");
+      /* harmony import */
 
-      var MaterialComponents = [_angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"]];
+
+      var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(
+      /*! @angular/material/tooltip */
+      "Qu3c");
+      /* harmony import */
+
+
+      var _angular_material_list__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(
+      /*! @angular/material/list */
+      "MutI");
+      /* harmony import */
+
+
+      var _angular_material_card__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
+      /*! @angular/material/card */
+      "Wp6s");
+      /* harmony import */
+
+
+      var _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
+      /*! @angular/material/grid-list */
+      "zkoq");
+
+      var MaterialComponents = [_angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_11__["MatTooltipModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"], _angular_material_list__WEBPACK_IMPORTED_MODULE_12__["MatListModule"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"], _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_14__["MatGridListModule"]];
 
       var MaterialModule = function MaterialModule() {
         _classCallCheck(this, MaterialModule);
@@ -2016,13 +2381,13 @@
         factory: function MaterialModule_Factory(t) {
           return new (t || MaterialModule)();
         },
-        imports: [[MaterialComponents], _angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"]]
+        imports: [[MaterialComponents], _angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_11__["MatTooltipModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"], _angular_material_list__WEBPACK_IMPORTED_MODULE_12__["MatListModule"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"], _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_14__["MatGridListModule"]]
       });
 
       (function () {
         (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵsetNgModuleScope"](MaterialModule, {
-          imports: [_angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"]],
-          exports: [_angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"]]
+          imports: [_angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_11__["MatTooltipModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"], _angular_material_list__WEBPACK_IMPORTED_MODULE_12__["MatListModule"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"], _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_14__["MatGridListModule"]],
+          exports: [_angular_material_button__WEBPACK_IMPORTED_MODULE_1__["MatButtonModule"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_3__["MatIconModule"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbarModule"], _angular_material_menu__WEBPACK_IMPORTED_MODULE_4__["MatMenuModule"], _angular_material_table__WEBPACK_IMPORTED_MODULE_5__["MatTableModule"], _angular_material_paginator__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"], _angular_material_dialog__WEBPACK_IMPORTED_MODULE_7__["MatDialogModule"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"], _angular_material_input__WEBPACK_IMPORTED_MODULE_9__["MatInputModule"], _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_11__["MatTooltipModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_10__["BrowserModule"], _angular_material_list__WEBPACK_IMPORTED_MODULE_12__["MatListModule"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardModule"], _angular_material_grid_list__WEBPACK_IMPORTED_MODULE_14__["MatGridListModule"]]
         });
       })();
       /*@__PURE__*/

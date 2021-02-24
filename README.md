@@ -1,3 +1,7 @@
+# INSTALL
+  sudo apt-get update
+  sudo apt-get -f dist-upgrade
+  sudo apt-get -f install
 # YouKnow
 An easy server monitoring tools using node.js & mongodb
 
