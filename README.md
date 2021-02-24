@@ -1,9 +1,9 @@
-# YouKnow Monitor
+# YouKnow Monitor 2.0
 ## Install YouKnow Monitor
   YouKnow runs on node.js thats the only dependency. You need to install node.js manually in the monitor server.
 
   ```
-  sudo wget https://github.com/somnathpanja/youknow/raw/master/install_youknow_monitor.sh && chmod +rwx install_youknow_monitor.sh && ./install_youknow_monitor.sh
+  sudo wget https://github.com/somnathpanja/youknow/raw/master/install_youknow_monitor.sh && sudo chmod +rwx install_youknow_monitor.sh && sudo ./install_youknow_monitor.sh
   ```
 ## Start Monitor Server
 
