@@ -24,7 +24,7 @@ nano youknow-master/monitor/conf.json
 
 ## How to install YouKnow agent
   ```
-  sudo wget https://github.com/somnathpanja/youknow/raw/master/agent/install_youknow.sh -O install_youknow.sh && sudo chmod +rwx install_youknow.sh && sudo ./install_youknow.sh
+  sudo wget https://github.com/somnathpanja/youknow/raw/master/agent/install_youknow_agent.sh -O install_youknow_agent.sh && sudo chmod +rwx install_youknow_agent.sh && sudo ./install_youknow_agent.sh
 ```
 ## How to start the agent
 
