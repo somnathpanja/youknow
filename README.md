@@ -11,6 +11,12 @@
   cd monitor
   sudo node start.js
   ```
+## Edit Monitor Server config if required
+
+```
+nano youknow-master/monitor/conf.json
+```
+
 ## Default port of Monitor
   By default monitor listen to the port 2600
 # YouKnow Agent
