@@ -1,0 +1,1 @@
+WEB_MEMORY=20 bash startup.sh

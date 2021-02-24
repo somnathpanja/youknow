@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Config Server</h2>
+<mat-dialog-content class="mat-typography">
+  <form>
+    <ol>
+      <li class="nostyle">
+        <mat-form-field>
+          <mat-label>Unique Name Of the Server</mat-label>
+          <input matInput [value]="server.agent_id" disabled="true" (change)="setServerProperty('agent_id', $event)">
+        </mat-form-field>
+      </li>
+      <li class="nostyle">
+        <mat-form-field>
+          <mat-label>IP Address(IPv4)</mat-label>
+          <input matInput disabled="true" [value]="server.ip" (change)="setServerProperty('ip', $event)"
+            resizeToFitContent="true">
+        </mat-form-field>
+      </li>
+      <li class="nostyle">
+        <mat-form-field>
+          <mat-label>Details</mat-label>
+          <input matInput [value]="server.details" (change)="setServerProperty('details', $event)"
+            resizeToFitContent="true">
+        </mat-form-field>
+      </li>
+      <li class="nostyle">
+        <mat-form-field>
+          <mat-label>Periodic Data Interval</mat-label>
+          <input matInput [value]="server.stats_interval_ms" (change)="setServerProperty('stats_interval_ms', $event)">
+        </mat-form-field>
+      </li>
+      <li class="nostyle">
+        <mat-form-field class="full-width">
+          <mat-label>Process to watch</mat-label>
+          <input matInput [value]="server.watch_process" (change)="setServerProperty('watch_process', $event)">
+        </mat-form-field>
+      </li>
+
+    </ol>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Apply</button>
+</mat-dialog-actions>

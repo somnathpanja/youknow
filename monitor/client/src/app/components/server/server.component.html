@@ -1,0 +1,70 @@
+<div class="container">
+  <button mat-button color="primary" aria-label="Platform">
+    <mat-icon>computer</mat-icon>
+    <span>&nbsp;{{server.agent_id}}</span>
+  </button>
+
+  <button mat-button aria-label="Platform">
+    <mat-icon>business</mat-icon>
+    <span>&nbsp;{{server.platform}}</span>
+  </button>
+  <button mat-button aria-label="CPU Count">
+    <mat-icon>select_all</mat-icon>
+    <span>&nbsp;{{server.cpu_count}} CPU</span>
+  </button>
+  <button mat-button aria-label="IP Address">
+    <mat-icon>dns</mat-icon>
+    <span>&nbsp;{{server.ip}}</span>
+  </button>
+  <mat-divider></mat-divider>
+  <!-- <h1><span class="header1 blue">{{server.agent_id}} </span>
+    | IP: {{server.ip}}
+    | CPU: {{server.cpu_count}}
+    | PLATFORM: {{server.platform}}
+    | Refresh Interval: {{server.stats_interval_ms}}
+    | Last Updated: {{server.last_updated_ts}}
+  </h1> -->
+
+  <mat-nav-list fxLayout>
+    <div id="cpuChartDiv" mat-list-item class="nano-chart">
+      <img src="assets/icons/info-24px.svg" matTooltip="Info about the action" class="infoIcon" #tooltip="matTooltip"
+        matTooltip="US: User cpu time (or) % CPU time spent in user space \n&#x2022;
+SY: System cpu time (or) % CPU time spent in kernel space \n&#x2022;
+NI: User nice cpu time (or) % CPU time spent on low priority processes &#x2022;
+ID: Idle cpu time (or) % CPU time spent idle &#x2022;
+WA: I/O wait cpu time (or) % CPU time spent in wait (on disk) &#x2022;
+HI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts &#x2022;
+SI: Software irq (or) % CPU time spent servicing/handling software interrupts &#x2022;
+ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine"
+        [matTooltipClass]="'my-tooltip'" matTooltipPosition="right" matTooltipHideDelay="100000">
+    </div>
+    <div id="loadAvgChartDiv" mat-list-item class="nano-chart"></div>
+    <div id="ramChartDiv" mat-list-item class="nano-chart"></div>
+    <div id="swapChartDiv" mat-list-item class="nano-chart"></div>
+    <div id="diskChartDiv" mat-list-item class="nano-chart"></div>
+  </mat-nav-list>
+
+  <table cellpadding="5">
+    <tr>
+      <td>
+
+      </td>
+      <td>
+
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+    </tr>
+  </table>
+</div>
+
+
+<!-- <h2>{{server.watch_process}}</h2> -->

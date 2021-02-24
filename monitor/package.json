@@ -1,0 +1,32 @@
+{
+  "name": "youknow-monitor",
+  "version": "2.0.0",
+  "description": "Server monitoring tool",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/somnathpanja/youknow.git"
+  },
+  "keywords": [
+    "server",
+    "monitoring"
+  ],
+  "author": "Somnath Panja",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/somnathpanja/youknow/issues"
+  },
+  "homepage": "https://github.com/somnathpanja/youknow#readme",
+  "dependencies": {
+    "async": "^3.2.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "sqlite3": "^5.0.0",
+    "ws": "^7.4.2"
+  }
+}

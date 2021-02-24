@@ -1,0 +1,9 @@
+{
+  "unique_id": "NOC_BOX1",
+  "conf_refresh_interval_ms": 300000,
+  "monitor": {
+    "host": "127.0.0.1",
+    "port": "2600",
+    "protocol": "http"
+  }
+}

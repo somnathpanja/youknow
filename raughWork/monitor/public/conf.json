@@ -1,0 +1,18 @@
+{
+  "nodes": [
+    {
+      "name": "localhost",
+      "host": "127.0.0.1",
+      "port": "2500",
+      "process": {
+        "chrome": {},
+        "youknow-worker":{}
+      },
+      "commands": []
+    }
+  ],
+  "monitor": {
+    "http_port": 2600,
+    "dataIntervalInSec": 1000
+  }
+}

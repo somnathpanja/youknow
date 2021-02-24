@@ -1,0 +1,75 @@
+<!-- <div *ngFor="let server of servers">
+  <app-server  [server]="server">
+  </app-server>
+</div> -->
+
+<div class="mat-elevation-z8">
+  <button mat-button (click)="addNewServer()">+Add Server</button>
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="agent_id">
+      <th mat-header-cell *matHeaderCellDef> Server </th>
+      <td mat-cell *matCellDef="let element"> {{element.agent_id}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="ip">
+      <th mat-header-cell *matHeaderCellDef> IP </th>
+      <td mat-cell *matCellDef="let element"> {{element.ip}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element"> {{element.details}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="cpu_count">
+      <th mat-header-cell *matHeaderCellDef> CPUs </th>
+      <td mat-cell *matCellDef="let element"> {{element.cpu_count}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="platform">
+      <th mat-header-cell *matHeaderCellDef> Platform </th>
+      <td mat-cell *matCellDef="let element"> {{element.platform}} </td>
+    </ng-container>
+
+    <!-- Delete Column -->
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" aria-label="Detach the server">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Edit Column -->
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" aria-label="Edit the server" (click)="openServerEditDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- View Column -->
+    <ng-container matColumnDef="watch">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="warn" aria-label="Watch the server" (click)="viewBtnClick(element);">
+          <mat-icon>insert_chart</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
