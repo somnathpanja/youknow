@@ -27,7 +27,7 @@ class WorkerCtrl {
   }
 
   static parseMemoryToKiloByteValue(value) {
-    let lastDigit = value.substr(id.length - 1);
+    let lastDigit = value.substr(value.length - 1);
     switch (lastDigit) {
       case 'm':
         value = value.substr(0, id.length - 1);
