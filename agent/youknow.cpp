@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     system(optimizeTop.c_str());
     system(copySys.c_str());
 
-    system(("( " + agentId + " ; hostname ; hostname -i ; " + cpuCount +
+    system(("( " + agentId + " ; hostname ; hostname -I ; " + cpuCount +
             "; " + platform +
             "; " + uptime +
             "; " + disk +
