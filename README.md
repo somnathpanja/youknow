@@ -3,7 +3,7 @@
   YouKnow runs on node.js thats the only dependency. You need to install node.js manually in the monitor server.
 
   ```
-  sudo wget https://github.com/somnathpanja/youknow/raw/master/install_youknow_monitor.sh -O install_youknow_monitor.sh && sudo chmod +rwx install_youknow_monitor.sh && sudo ./install_youknow_monitor.sh && sudo rm install_youknow_monitor.sh
+  sudo wget https://github.com/somnathpanja/youknow/raw/master/install_youknow_monitor.sh -O install_youknow_monitor.sh && sudo chmod +rwx install_youknow_monitor.sh && sudo ./install_youknow_monitor.sh && sudo rm install_youknow_monitor.sh && sudo rm youknow_monitor.zip
   ```
 ## Start Monitor Server
 
@@ -24,7 +24,7 @@ nano youknow-master/monitor/conf.json
 
 ## How to install YouKnow agent
   ```
-  sudo wget https://github.com/somnathpanja/youknow/raw/master/agent/install_youknow_agent.sh -O install_youknow_agent.sh && sudo chmod +rwx install_youknow_agent.sh && sudo ./install_youknow_agent.sh && sudo rm install_youknow_agent.sh
+  sudo wget https://github.com/somnathpanja/youknow/raw/master/agent/install_youknow_agent.sh -O install_youknow_agent.sh && sudo chmod +rwx install_youknow_agent.sh && sudo ./install_youknow_agent.sh && sudo rm install_youknow_agent.sh && sudo chmod +rwx youknow
 ```
 ## How to start the agent
 
