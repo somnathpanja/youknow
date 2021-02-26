@@ -6,8 +6,6 @@ sudo chmod +rwx /usr/local/bin/youknow
 wget https://github.com/somnathpanja/youknow/raw/master/agent/build/etc/init.d/youknow -O /etc/init.d/youknow
 sudo chmod +rwx /etc/init.d/youknow
 
-sudo mkdir /etc/youknow/
-
 CONF_FILE=/etc/youknow/youknow.conf
 
 if test -f "$CONF_FILE"; then
