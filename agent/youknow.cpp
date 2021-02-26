@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
             "; " + topMemory +
             "; " + topSwapMemory +
             "; " + process +
-            ") | " + upload + " | awk 'FNR==1 { {printf \"\rUPLOAD STATUS: %s              \",$0} }'; ") // tput civis;
+            ") | " + upload + " | awk 'FNR==1 { {printf \"\rUPLOAD STATUS: %s              \",$0} }';") // tput civis;
                .c_str());
 
     // system((process + " | " + uploadProcess).c_str());
