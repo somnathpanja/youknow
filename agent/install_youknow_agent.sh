@@ -3,8 +3,8 @@
 wget https://github.com/somnathpanja/youknow/raw/master/agent/build/usr/local/bin/youknow -O /usr/local/bin/youknow
 sudo chmod +rwx /usr/local/bin/youknow
 
-wget https://github.com/somnathpanja/youknow/raw/master/agent/build/etc/init.d/youknow -O /etc/init.d/youknow
-sudo chmod +rwx /etc/init.d/youknow
+wget https://github.com/somnathpanja/youknow/raw/master/agent/build/etc/init.d/youknow.sh -O /etc/init.d/youknow.sh
+sudo chmod +rwx /etc/init.d/youknow.sh
 
 sudo mkdir /etc/youknow/
 
