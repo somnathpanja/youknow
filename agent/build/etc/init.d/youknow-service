@@ -23,6 +23,8 @@ config)
 
   echo "$agent_id $monitor_host $monitor_port" > /etc/youknow/youknow.conf
   echo "AGENT_ID=$agent_id\nHOST=$monitor_host\nPORT=$monitor_port" > /etc/youknow/youknow.progconf
+  sudo service youknow stop
+  sudo service youknow start
   ;;
 status)
    if [ -e /var/run/youknow.pid ]; then
