@@ -1,1 +1,1 @@
-g++ youknow.cpp -o usr/local/bin/youknow
+g++ youknow.cpp -o build/usr/local/bin/youknow

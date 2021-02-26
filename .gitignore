@@ -1,3 +1,4 @@
 node_modules
 monitor/node_modules
 worker/node_modules
+*.db
