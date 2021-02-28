@@ -1,13 +1,13 @@
 
 sudo rm /usr/local/bin/youknow
 
-wget https://github.com/somnathpanja/youknow/raw/master/agent/build/usr/local/bin/youknow -O /usr/local/bin/youknow
+sudo cp build/usr/local/bin/youknow /usr/local/bin/youknow
 sudo chmod +rwx /usr/local/bin/youknow
 
-wget https://github.com/somnathpanja/youknow/raw/master/agent/build/etc/init.d/youknow-service -O /etc/init.d/youknow-service
-sudo chmod +rwx /etc/init.d/youknow.sh
+sudo cp build/etc/init.d/youknow-service /etc/init.d/youknow-service
+sudo chmod +rwx /etc/init.d/youknow-service
 
-wget https://github.com/somnathpanja/youknow/raw/master/agent/build/etc/systemd/system/youknow.service -O /etc/systemd/system/youknow.service
+sudo cp build/etc/systemd/system/youknow.service /etc/systemd/system/youknow.service
 sudo chmod +rwx /etc/systemd/system/youknow.service
 
 sudo mkdir /etc/youknow/
