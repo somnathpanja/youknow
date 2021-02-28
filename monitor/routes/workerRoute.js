@@ -71,10 +71,9 @@ class workerRoute extends EventEmitter {
       let lines = req.body.trim().split('\n');
       let agent_id = lines.shift();
       let hostname = lines.shift();
-      let ip = lines.shift();
+      let ip = lines.shift().split(' ')[0];
 
       for (let idx = 0; idx < lines.length; idx++) {
-        //console.log(lines[idx]);
         try {
           lines[idx] = JSON.parse(lines[idx]);
         } catch (e) {

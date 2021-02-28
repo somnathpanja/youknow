@@ -22,7 +22,10 @@ config)
   read monitor_port
 
   echo "$agent_id $monitor_host $monitor_port" > /etc/youknow/youknow.conf
-  echo "AGENT_ID=$agent_id\nHOST=$monitor_host\nPORT=$monitor_port" > /etc/youknow/youknow.progconf
+  echo "AGENT_ID=$agent_id
+HOST=$monitor_host
+PORT=$monitor_port" > /etc/youknow/youknow.progconf
+
   sudo service youknow stop
   sudo service youknow start
   ;;
