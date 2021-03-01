@@ -95,6 +95,10 @@ class workerRoute extends EventEmitter {
       sys = Object.assign(sys, lines.shift()); // memory
       sys = Object.assign(sys, lines.shift()); // swap
 
+      if(sys.mem_swap_avail > sys.mem_swap_total) {
+        sys.mem_swap_avail = sys.mem_swap_free;
+      }
+
       workerCtrl.updateAgentInInventory(inventory).catch((err) => {
         console.log(`${moment().format()}> ${agent_id} failed to push Inventory data.`, err);
       }).then(() => {
