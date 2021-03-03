@@ -887,6 +887,7 @@ class ServerComponent {
             this.createSwapMemGraph();
             this.createDiskGraph();
             this.createCpu4ProcessGraph();
+            this.createMemory4ProcessGraph();
             this.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], this.agent_id, function (data) {
                 console.log(data);
                 //Sort by app name
@@ -900,12 +901,38 @@ class ServerComponent {
                     return 0;
                 });
                 self.updateCPUGraph(data);
-                self.updateCPU4ProcessGraph(data);
                 self.updateLoadAvgGraph(data);
                 self.updateRAMGraph(data);
                 self.updateSwapMemGraph(data);
                 self.updateDiskGraph(data);
+                self.updateCPU4ProcessGraph(data);
+                self.updateMemory4ProcessGraph(data);
             });
+        });
+    }
+    createMemory4ProcessGraph() {
+        this.mem4ProcessGraph = new Chart("memChart4ProcessDiv", {
+            // width: 300, height: 160,
+            border: this.borderThickness,
+            bevel: false,
+            shadow: false,
+            borderColor: 'black',
+            cornerRadius: this.cornerRadius,
+            dataPointWidthInPercent: 0.6,
+            padding: [0, 3, 0, -5],
+            // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+            axesY: [{
+                    //visible: false,
+                    //max: 120,
+                    //min: 0,
+                    // interval: 2,
+                    axisLineThickness: 0.2,
+                    valueFormat: '###.#'
+                }],
+            axesX: [{
+                    labelFont: { fontWeight: 'bold', fontSize: 10 },
+                    axisLineThickness: 0.2
+                }]
         });
     }
     createCpu4ProcessGraph() {
@@ -921,10 +948,11 @@ class ServerComponent {
             // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
             axesY: [{
                     //visible: false,
-                    max: 120,
-                    min: 0,
+                    //max: 120,
+                    //min: 0,
                     // interval: 2,
                     axisLineThickness: 0.2,
+                    valueFormat: '###.#'
                 }],
             axesX: [{
                     labelFont: { fontWeight: 'bold', fontSize: 10 },
@@ -1060,14 +1088,6 @@ class ServerComponent {
     }
     updateCPU4ProcessGraph(data) {
         var chartData = [{
-                name: 'CPU',
-                plotAs: 'column',
-                tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-                labelEnabled: true,
-                labelFont: { fontSize: 9, fontWeight: 'bold' },
-                points: []
-            }, {
-                name: 'Memory',
                 plotAs: 'column',
                 tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
                 labelEnabled: true,
@@ -1076,10 +1096,26 @@ class ServerComponent {
             }];
         data.lines.forEach((process) => {
             chartData[0].points.push({ xLabel: process.app, yValue: process.cpu_percent });
-            chartData[1].points.push({ xLabel: process.app, yValue: process.mem_used_percent });
         });
         this.cpu4ProcessGraph.setData(chartData);
         this.cpu4ProcessGraph.render();
+    }
+    updateMemory4ProcessGraph(data) {
+        var chartData = [{
+                plotAs: 'column',
+                labelEnabled: true,
+                labelFont: { fontSize: 9, fontWeight: 'bold' },
+                points: []
+            }];
+        data.lines.forEach((process) => {
+            chartData[0].points.push({
+                xLabel: process.app,
+                yValue: process.mem_used_percent,
+                tooltipText: `<b style='color:{color};'>Memory</b>: {yValue}%<br><b>RES:</b> ${this.readableKiloBytes(process.mem_res)}<br><b>VIRT:</b>${this.readableKiloBytes(process.mem_virt)}`
+            });
+        });
+        this.mem4ProcessGraph.setData(chartData);
+        this.mem4ProcessGraph.render();
     }
     updateCPUGraph(data) {
         var chartData = [{
@@ -1174,9 +1210,20 @@ class ServerComponent {
         script.defer = true;
         body.appendChild(script);
     }
+    readableBytes(bytes) {
+        var i = Math.floor(Math.log(bytes) / Math.log(1024));
+        var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+    }
+    readableKiloBytes(kb) {
+        var bytes = kb * 1024;
+        var i = Math.floor(Math.log(bytes) / Math.log(1024));
+        var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+    }
 }
 ServerComponent.ɵfac = function ServerComponent_Factory(t) { return new (t || ServerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_ws_service__WEBPACK_IMPORTED_MODULE_4__["WsService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_servers_service__WEBPACK_IMPORTED_MODULE_5__["ServersService"])); };
-ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerComponent, selectors: [["app-server"]], inputs: { server: "server", idealCPUInPercent: "idealCPUInPercent" }, decls: 41, vars: 8, consts: [[1, "container"], [1, "header-display", "hot-linear-gradient"], ["id", "hotness", 1, "color-layer", "child-right", 3, "ngStyle"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["hideToggle", "", 1, "fullWidth"], ["id", "cpuChart4ProcessDiv", 1, "full-width-chart"]], template: function ServerComponent_Template(rf, ctx) { if (rf & 1) {
+ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ServerComponent, selectors: [["app-server"]], inputs: { server: "server", idealCPUInPercent: "idealCPUInPercent" }, decls: 49, vars: 8, consts: [[1, "container"], [1, "header-display", "hot-linear-gradient"], ["id", "hotness", 1, "color-layer", "child-right", 3, "ngStyle"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["hideToggle", "", 1, "fullWidth"], ["id", "cpuChart4ProcessDiv", 1, "full-width-chart"], ["id", "memChart4ProcessDiv", 1, "full-width-chart"]], template: function ServerComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "div", 2);
@@ -1227,7 +1274,7 @@ ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](33, "mat-expansion-panel", 15);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](34, "mat-expansion-panel-header");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "mat-panel-title");
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36, " REAL TIME CPU PROCESS ");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36, " DETAIL REAL TIME CPU");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](37, "mat-icon");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](38, "keyboard_arrow_down");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -1235,6 +1282,18 @@ ServerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](39, "mat-panel-description");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](40, "div", 16);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "mat-expansion-panel", 15);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](42, "mat-expansion-panel-header");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](43, "mat-panel-title");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](44, " DETAIL REAL TIME MEMORY");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](45, "mat-icon");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](46, "keyboard_arrow_down");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](47, "mat-panel-description");
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](48, "div", 17);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
     } if (rf & 2) {

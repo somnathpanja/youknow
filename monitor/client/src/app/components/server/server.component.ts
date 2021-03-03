@@ -25,6 +25,7 @@ export class ServerComponent implements OnInit {
   private swapMemGraph: any;
   private diskGraph: any;
   private cpu4ProcessGraph: any;
+  private mem4ProcessGraph: any;
 
   private cornerRadius: Array<number> = [7, 7, 7, 7];
   private shadowEnabled: boolean = true;
@@ -53,6 +54,7 @@ export class ServerComponent implements OnInit {
       this.createSwapMemGraph();
       this.createDiskGraph();
       this.createCpu4ProcessGraph();
+      this.createMemory4ProcessGraph();
 
       this.wsService.attachEvent(EventTypes.OS_UPDATE, this.agent_id, function (data: any) {
         console.log(data);
@@ -64,12 +66,40 @@ export class ServerComponent implements OnInit {
         });
 
         self.updateCPUGraph(data);
-        self.updateCPU4ProcessGraph(data);
         self.updateLoadAvgGraph(data);
         self.updateRAMGraph(data);
         self.updateSwapMemGraph(data);
         self.updateDiskGraph(data);
+
+        self.updateCPU4ProcessGraph(data);
+        self.updateMemory4ProcessGraph(data);
       });
+    });
+  }
+
+  createMemory4ProcessGraph() {
+    this.mem4ProcessGraph = new Chart("memChart4ProcessDiv", {
+      // width: 300, height: 160,
+      border: this.borderThickness,
+      bevel: false,
+      shadow: false,//this.shadowEnabled,
+      borderColor: 'black',
+      cornerRadius: this.cornerRadius,
+      dataPointWidthInPercent: 0.6,
+      padding: [0, 3, 0, -5],
+      // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+      axesY: [{
+        //visible: false,
+        //max: 120,
+        //min: 0,
+        // interval: 2,
+        axisLineThickness: 0.2,
+        valueFormat: '###.#'
+      }],
+      axesX: [{
+        labelFont: { fontWeight: 'bold', fontSize: 10 },
+        axisLineThickness: 0.2
+      }]
     });
   }
 
@@ -86,13 +116,14 @@ export class ServerComponent implements OnInit {
       // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
       axesY: [{
         //visible: false,
-        max: 120,
-        min: 0,
+        //max: 120,
+        //min: 0,
         // interval: 2,
         axisLineThickness: 0.2,
+        valueFormat: '###.#'
       }],
       axesX: [{
-        labelFont: { fontWeight: 'bold', fontSize:10},
+        labelFont: { fontWeight: 'bold', fontSize: 10 },
         axisLineThickness: 0.2
       }]
     });
@@ -231,29 +262,39 @@ export class ServerComponent implements OnInit {
 
   updateCPU4ProcessGraph(data: any) {
     var chartData: any = [{
-      name: 'CPU',
       plotAs: 'column',
       tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
       labelEnabled: true,
-      labelFont : {fontSize: 9, fontWeight:'bold'},
-      points: []
-    }, {
-      name: 'Memory',
-      plotAs: 'column',
-      tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-      labelEnabled: true,
-      labelFont : {fontSize: 9, fontWeight:'bold'},
+      labelFont: { fontSize: 9, fontWeight: 'bold' },
       points: []
     }];
 
     data.lines.forEach((process: any) => {
       chartData[0].points.push({ xLabel: process.app, yValue: process.cpu_percent });
-      chartData[1].points.push({ xLabel: process.app, yValue: process.mem_used_percent });
     });
-
 
     this.cpu4ProcessGraph.setData(chartData);
     this.cpu4ProcessGraph.render();
+  }
+
+  updateMemory4ProcessGraph(data: any) {
+    var chartData: any = [{
+      plotAs: 'column',
+      labelEnabled: true,
+      labelFont: { fontSize: 9, fontWeight: 'bold' },
+      points: []
+    }];
+
+    data.lines.forEach((process: any) => {
+      chartData[0].points.push({
+        xLabel: process.app,
+        yValue: process.mem_used_percent,
+        tooltipText: `<b style='color:{color};'>Memory</b>: {yValue}%<br><b>RES:</b> ${this.readableKiloBytes(process.mem_res)}<br><b>VIRT:</b>${this.readableKiloBytes(process.mem_virt)}`
+      });
+    });
+
+    this.mem4ProcessGraph.setData(chartData);
+    this.mem4ProcessGraph.render();
   }
 
   updateCPUGraph(data: any) {
@@ -360,4 +401,21 @@ export class ServerComponent implements OnInit {
     script.defer = true;
     body.appendChild(script);
   }
+
+  readableBytes(bytes: number) {
+    var i: number = Math.floor(Math.log(bytes) / Math.log(1024));
+    var sizes: Array<string> = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+  }
+
+  readableKiloBytes(kb: number) {
+    var bytes: number = kb * 1024;
+    var i: number = Math.floor(Math.log(bytes) / Math.log(1024));
+    var sizes: Array<string> = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+  }
 }
+
+

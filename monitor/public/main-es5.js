@@ -1781,6 +1781,8 @@
 
               _this6.createCpu4ProcessGraph();
 
+              _this6.createMemory4ProcessGraph();
+
               _this6.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], _this6.agent_id, function (data) {
                 console.log(data); //Sort by app name
 
@@ -1796,12 +1798,43 @@
                   return 0;
                 });
                 self.updateCPUGraph(data);
-                self.updateCPU4ProcessGraph(data);
                 self.updateLoadAvgGraph(data);
                 self.updateRAMGraph(data);
                 self.updateSwapMemGraph(data);
                 self.updateDiskGraph(data);
+                self.updateCPU4ProcessGraph(data);
+                self.updateMemory4ProcessGraph(data);
               });
+            });
+          }
+        }, {
+          key: "createMemory4ProcessGraph",
+          value: function createMemory4ProcessGraph() {
+            this.mem4ProcessGraph = new Chart("memChart4ProcessDiv", {
+              // width: 300, height: 160,
+              border: this.borderThickness,
+              bevel: false,
+              shadow: false,
+              borderColor: 'black',
+              cornerRadius: this.cornerRadius,
+              dataPointWidthInPercent: 0.6,
+              padding: [0, 3, 0, -5],
+              // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+              axesY: [{
+                //visible: false,
+                //max: 120,
+                //min: 0,
+                // interval: 2,
+                axisLineThickness: 0.2,
+                valueFormat: '###.#'
+              }],
+              axesX: [{
+                labelFont: {
+                  fontWeight: 'bold',
+                  fontSize: 10
+                },
+                axisLineThickness: 0.2
+              }]
             });
           }
         }, {
@@ -1819,10 +1852,11 @@
               // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
               axesY: [{
                 //visible: false,
-                max: 120,
-                min: 0,
+                //max: 120,
+                //min: 0,
                 // interval: 2,
-                axisLineThickness: 0.2
+                axisLineThickness: 0.2,
+                valueFormat: '###.#'
               }],
               axesX: [{
                 labelFont: {
@@ -1992,17 +2026,6 @@
           key: "updateCPU4ProcessGraph",
           value: function updateCPU4ProcessGraph(data) {
             var chartData = [{
-              name: 'CPU',
-              plotAs: 'column',
-              tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-              labelEnabled: true,
-              labelFont: {
-                fontSize: 9,
-                fontWeight: 'bold'
-              },
-              points: []
-            }, {
-              name: 'Memory',
               plotAs: 'column',
               tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
               labelEnabled: true,
@@ -2017,13 +2040,33 @@
                 xLabel: process.app,
                 yValue: process.cpu_percent
               });
-              chartData[1].points.push({
-                xLabel: process.app,
-                yValue: process.mem_used_percent
-              });
             });
             this.cpu4ProcessGraph.setData(chartData);
             this.cpu4ProcessGraph.render();
+          }
+        }, {
+          key: "updateMemory4ProcessGraph",
+          value: function updateMemory4ProcessGraph(data) {
+            var _this7 = this;
+
+            var chartData = [{
+              plotAs: 'column',
+              labelEnabled: true,
+              labelFont: {
+                fontSize: 9,
+                fontWeight: 'bold'
+              },
+              points: []
+            }];
+            data.lines.forEach(function (process) {
+              chartData[0].points.push({
+                xLabel: process.app,
+                yValue: process.mem_used_percent,
+                tooltipText: "<b style='color:{color};'>Memory</b>: {yValue}%<br><b>RES:</b> ".concat(_this7.readableKiloBytes(process.mem_res), "<br><b>VIRT:</b>").concat(_this7.readableKiloBytes(process.mem_virt))
+              });
+            });
+            this.mem4ProcessGraph.setData(chartData);
+            this.mem4ProcessGraph.render();
           }
         }, {
           key: "updateCPUGraph",
@@ -2177,6 +2220,21 @@
             script.defer = true;
             body.appendChild(script);
           }
+        }, {
+          key: "readableBytes",
+          value: function readableBytes(bytes) {
+            var i = Math.floor(Math.log(bytes) / Math.log(1024));
+            var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+          }
+        }, {
+          key: "readableKiloBytes",
+          value: function readableKiloBytes(kb) {
+            var bytes = kb * 1024;
+            var i = Math.floor(Math.log(bytes) / Math.log(1024));
+            var sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+          }
         }]);
 
         return ServerComponent;
@@ -2193,9 +2251,9 @@
           server: "server",
           idealCPUInPercent: "idealCPUInPercent"
         },
-        decls: 41,
+        decls: 49,
         vars: 8,
-        consts: [[1, "container"], [1, "header-display", "hot-linear-gradient"], ["id", "hotness", 1, "color-layer", "child-right", 3, "ngStyle"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["hideToggle", "", 1, "fullWidth"], ["id", "cpuChart4ProcessDiv", 1, "full-width-chart"]],
+        consts: [[1, "container"], [1, "header-display", "hot-linear-gradient"], ["id", "hotness", 1, "color-layer", "child-right", 3, "ngStyle"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["hideToggle", "", 1, "fullWidth"], ["id", "cpuChart4ProcessDiv", 1, "full-width-chart"], ["id", "memChart4ProcessDiv", 1, "full-width-chart"]],
         template: function ServerComponent_Template(rf, ctx) {
           if (rf & 1) {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
@@ -2298,7 +2356,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](35, "mat-panel-title");
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36, " REAL TIME CPU PROCESS ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](36, " DETAIL REAL TIME CPU");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](37, "mat-icon");
 
@@ -2313,6 +2371,30 @@
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](40, "div", 16);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](41, "mat-expansion-panel", 15);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](42, "mat-expansion-panel-header");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](43, "mat-panel-title");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](44, " DETAIL REAL TIME MEMORY");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](45, "mat-icon");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](46, "keyboard_arrow_down");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](47, "mat-panel-description");
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](48, "div", 17);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
