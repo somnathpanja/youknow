@@ -26,12 +26,19 @@ nano youknow-master/monitor/conf.json
   ```
   sudo wget https://github.com/somnathpanja/youknow/raw/master/agent/install_youknow_agent.sh -O install_youknow_agent.sh && sudo chmod +rwx install_youknow_agent.sh && sudo ./install_youknow_agent.sh && sudo rm install_youknow_agent.sh
 ```
-## How to start the agent
+## How to start/stop/restart the agent manually
 
 ```
-./youknow SYSTEM_UNIQUE_NAME MONITOR_IP MONITOR_PORT
-```
+sudo service youknow start
+sudo service youknow stop
+sudo service youknow restart
 
-Example: ./youknow "server1" 127.0.0.1 2600
+```
+## How to configure agent settings
+
+```
+sudo service youknow-service config
+
+```
 
 ## GOOD LUCK
