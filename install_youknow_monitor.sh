@@ -4,6 +4,7 @@
   sudo npm install
   cd ..
   cd ..
+  sudo rm youknow-master.zip
   
 
   
