@@ -1,5 +1,6 @@
 var conf = require('./../conf.json');
 var moment = require('moment');
+var fs = require('fs');
 var webCtrl = require('../controller/webCtrl');
 
 module.exports = function (app) {
@@ -13,11 +14,11 @@ module.exports = function (app) {
 
   app.get('/agent/:agent_id/', function (req, res) {
     webCtrl.getAgent(req.params.agent_id).then(agents => {
-      if(agents.length){
+      if (agents.length) {
         res.send(agents[0]);
       } else {
         res.status(200).send({ err: 'Agent not found with agent id!' });
-      }     
+      }
     }).catch((err) => {
       res.status(500).send({ err: err });
     });
@@ -40,4 +41,21 @@ module.exports = function (app) {
       res.status(500).send({ err: err });
     });
   });
+
+  app.get('/', function (req, res) {
+    fs.readFile(__dirname + '/../public/index.html', 'utf8', function (err, content) {
+      res.send(content);
+    });
+  });
+
+  app.get('/server', function (req, res) {
+    fs.readFile(__dirname + '/../public/index.html', 'utf8', function (err, content) {
+      res.send(content);
+    });
+  });
+
+  // app.use(function(req, res) {
+  //   // Use res.sendfile, as it streams instead of reading the file into memory.
+  //   res.sendfile(__dirname + '/../public/index.html');
+  // });
 };

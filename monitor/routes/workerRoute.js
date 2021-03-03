@@ -55,7 +55,7 @@ class workerRoute extends EventEmitter {
       // req.params.agent_id
       workerCtrl.getConfig(req.params.agent_id).then(config => {
         let regex = config.watch_process.join('\\|');
-        res.send(regex? regex : 'unknown');
+        res.send(regex ? regex : 'unknown');
       }).catch(e => {
         res.send('unknown');
       });
@@ -71,17 +71,16 @@ class workerRoute extends EventEmitter {
       let lines = req.body.trim().split('\n');
       let agent_id = lines.shift();
       let hostname = lines.shift();
-      let ip = lines.shift();
+      let ip = lines.shift().split(' ')[0];
 
       for (let idx = 0; idx < lines.length; idx++) {
-        //console.log(lines[idx]);
         try {
           lines[idx] = JSON.parse(lines[idx]);
         } catch (e) {
           console.log('ERROR_DATA=', lines[idx]);
           console.error(e);
         }
-     }
+      }
 
       let cpu_count = lines.shift();
       let platform = lines.shift().platform;
@@ -95,6 +94,10 @@ class workerRoute extends EventEmitter {
       sys = Object.assign(sys, lines.shift()); // cpu
       sys = Object.assign(sys, lines.shift()); // memory
       sys = Object.assign(sys, lines.shift()); // swap
+
+      if(sys.mem_swap_avail > sys.mem_swap_total) {
+        sys.mem_swap_avail = sys.mem_swap_free;
+      }
 
       workerCtrl.updateAgentInInventory(inventory).catch((err) => {
         console.log(`${moment().format()}> ${agent_id} failed to push Inventory data.`, err);
@@ -111,12 +114,15 @@ class workerRoute extends EventEmitter {
             item.agent_id = agent_id;
 
             // Sometimes app command returns a path
-            if(item.app.includes('/')){
+            if (item.app.includes('/')) {
               item.app = item.app.split('/');
-              item.app = item.app[item.app.length -1];
+              item.app = item.app[item.app.length - 1];
             } else {
               item.app += item.args.join('');
-            }             
+            }
+
+            item.mem_virt = workerCtrl.parseMemoryToKiloByteValue(item.mem_virt);
+            item.mem_res = workerCtrl.parseMemoryToKiloByteValue(item.mem_res);
 
             workerCtrl.pushOSData(agent_id, item).then((err) => {
               console.log(`${moment().format()}> ${agent_id} process(${item.app}) data pushed successfully.`);
@@ -141,5 +147,7 @@ class workerRoute extends EventEmitter {
     });
   }
 }
+
+
 
 module.exports = workerRoute;

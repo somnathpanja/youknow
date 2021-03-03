@@ -1,0 +1,18 @@
+
+[Unit]
+Description=YouKnow - the Advance Server Monitoring
+Documentation=https://github.com/somnathpanja/youknow 
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/youknow/youknow.progconf
+ExecStart=/usr/local/bin/youknow $AGENT_ID $HOST $PORT
+PIDFile=/var/run/youknow.pid
+TimeoutStopSec=0
+Restart=always
+StandardOutput=/var/log/youknow.log
+StandardError=/var/log/youknow.log
+
+[Install]
+WantedBy=multi-user.target
+

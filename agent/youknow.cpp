@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
   string upload = "curl --silent -H \"Content-Type: text/plain\" -X POST --data-binary @- " + monitor + "/worker/raw/system";
 
   string process = "watchlist=$(curl --silent " + monitor + "/worker/watchlist/" + agent_id + "); cat /tmp/youknow_top.tmp | grep \"$watchlist\" | awk -v QT='\"' '$1 ~ /^[[:digit:]]/ {print \"{\" QT \"pid\" QT \": \" $1 \", "
-                   "\" QT \"mem_virt\" QT \": \" $5 \", "
-                   "\" QT \"mem_res\" QT \": \" $6 \", "
+                   "\" QT \"mem_virt\" QT \": \" QT $5 QT \", "
+                   "\" QT \"mem_res\" QT \": \" QT $6 QT \", "
                    "\" QT \"cpu_percent\" QT \": \" $9 \", "
                    "\" QT \"mem_used_percent\" QT \": \" $10 \", "
                    "\" QT \"app\" QT \": \" QT $12 QT \", "
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     system(optimizeTop.c_str());
     system(copySys.c_str());
 
-    system(("( " + agentId + " ; hostname ; hostname -i ; " + cpuCount +
+    system(("( " + agentId + " ; hostname ; hostname -I ; " + cpuCount +
             "; " + platform +
             "; " + uptime +
             "; " + disk +
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
             "; " + topMemory +
             "; " + topSwapMemory +
             "; " + process +
-            ") | " + upload + " | awk 'FNR==1 { {printf \"\rUPLOAD STATUS: %s              \",$0} }'; tput civis;")
+            ") | " + upload + " | awk 'FNR==1 { {printf \"\rUPLOAD STATUS: %s              \",$0} }';") // tput civis;
                .c_str());
 
     // system((process + " | " + uploadProcess).c_str());

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+case "$1" in 
+start)
+   /usr/local/bin/youknow `cat /etc/youknow/youknow.conf` > /var/log/youknow.log &
+   echo $!>/var/run/youknow.pid
+   ;;
+stop)
+   kill `cat /var/run/youknow.pid`
+   rm /var/run/youknow.pid
+   ;;
+restart)
+   $0 stop
+   $0 start
+   ;;
+config)
+  echo "Enter this server unique name:"
+  read agent_id  
+  echo "Enter monitor host name/ip:" 
+  read monitor_host
+  echo "Enter monitor port(default:80):"
+  read monitor_port
+
+  echo "$agent_id $monitor_host $monitor_port" > /etc/youknow/youknow.conf
+  echo "AGENT_ID=$agent_id
+HOST=$monitor_host
+PORT=$monitor_port" > /etc/youknow/youknow.progconf
+
+  sudo service youknow stop
+  sudo service youknow start
+  ;;
+status)
+   if [ -e /var/run/youknow.pid ]; then
+      echo youknnow is running, pid=`cat /var/run/youknow.pid`
+   else
+      echo youknow.sh is NOT running
+      exit 1
+   fi
+   ;;
+*)
+   echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0

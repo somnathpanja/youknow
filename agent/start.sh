@@ -1,0 +1,1 @@
+sudo ./build/usr/local/bin/youknow test 127.0.0.1 2600
