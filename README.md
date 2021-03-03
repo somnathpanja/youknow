@@ -32,13 +32,11 @@ nano youknow-master/monitor/conf.json
 sudo service youknow start
 sudo service youknow stop
 sudo service youknow restart
-
 ```
 ## How to configure agent settings
 
 ```
 sudo service youknow-service config
-
 ```
 
 ## GOOD LUCK
