@@ -56,6 +56,12 @@ export class ServerComponent implements OnInit {
 
       this.wsService.attachEvent(EventTypes.OS_UPDATE, this.agent_id, function (data: any) {
         console.log(data);
+        //Sort by app name
+        data.lines.sort(function (a: any, b: any) {
+          if (a.app < b.app) { return -1; }
+          if (a.app > b.app) { return 1; }
+          return 0;
+        });
 
         self.updateCPUGraph(data);
         self.updateCPU4ProcessGraph(data);
@@ -227,13 +233,13 @@ export class ServerComponent implements OnInit {
       name: 'CPU',
       plotAs: 'column',
       tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-     // labelEnabled: true,
+      // labelEnabled: true,
       points: []
-    },{
+    }, {
       name: 'Memory',
       plotAs: 'column',
       tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-    //  labelEnabled: true,
+      //  labelEnabled: true,
       points: []
     }];
 
