@@ -2,6 +2,8 @@
   unzip -o youknow-master.zip
   cd youknow-master/monitor
   sudo npm install
+  cd ..
+  cd ..
   
 
   
