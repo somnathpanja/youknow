@@ -86,13 +86,13 @@ export class ServerComponent implements OnInit {
       // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
       axesY: [{
         //visible: false,
-        max: 100,
+        max: 120,
         min: 0,
         // interval: 2,
         axisLineThickness: 0.2,
       }],
       axesX: [{
-        labelFont: { fontSize: 8 },
+        labelFont: { fontWeight: 'bold', fontSize:10},
         axisLineThickness: 0.2
       }]
     });
@@ -235,12 +235,14 @@ export class ServerComponent implements OnInit {
       plotAs: 'column',
       tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
       labelEnabled: true,
+      labelFont : {fontSize: 9, fontWeight:'bold'},
       points: []
     }, {
       name: 'Memory',
       plotAs: 'column',
       tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
       labelEnabled: true,
+      labelFont : {fontSize: 9, fontWeight:'bold'},
       points: []
     }];
 
