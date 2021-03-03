@@ -1825,6 +1825,9 @@
                 axisLineThickness: 0.2
               }],
               axesX: [{
+                labelFont: {
+                  fontSize: 8
+                },
                 axisLineThickness: 0.2
               }]
             });
@@ -1991,13 +1994,13 @@
               name: 'CPU',
               plotAs: 'column',
               tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-              // labelEnabled: true,
+              labelEnabled: true,
               points: []
             }, {
               name: 'Memory',
               plotAs: 'column',
               tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-              //  labelEnabled: true,
+              labelEnabled: true,
               points: []
             }];
             data.lines.forEach(function (process) {
