@@ -1,29 +1,26 @@
 <div class="container">
-  <button mat-button color="primary" aria-label="Platform">
-    <mat-icon>computer</mat-icon>
-    <span>&nbsp;{{server.agent_id}}</span>
-  </button>
+  <div class="header-display hot-linear-gradient">
+    <div id="hotness" class="color-layer child-right" [ngStyle]="{'width.%': idealCPUInPercent}"></div>
+    <button mat-button color="primary" aria-label="Platform">
+      <mat-icon>computer</mat-icon>
+      <span>&nbsp;{{server.agent_id}}</span>
+    </button>
 
-  <button mat-button aria-label="Platform">
-    <mat-icon>business</mat-icon>
-    <span>&nbsp;{{server.platform}}</span>
-  </button>
-  <button mat-button aria-label="CPU Count">
-    <mat-icon>select_all</mat-icon>
-    <span>&nbsp;{{server.cpu_count}} CPU</span>
-  </button>
-  <button mat-button aria-label="IP Address">
-    <mat-icon>dns</mat-icon>
-    <span>&nbsp;{{server.ip}}</span>
-  </button>
+    <button mat-button aria-label="Platform">
+      <mat-icon>business</mat-icon>
+      <span>&nbsp;{{server.platform}}</span>
+    </button>
+    <button mat-button aria-label="CPU Count">
+      <mat-icon>select_all</mat-icon>
+      <span>&nbsp;{{server.cpu_count}} CPU</span>
+    </button>
+    <button mat-button aria-label="IP Address">
+      <mat-icon>dns</mat-icon>
+      <span>&nbsp;{{server.ip}}</span>
+    </button>
+  </div>
+
   <mat-divider></mat-divider>
-  <!-- <h1><span class="header1 blue">{{server.agent_id}} </span>
-    | IP: {{server.ip}}
-    | CPU: {{server.cpu_count}}
-    | PLATFORM: {{server.platform}}
-    | Refresh Interval: {{server.stats_interval_ms}}
-    | Last Updated: {{server.last_updated_ts}}
-  </h1> -->
 
   <mat-nav-list fxLayout>
     <div id="cpuChartDiv" mat-list-item class="nano-chart">
@@ -43,27 +40,18 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
     <div id="swapChartDiv" mat-list-item class="nano-chart"></div>
     <div id="diskChartDiv" mat-list-item class="nano-chart"></div>
   </mat-nav-list>
-
-  <table cellpadding="5">
-    <tr>
-      <td>
-
-      </td>
-      <td>
-
-
-      </td>
-      <td>
-
-      </td>
-      <td>
-
-      </td>
-      <td>
-
-      </td>
-    </tr>
-  </table>
+<br>
+ <mat-expansion-panel class="fullWidth" hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      REAL TIME CPU PROCESS <mat-icon>keyboard_arrow_down</mat-icon>
+    </mat-panel-title>
+    <mat-panel-description>
+      
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div id="cpuChart4ProcessDiv" class="full-width-chart"></div>
+</mat-expansion-panel>
 </div>
 
 

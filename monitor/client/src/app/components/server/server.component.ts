@@ -18,13 +18,15 @@ var Chart = SilverJs.Chart;
 export class ServerComponent implements OnInit {
   @Input() server: Server = new Server('NOC', '', '12', 1, '212', 22, [], 3333);
   private agent_id: string = '';
+  @Input() idealCPUInPercent: number = 0;
   private cpuChart: any;
   private loadAvgChart: any;
   private ramGraph: any;
   private swapMemGraph: any;
   private diskGraph: any;
+  private cpu4ProcessGraph: any;
 
-  private cornerRadius: Array<number> = [7,7,7,7];
+  private cornerRadius: Array<number> = [7, 7, 7, 7];
   private shadowEnabled: boolean = true;
   private borderThickness: number = 0.01;
 
@@ -50,15 +52,42 @@ export class ServerComponent implements OnInit {
       this.createRamGraph();
       this.createSwapMemGraph();
       this.createDiskGraph();
+      this.createCpu4ProcessGraph();
 
       this.wsService.attachEvent(EventTypes.OS_UPDATE, this.agent_id, function (data: any) {
         console.log(data);
+
         self.updateCPUGraph(data);
+        self.updateCPU4ProcessGraph(data);
         self.updateLoadAvgGraph(data);
         self.updateRAMGraph(data);
         self.updateSwapMemGraph(data);
         self.updateDiskGraph(data);
       });
+    });
+  }
+
+  createCpu4ProcessGraph() {
+    this.cpu4ProcessGraph = new Chart("cpuChart4ProcessDiv", {
+      // width: 300, height: 160,
+      border: this.borderThickness,
+      bevel: false,
+      shadow: false,//this.shadowEnabled,
+      borderColor: 'black',
+      cornerRadius: this.cornerRadius,
+      dataPointWidthInPercent: 0.6,
+      padding: [0, 3, 0, -5],
+      // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+      axesY: [{
+        //visible: false,
+        max: 100,
+        min: 0,
+        // interval: 2,
+        axisLineThickness: 0.2,
+      }],
+      axesX: [{
+        axisLineThickness: 0.2
+      }]
     });
   }
 
@@ -193,8 +222,33 @@ export class ServerComponent implements OnInit {
     });
   }
 
+  updateCPU4ProcessGraph(data: any) {
+    var chartData: any = [{
+      name: 'CPU',
+      plotAs: 'column',
+      tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
+     // labelEnabled: true,
+      points: []
+    },{
+      name: 'Memory',
+      plotAs: 'column',
+      tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
+    //  labelEnabled: true,
+      points: []
+    }];
+
+    data.lines.forEach((process: any) => {
+      chartData[0].points.push({ xLabel: process.app, yValue: process.cpu_percent });
+      chartData[1].points.push({ xLabel: process.app, yValue: process.mem_used_percent });
+    });
+
+
+    this.cpu4ProcessGraph.setData(chartData);
+    this.cpu4ProcessGraph.render();
+  }
+
   updateCPUGraph(data: any) {
-    var data: any = [{
+    var chartData: any = [{
       plotAs: 'bar',
       tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
       labelEnabled: true,
@@ -210,8 +264,10 @@ export class ServerComponent implements OnInit {
       ]
     }];
 
-    this.cpuChart.setData(data);
+    this.cpuChart.setData(chartData);
     this.cpuChart.render();
+
+    this.idealCPUInPercent = data.sys.cpu_id;
   }
 
   updateLoadAvgGraph(data: any) {

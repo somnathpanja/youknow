@@ -11,6 +11,10 @@
   font-size: 35px;
 }
 
+.fullWidth {
+ width: 100%;
+}
+
 .container {
   padding: 1rem;
   padding-top: 0.2rem;
@@ -43,4 +47,36 @@
   width: 300px; 
   height: 150px;
   margin-right: 1rem;
+}
+
+.full-width-chart {
+  display: inline;
+  float: left;
+  width: 100%; 
+  height: 150px;
+  margin-right: 1rem;
+}
+
+.header-display {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.child-right {
+  height: 100%;
+  /* width: 10%; */
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: width 2s;
+}
+
+.color-layer {
+  background:rgb(245, 245, 245);
+}
+
+.hot-linear-gradient {
+  background-color:transparent;
+  background-image: linear-gradient(to right,rgba(4, 255, 8, 0.191),rgba(241, 245, 0, 0.191), rgba(255, 0, 0, 0.191));
 }
