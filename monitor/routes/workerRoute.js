@@ -75,7 +75,7 @@ class workerRoute extends EventEmitter {
       let system_cpu_line = lines.shift();
 
       // Parse CPU
-      let system_cpu_parts = system_cpu_line.substring(8, system_cpu_line.length - 1).split(',');
+      let system_cpu_parts = system_cpu_line.substring(8, system_cpu_line.length).split(',');
       let system_cpu = { 'app': 'sys' };
       system_cpu_parts.forEach(element => {
         let parts = element.trim().split(' ');
