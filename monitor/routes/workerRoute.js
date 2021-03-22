@@ -77,7 +77,7 @@ class workerRoute extends EventEmitter {
         try {
           lines[idx] = JSON.parse(lines[idx]);
         } catch (e) {
-          console.log('ERROR_DATA=', lines[idx]);
+          console.error('ERROR_DATA=', lines[idx]);
           console.error(e);
         }
       }
