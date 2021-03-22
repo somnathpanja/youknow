@@ -72,6 +72,17 @@ class workerRoute extends EventEmitter {
       let agent_id = lines.shift();
       let hostname = lines.shift();
       let ip = lines.shift().split(' ')[0];
+      let system_cpu_line = lines.shift();
+
+      // Parse CPU
+      let system_cpu_parts = system_cpu_line.substring(8, system_cpu_line.length - 1).split(',');
+      let system_cpu = { 'app': 'sys' };
+      system_cpu_parts.forEach(element => {
+        let parts = element.trim().split(' ');
+        system_cpu['cpu_' + parts[1].trim()] = Number(parts[0].trim());
+      });
+
+      // CPU Parse End
 
       for (let idx = 0; idx < lines.length; idx++) {
         try {
@@ -91,11 +102,11 @@ class workerRoute extends EventEmitter {
       let sys = Object.assign({ agent_id }, uptime);     // uptime
       sys = Object.assign(sys, lines.shift()); // disk
       sys = Object.assign(sys, lines.shift()); // load avg
-      sys = Object.assign(sys, lines.shift()); // cpu
+      sys = Object.assign(sys, system_cpu); // cpu
       sys = Object.assign(sys, lines.shift()); // memory
       sys = Object.assign(sys, lines.shift()); // swap
 
-      if(sys.mem_swap_avail > sys.mem_swap_total) {
+      if (sys.mem_swap_avail > sys.mem_swap_total) {
         sys.mem_swap_avail = sys.mem_swap_free;
       }
 

@@ -77,7 +77,8 @@ int main(int argc, char *argv[])
   string uptime = "awk -v QT='\"' '{print \"{\" QT \"uptime\" QT \":\" $1 \"}\"}' /proc/uptime ";
   string loadAvg = "cat /proc/loadavg | awk -v QT='\"' 'FNR==1 { print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \",\" QT \"load_avg1\" QT \":\" $1 \",\" QT \"load_avg5\" QT \":\" $2 \",\" QT \"load_avg15\" QT \":\" $3 \"}\"}'";
   // top -b -c -n 1 -n1 | awk 'FNR==3 {print "{ \"cpu_us\":" $2 ", \"cpu_sy\":" $4 ", \"cpu_ni\":" $6 ", \"cpu_id\":" $8 ", \"cpu_wa\":" $10 ", \"cpu_hi\":" $12 ", \"cpu_si\":" $14 "}"}'
-  string topCPUPercentage = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==3 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"cpu_us\" QT \":\" $2 \", \" QT \"cpu_sy\" QT \":\" $4 \", \" QT \"cpu_ni\" QT \":\" $6 \", \" QT \"cpu_id\" QT \":\" $8 \", \" QT \"cpu_wa\" QT \":\" $10 \", \" QT \"cpu_hi\" QT \":\" $12 \", \" QT \"cpu_si\" QT \":\" $14 \", \" QT \"cpu_st\" QT \":\" $16 \"}\"}'";
+  //string topCPUPercentage = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==3 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"cpu_us\" QT \":\" $2 \", \" QT \"cpu_sy\" QT \":\" $4 \", \" QT \"cpu_ni\" QT \":\" $6 \", \" QT \"cpu_id\" QT \":\" $8 \", \" QT \"cpu_wa\" QT \":\" $10 \", \" QT \"cpu_hi\" QT \":\" $12 \", \" QT \"cpu_si\" QT \":\" $14 \", \" QT \"cpu_st\" QT \":\" $16 \"}\"}'";
+  string topCPUPercentage = "cat /tmp/youknow_sys.tmp | grep -m1 -i \"cpu\" | tail -n1";
 
   string topMemory = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==4 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"mem_total\" QT \":\" $4*1.024 \", \" QT \"mem_free\" QT \":\" $6*1.024 \", \" QT \"mem_used\" QT \":\" $8*1.024 \", \" QT \"mem_buff_cache\" QT \":\" $10*1.024 \"}\"}'";
   string topSwapMemory = "cat /tmp/youknow_sys.tmp | awk -v QT='\"' 'FNR==5 {print \"{\" QT \"app\" QT \":\" QT \"sys\" QT \", \" QT \"mem_swap_total\" QT \":\" $3*1.024 \", \" QT \"mem_swap_free\" QT \":\" $5*1.024 \", \" QT \"mem_swap_used\" QT \":\" $7*1.024 \", \" QT \"mem_swap_avail\" QT \":\" $9*1.024 \"}\"}'";
@@ -102,12 +103,13 @@ int main(int argc, char *argv[])
     system(optimizeTop.c_str());
     system(copySys.c_str());
 
-    system(("( " + agentId + " ; hostname ; hostname -I ; " + cpuCount +
+    system(("( " + agentId + " ; hostname ; hostname -I " + 
+            "; " + topCPUPercentage +
+            "; " + cpuCount +
             "; " + platform +
             "; " + uptime +
             "; " + disk +
-            "; " + loadAvg +
-            "; " + topCPUPercentage +
+            "; " + loadAvg +    
             "; " + topMemory +
             "; " + topSwapMemory +
             "; " + process +
