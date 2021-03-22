@@ -887,7 +887,7 @@ class ServerComponent {
             this.createRamGraph();
             this.createSwapMemGraph();
             this.createDiskGraph();
-            // this.createCpu4ProcessGraph();
+            this.createCpu4ProcessGraph();
             // this.createMemory4ProcessGraph();
             this.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], this.agent_id, function (data) {
                 console.log(data);

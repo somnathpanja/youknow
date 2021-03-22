@@ -54,7 +54,7 @@ export class ServerComponent implements OnInit {
       this.createRamGraph();
       this.createSwapMemGraph();
       this.createDiskGraph();
-      // this.createCpu4ProcessGraph();
+      this.createCpu4ProcessGraph();
       // this.createMemory4ProcessGraph();
 
       this.wsService.attachEvent(EventTypes.OS_UPDATE, this.agent_id, function (data: any) {
@@ -81,7 +81,7 @@ export class ServerComponent implements OnInit {
   selectedTabChange(event: any) {
     console.log("Index" + event.index);
     this.tabSelectedIndex = event.index;
-    
+
     switch (event.index) {
       case 0:
         this.createCpu4ProcessGraph();

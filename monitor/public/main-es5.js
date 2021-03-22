@@ -1778,8 +1778,9 @@
 
               _this6.createSwapMemGraph();
 
-              _this6.createDiskGraph(); // this.createCpu4ProcessGraph();
-              // this.createMemory4ProcessGraph();
+              _this6.createDiskGraph();
+
+              _this6.createCpu4ProcessGraph(); // this.createMemory4ProcessGraph();
 
 
               _this6.wsService.attachEvent(_assets_common_eventTypes_json__WEBPACK_IMPORTED_MODULE_2__["OS_UPDATE"], _this6.agent_id, function (data) {
