@@ -19,7 +19,7 @@ export class ServerComponent implements OnInit {
   @Input() server: Server = new Server('NOC', '', '12', 1, '212', 22, [], 3333);
   private agent_id: string = '';
   @Input() idealCPUInPercent: number = 0;
-  public tabSelectedIndex: number = 0;
+  @Input() tabSelectedIndex: number = 0;
   private cpuChart: any;
   private loadAvgChart: any;
   private ramGraph: any;
