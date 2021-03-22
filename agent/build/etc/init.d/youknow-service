@@ -20,7 +20,9 @@ config)
   read monitor_host
   echo "Enter monitor port(default:80):"
   read monitor_port
-
+  sudo rm /etc/youknow/youknow.conf
+  sudo rm /etc/youknow/youknow.progconf
+  
   echo "$agent_id $monitor_host $monitor_port" > /etc/youknow/youknow.conf
   echo "AGENT_ID=$agent_id
 HOST=$monitor_host

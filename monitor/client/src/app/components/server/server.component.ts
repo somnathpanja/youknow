@@ -19,6 +19,7 @@ export class ServerComponent implements OnInit {
   @Input() server: Server = new Server('NOC', '', '12', 1, '212', 22, [], 3333);
   private agent_id: string = '';
   @Input() idealCPUInPercent: number = 0;
+  public tabSelectedIndex: number = 0;
   private cpuChart: any;
   private loadAvgChart: any;
   private ramGraph: any;
@@ -53,8 +54,8 @@ export class ServerComponent implements OnInit {
       this.createRamGraph();
       this.createSwapMemGraph();
       this.createDiskGraph();
-      this.createCpu4ProcessGraph();
-      this.createMemory4ProcessGraph();
+      // this.createCpu4ProcessGraph();
+      // this.createMemory4ProcessGraph();
 
       this.wsService.attachEvent(EventTypes.OS_UPDATE, this.agent_id, function (data: any) {
         console.log(data);
@@ -77,56 +78,78 @@ export class ServerComponent implements OnInit {
     });
   }
 
+  selectedTabChange(event: any) {
+    console.log("Index" + event.index);
+    this.tabSelectedIndex = event.index;
+    
+    switch (event.index) {
+      case 0:
+        this.createCpu4ProcessGraph();
+        break;
+      case 1:
+        this.createMemory4ProcessGraph();
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+    }
+  }
+
   createMemory4ProcessGraph() {
-    this.mem4ProcessGraph = new Chart("memChart4ProcessDiv", {
-      // width: 300, height: 160,
-      border: this.borderThickness,
-      bevel: false,
-      shadow: false,//this.shadowEnabled,
-      borderColor: 'black',
-      cornerRadius: this.cornerRadius,
-      dataPointWidthInPercent: 0.6,
-      padding: [0, 3, 0, -5],
-      // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
-      axesY: [{
-        //visible: false,
-        //max: 120,
-        //min: 0,
-        // interval: 2,
-        axisLineThickness: 0.2,
-        valueFormat: '###.#'
-      }],
-      axesX: [{
-        labelFont: { fontWeight: 'bold', fontSize: 10 },
-        axisLineThickness: 0.2
-      }]
-    });
+    if (!this.mem4ProcessGraph) {
+      this.mem4ProcessGraph = new Chart("memChart4ProcessDiv", {
+        // width: 300, height: 160,
+        border: this.borderThickness,
+        bevel: false,
+        shadow: false,//this.shadowEnabled,
+        borderColor: 'black',
+        cornerRadius: this.cornerRadius,
+        dataPointWidthInPercent: 0.6,
+        padding: [0, 3, 0, -5],
+        // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+        axesY: [{
+          //visible: false,
+          //max: 120,
+          //min: 0,
+          // interval: 2,
+          axisLineThickness: 0.2,
+          valueFormat: '###.#'
+        }],
+        axesX: [{
+          labelFont: { fontWeight: 'bold', fontSize: 10 },
+          axisLineThickness: 0.2
+        }]
+      });
+    }
   }
 
   createCpu4ProcessGraph() {
-    this.cpu4ProcessGraph = new Chart("cpuChart4ProcessDiv", {
-      // width: 300, height: 160,
-      border: this.borderThickness,
-      bevel: false,
-      shadow: false,//this.shadowEnabled,
-      borderColor: 'black',
-      cornerRadius: this.cornerRadius,
-      dataPointWidthInPercent: 0.6,
-      padding: [0, 3, 0, -5],
-      // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
-      axesY: [{
-        //visible: false,
-        //max: 120,
-        //min: 0,
-        // interval: 2,
-        axisLineThickness: 0.2,
-        valueFormat: '###.#'
-      }],
-      axesX: [{
-        labelFont: { fontWeight: 'bold', fontSize: 10 },
-        axisLineThickness: 0.2
-      }]
-    });
+    if (!this.cpu4ProcessGraph) {
+      this.cpu4ProcessGraph = new Chart("cpuChart4ProcessDiv", {
+        // width: 300, height: 160,
+        border: this.borderThickness,
+        bevel: false,
+        shadow: false,//this.shadowEnabled,
+        borderColor: 'black',
+        cornerRadius: this.cornerRadius,
+        dataPointWidthInPercent: 0.6,
+        padding: [0, 3, 0, -5],
+        // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+        axesY: [{
+          //visible: false,
+          //max: 120,
+          //min: 0,
+          // interval: 2,
+          axisLineThickness: 0.2,
+          valueFormat: '###.#'
+        }],
+        axesX: [{
+          labelFont: { fontWeight: 'bold', fontSize: 10 },
+          axisLineThickness: 0.2
+        }]
+      });
+    }
   }
 
   createCPUGraph() {
@@ -261,40 +284,45 @@ export class ServerComponent implements OnInit {
   }
 
   updateCPU4ProcessGraph(data: any) {
-    var chartData: any = [{
-      plotAs: 'column',
-      tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
-      labelEnabled: true,
-      labelFont: { fontSize: 9, fontWeight: 'bold' },
-      points: []
-    }];
+    if (this.tabSelectedIndex == 0 && this.cpu4ProcessGraph) {
 
-    data.lines.forEach((process: any) => {
-      chartData[0].points.push({ xLabel: process.app, yValue: process.cpu_percent });
-    });
+      var chartData: any = [{
+        plotAs: 'column',
+        tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
+        labelEnabled: true,
+        labelFont: { fontSize: 9, fontWeight: 'bold' },
+        points: []
+      }];
 
-    this.cpu4ProcessGraph.setData(chartData);
-    this.cpu4ProcessGraph.render();
+      data.lines.forEach((process: any) => {
+        chartData[0].points.push({ xLabel: process.app, yValue: process.cpu_percent });
+      });
+
+      this.cpu4ProcessGraph.setData(chartData);
+      this.cpu4ProcessGraph.render();
+    }
   }
 
   updateMemory4ProcessGraph(data: any) {
-    var chartData: any = [{
-      plotAs: 'column',
-      labelEnabled: true,
-      labelFont: { fontSize: 9, fontWeight: 'bold' },
-      points: []
-    }];
+    if (this.tabSelectedIndex == 1 && this.mem4ProcessGraph) {
+      var chartData: any = [{
+        plotAs: 'column',
+        labelEnabled: true,
+        labelFont: { fontSize: 9, fontWeight: 'bold' },
+        points: []
+      }];
 
-    data.lines.forEach((process: any) => {
-      chartData[0].points.push({
-        xLabel: process.app,
-        yValue: process.mem_used_percent,
-        tooltipText: `<b style='color:{color};'>Memory</b>: {yValue}%<br><b>RES:</b> ${this.readableKiloBytes(process.mem_res)}<br><b>VIRT:</b>${this.readableKiloBytes(process.mem_virt)}`
+      data.lines.forEach((process: any) => {
+        chartData[0].points.push({
+          xLabel: process.app,
+          yValue: process.mem_used_percent,
+          tooltipText: `<b style='color:{color};'>Memory</b>: {yValue}%<br><b>RES:</b> ${this.readableKiloBytes(process.mem_res)}<br><b>VIRT:</b>${this.readableKiloBytes(process.mem_virt)}`
+        });
       });
-    });
 
-    this.mem4ProcessGraph.setData(chartData);
-    this.mem4ProcessGraph.render();
+      this.mem4ProcessGraph.setData(chartData);
+      this.mem4ProcessGraph.render();
+    }
   }
 
   updateCPUGraph(data: any) {

@@ -40,30 +40,43 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
     <div id="swapChartDiv" mat-list-item class="nano-chart"></div>
     <div id="diskChartDiv" mat-list-item class="nano-chart"></div>
   </mat-nav-list>
-<br>
- <mat-expansion-panel class="fullWidth" hideToggle>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      DETAIL REAL TIME CPU<mat-icon>keyboard_arrow_down</mat-icon>
-    </mat-panel-title>
-    <mat-panel-description>
-      
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-  <div id="cpuChart4ProcessDiv" class="full-width-chart"></div>
-</mat-expansion-panel>
+  
+  <mat-divider></mat-divider>
 
-<mat-expansion-panel class="fullWidth" hideToggle>
-  <mat-expansion-panel-header>
-    <mat-panel-title>
-      DETAIL REAL TIME MEMORY<mat-icon>keyboard_arrow_down</mat-icon>
-    </mat-panel-title>
-    <mat-panel-description>
-      
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-  <div id="memChart4ProcessDiv" class="full-width-chart"></div>
-</mat-expansion-panel>
+  <mat-tab-group class="fullWidth" [selectedIndex]="tabSelectedIndex" (selectedTabChange)="selectedTabChange($event)">
+    <mat-tab label="RealTime CPU">
+      <div id="cpuChart4ProcessDiv" class="full-width-chart"></div>
+    </mat-tab>
+    <mat-tab label="RealTime Memory">
+      <div id="memChart4ProcessDiv" class="full-width-chart"></div>
+    </mat-tab>
+    <mat-tab label="History"> Content 3 </mat-tab>
+  </mat-tab-group>
+
+<!-- 
+  <mat-expansion-panel class="fullWidth" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        DETAIL REAL TIME CPU<mat-icon>keyboard_arrow_down</mat-icon>
+      </mat-panel-title>
+      <mat-panel-description>
+
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+   
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="fullWidth" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        DETAIL REAL TIME MEMORY<mat-icon>keyboard_arrow_down</mat-icon>
+      </mat-panel-title>
+      <mat-panel-description>
+
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    
+  </mat-expansion-panel> -->
 </div>
 
 
