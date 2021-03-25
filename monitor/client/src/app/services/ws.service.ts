@@ -70,9 +70,9 @@ export class WsService {
    * @param data 
    * @param callback 
    */
-  public detachEvent(event: string) {
+  public detachEvent(event: string, agent_id: string) {
     delete this.events[event];
-    this.ws.next({ event, action: 'unsubscribe' } as any);
+    this.ws.next({ event, agent_id, action: 'unsubscribe' } as any);
   }
 
   private onMessage(packet: any) {

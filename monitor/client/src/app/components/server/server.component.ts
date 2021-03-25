@@ -27,6 +27,8 @@ export class ServerComponent implements OnInit {
   private diskGraph: any;
   private cpu4ProcessGraph: any;
   private mem4ProcessGraph: any;
+  private _tmpDataMem4ProcessGraph:any;
+  private _tmpDataCpu4ProcessGraph:any;
 
   private cornerRadius: Array<number> = [7, 7, 7, 7];
   private shadowEnabled: boolean = true;
@@ -43,6 +45,11 @@ export class ServerComponent implements OnInit {
         this.server = server;
       });
     });
+  }
+
+  ngOnDestroy() {
+    console.log('DESTROY===>');
+    this.wsService.detachEvent(EventTypes.OS_UPDATE, this.agent_id);
   }
 
   ngAfterViewInit() {
@@ -85,9 +92,11 @@ export class ServerComponent implements OnInit {
     switch (event.index) {
       case 0:
         this.createCpu4ProcessGraph();
+        this.updateCPU4ProcessGraph(null);
         break;
       case 1:
         this.createMemory4ProcessGraph();
+        this.updateMemory4ProcessGraph(null);
         break;
       case 2:
         break;
@@ -284,9 +293,10 @@ export class ServerComponent implements OnInit {
   }
 
   updateCPU4ProcessGraph(data: any) {
-    if (this.tabSelectedIndex == 0 && this.cpu4ProcessGraph) {
+    var chartData: any;
 
-      var chartData: any = [{
+    if (data) {
+      chartData = [{
         plotAs: 'column',
         tooltipText: "<b style='color:{color};'>{xLabel}</b>: {yValue}%",
         labelEnabled: true,
@@ -298,14 +308,21 @@ export class ServerComponent implements OnInit {
         chartData[0].points.push({ xLabel: process.app, yValue: process.cpu_percent });
       });
 
+      this._tmpDataCpu4ProcessGraph = chartData;
+    } else {
+      chartData = this._tmpDataCpu4ProcessGraph;
+    }
+
+    if (this.tabSelectedIndex == 0 && this.cpu4ProcessGraph && chartData) {
       this.cpu4ProcessGraph.setData(chartData);
       this.cpu4ProcessGraph.render();
     }
   }
 
   updateMemory4ProcessGraph(data: any) {
-    if (this.tabSelectedIndex == 1 && this.mem4ProcessGraph) {
-      var chartData: any = [{
+    var chartData: any;
+    if (data) {
+      chartData = [{
         plotAs: 'column',
         labelEnabled: true,
         labelFont: { fontSize: 9, fontWeight: 'bold' },
@@ -320,6 +337,12 @@ export class ServerComponent implements OnInit {
         });
       });
 
+      this._tmpDataMem4ProcessGraph = chartData;
+    } else {
+      chartData = this._tmpDataMem4ProcessGraph;
+    }
+
+    if (this.tabSelectedIndex == 1 && this.mem4ProcessGraph && chartData) {
       this.mem4ProcessGraph.setData(chartData);
       this.mem4ProcessGraph.render();
     }
@@ -355,9 +378,9 @@ export class ServerComponent implements OnInit {
       labelText: "{yValue}",
       labelEnabled: true,
       points: [
-        { xLabel: 'LoadAvg 1m', color: "orange", yValue: data.sys.load_avg1 },
-        { xLabel: 'LoadAvg 5m', color: "green", yValue: data.sys.load_avg5 },
-        { xLabel: 'LoadAvg 15m', color: "red", yValue: data.sys.load_avg15 }
+        { xLabel: '1m', color: "orange", yValue: data.sys.load_avg1 },
+        { xLabel: '5m', color: "green", yValue: data.sys.load_avg5 },
+        { xLabel: '15m', color: "red", yValue: data.sys.load_avg15 }
       ]
     }];
 

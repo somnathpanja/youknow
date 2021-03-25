@@ -1,12 +1,12 @@
 <mat-toolbar>
-  <mat-icon>self_improvement</mat-icon>
-  <span >{{title}}</span>
+  <mat-icon style="cursor:pointer;" (click)="go2ServersPage();">self_improvement</mat-icon>
+  <span style="cursor:pointer;" (click)="go2ServersPage();">{{title}}</span>
   <div>
     <div class="small-caption">The farther you go the less you know. ~ Socrates</div>
   </div>
   <span class="example-spacer"></span>
   <!-- Server Menu -->
-  <button mat-button aria-label="Servers">
+  <button mat-button aria-label="Servers" (click)="go2ServersPage();">
     <mat-icon>desktop_mac</mat-icon>
     <span> Servers</span>
   </button>
@@ -47,11 +47,14 @@
       <span> Performance Deep Analysis</span>
     </button>
   </mat-menu>
-
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
+  <a target="_blank" href="https://github.com/somnathpanja/youknow/star">
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Share your Love">
+      <mat-icon>favorite</mat-icon>
+    </button>
+  </a>
+  <a target="_blank" href="https://github.com/somnathpanja/youknow"><button mat-icon-button class="example-icon"
+      aria-label="Share with friends">
+      <mat-icon>share</mat-icon>
+    </button>
+  </a>
 </mat-toolbar>
