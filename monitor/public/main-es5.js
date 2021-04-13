@@ -2318,12 +2318,18 @@
                 divId = 'cpuHistoryChart';
                 fields = ['cpu_percent'];
                 apps = [];
+                chartOptions.tooltip = {
+                  sharing: 'singleShared'
+                };
                 break;
 
               case 4:
                 divId = 'memoryHistoryChart';
                 fields = ['mem_res'];
                 apps = [];
+                chartOptions.tooltip = {
+                  sharing: 'singleShared'
+                };
                 yAxisSettings.valueFormatRange = [1, 'KB', 1000, 'MB', 1e+6, 'GB'];
                 break;
             }
