@@ -9,7 +9,7 @@ import { ServersComponent } from './components/servers/servers.component';
 import { ServerComponent } from './components/server/server.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { ServerConfigComponent } from './components/server-config/server-config.component';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,6 +19,7 @@ import { ServerConfigComponent } from './components/server-config/server-config.
     ServerConfigComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

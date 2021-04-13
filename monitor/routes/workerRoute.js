@@ -82,6 +82,7 @@ class workerRoute extends EventEmitter {
         system_cpu['cpu_' + parts[1].trim()] = Number(parts[0].trim());
       });
 
+      system_cpu.cpu_percent = system_cpu.cpu_us;
       // CPU Parse End
 
       for (let idx = 0; idx < lines.length; idx++) {
@@ -109,6 +110,9 @@ class workerRoute extends EventEmitter {
       if (sys.mem_swap_avail > sys.mem_swap_total) {
         sys.mem_swap_avail = sys.mem_swap_free;
       }
+
+      sys.mem_res = sys.mem_used;
+      sys.mem_used_percent = Number(((sys.mem_used / sys.mem_total) * 100).toFixed(2));
 
       workerCtrl.updateAgentInInventory(inventory).catch((err) => {
         console.log(`${moment().format()}> ${agent_id} failed to push Inventory data.`, err);

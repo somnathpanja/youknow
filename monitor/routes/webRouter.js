@@ -54,6 +54,19 @@ module.exports = function (app) {
     });
   });
 
+  // Delivers all the history details
+  app.get('/agent/:agent_id/history', function (req, res) {
+    webCtrl.getHistory(req.params.agent_id, req).then(data => {
+      if (data.length) {
+        res.send(data);
+      } else {
+        res.status(200).send({ err: 'History not found with agent id!' });
+      }
+    }).catch((err) => {
+      res.status(500).send({ err: err });
+    });
+  });
+
   // app.use(function(req, res) {
   //   // Use res.sendfile, as it streams instead of reading the file into memory.
   //   res.sendfile(__dirname + '/../public/index.html');

@@ -40,20 +40,85 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
     <div id="swapChartDiv" mat-list-item class="nano-chart"></div>
     <div id="diskChartDiv" mat-list-item class="nano-chart"></div>
   </mat-nav-list>
-  
+
   <!-- <mat-divider></mat-divider> -->
 
-  <mat-tab-group class="fullWidth" [selectedIndex]="tabSelectedIndex" (selectedTabChange)="selectedTabChange($event)">
+  <mat-tab-group class="fullWidth" [(selectedIndex)]="tabSelectedIndex" (selectedTabChange)="selectedTabChange($event)">
     <mat-tab label="RealTime CPU">
       <div id="cpuChart4ProcessDiv" class="full-width-chart"></div>
     </mat-tab>
     <mat-tab label="RealTime Memory">
       <div id="memChart4ProcessDiv" class="full-width-chart"></div>
     </mat-tab>
-    <mat-tab label="History"> Content 3 </mat-tab>
+    <mat-tab label="History">
+      <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer class="example-sidenav" mode="over">
+          <div style="width:250px;">
+            <div class="date-time-picker">
+              <mat-label>Start Date</mat-label>
+              <input type="datetime-local" id="history-start-datetime" name="history-start-datetime"
+                [(ngModel)]="startDate" [value]="startDate">
+            </div>
+            <div class="date-time-picker">
+              <mat-label>End Date</mat-label>
+              <input type="datetime-local" id="history-end-datetime" name="history-end-datetime" [(ngModel)]="endDate"
+                [value]="endDate">
+            </div>
+            <span>&nbsp;{{startDate}}</span>
+            <br>
+            <span>&nbsp;{{endDate}}</span>
+            <mat-form-field appearance="fill" style="width:100%;">
+              <mat-label>Zoom Level</mat-label>
+              <mat-select [(value)]="unitSelected">
+                <mat-option *ngFor="let unit of zoomUnits" [value]="unit.value">
+                  {{unit.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-slide-toggle>Include processes</mat-slide-toggle>
+            <br> <br>
+            <mat-divider></mat-divider>
+            <br> <br><br> <br> <br>
+            <div class="center">
+              <button type="button" mat-raised-button color="primary" (click)="drawer.toggle();onConfigChange();">
+                Apply
+              </button>
+            </div>
+          </div>
+        </mat-drawer>
+
+        <div class="example-sidenav-content">
+          <mat-icon class="slide-bar-opener" mat-button (click)="drawer.toggle()"> menu </mat-icon>
+          <mat-tab-group class="fullWidth" [(selectedIndex)]="historyTabSelectedIndex"
+            (selectedTabChange)="selectedHistoryTabChange($event)" animationDuration="0">
+            <mat-tab label="Load Average">
+              <div id="loadAvgHistoryChart" class="full-width-chart"></div>
+            </mat-tab>
+            <mat-tab label="Disk">
+              <div id="diskHistoryChart" class="full-width-chart"></div>
+            </mat-tab>
+            <mat-tab label="Swap">
+              <div id="swapHistoryChart" class="full-width-chart"></div>
+            </mat-tab>
+            <mat-tab label="CPU">
+              <div id="cpuHistoryChart" class="full-width-chart"></div>
+            </mat-tab>
+            <mat-tab label="Memory">
+              <div id="memoryHistoryChart" class="full-width-chart"></div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+
+
+
+
+
+
+      </mat-drawer-container>
+    </mat-tab>
   </mat-tab-group>
 
-<!-- 
+  <!-- 
   <mat-expansion-panel class="fullWidth" hideToggle>
     <mat-expansion-panel-header>
       <mat-panel-title>

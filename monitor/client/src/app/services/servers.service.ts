@@ -3,6 +3,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Server } from './../models/server';
+import { stringify } from '@angular/compiler/src/util';
 
 
 @Injectable({
@@ -24,7 +25,7 @@ export class ServersService {
   getServer(agent_id: string): Observable<Server> {
     return this.http.get<Server>(this.host + '/agent/' + agent_id);
   }
-  
+
   updateServer(agent_id: string, server: Server) {
     let url = this.host + '/agent/update/' + agent_id;
     return this.http.post<Server>(url, server).pipe(catchError(this.handleError)).toPromise();
@@ -33,6 +34,16 @@ export class ServersService {
   addServer(server: Server) {
     let url = this.host + '/agent/add';
     return this.http.post<Server>(url, server).pipe(catchError(this.handleError)).toPromise();
+  }
+
+  getHistoryData(agent_id: string, startTs: number, endTs: number, apps: string[], fields: string[], unit: string) {
+    let url = this.host + '/agent/' + agent_id + '/history?startTs=' + startTs +
+      '&endTs=' + endTs +
+      '&apps=' + apps.join() +
+      '&fields=' + fields.join() +
+      '&unit=' + unit;
+
+    return this.http.get<Server[]>(url).pipe(catchError(this.handleError)).toPromise();
   }
 
   private handleError(error: HttpErrorResponse) {

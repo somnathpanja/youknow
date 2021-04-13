@@ -10320,10 +10320,10 @@ var Axis = (SRC.Chart.Axis = class Axis {
       if (SR.isDefined(this._interval) && SR.isDefined(this._intervalType)) {
         this._internalInterval = Axis.intervalType2Ms(this._intervalType, this._interval);
       } else {
-        let aproxWidth = this.chart.width || this.chart._host.width() || 600;
+        let aproxWidth = this.chart.width || this.chart._host.width() || 600; // Aprox width
         let maxNoOfLabel = aproxWidth /10;
         let diff = ((max - min) / aproxWidth) * (aproxWidth / maxNoOfLabel);
-        alert();
+
         if (diff > SR.ONE_YEAR_IN_MS) {
           this._intervalType = 'year';
           this._interval = 1;

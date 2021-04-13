@@ -42,6 +42,13 @@
   margin-bottom: 1rem;
 }
 
+.margin-common {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: -0.5rem;
+  margin-left: 0.5rem;
+}
+
 .mini-chart {
   display: inline;
   float: left;
@@ -81,4 +88,50 @@
 .hot-linear-gradient {
   background-color:transparent;
   background-image: linear-gradient(to right,rgba(4, 255, 8, 0.191),rgba(241, 245, 0, 0.191), rgba(255, 0, 0, 0.191));
+}
+
+.center {
+  margin: auto;
+  width:fit-content;
+   /* border: 3px solid gray;  */
+}
+
+.child-right-float{
+  float: right;
+  width:fit-content;
+  height:fit-content;
+  /* border:solid 1px #00F; */
+  z-index: 10000;
+  margin-top: -3px;
+}
+
+.back-gray{
+  background-color: rgb(236, 236, 236);
+}
+
+.back-white{
+  background-color: rgb(256, 256, 256);
+}
+
+.slide-bar-opener{
+  float: left;
+  position: absolute;
+  z-index: 10000;
+  width: 30px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.date-time-picker{
+ background-color: rgb(233, 233, 233);
+ padding: 0.5rem;
+ margin-bottom: 1rem;
+ border:1 solid rgb(179, 179, 179);
+}
+
+.date-time-picker input[type="datetime-local"] {
+  width: 97%;
+  margin-right: 0.5rem;
+  /* padding-right: 2rem; */
+  /* More styles here */
 }

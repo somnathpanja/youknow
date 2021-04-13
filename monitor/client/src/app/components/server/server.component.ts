@@ -1,10 +1,17 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Server } from './../../models/server';
 import { WsService } from './../../services/ws.service';
 import { ServersService } from './../../services/servers.service';
 import * as EventTypes from './../../../assets/common/eventTypes.json';
 import { ChartModel } from './../../models/chartModel';
+import * as moment from 'moment';
+
+interface ZoomOption {
+  value: string;
+  viewValue: string;
+}
+
 declare var google: any;
 declare var SilverJs: any;
 var SJ = SilverJs;
@@ -20,6 +27,11 @@ export class ServerComponent implements OnInit {
   private agent_id: string = '';
   @Input() idealCPUInPercent: number = 0;
   @Input() tabSelectedIndex: number = 0;
+  @Input() historyTabSelectedIndex: number = 0;
+  @Input() startDate: string = moment.utc().local().subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ss');
+  @Input() endDate: string = moment.utc().local().format('YYYY-MM-DDTHH:mm:ss');
+  @Input() unitSelected: string = 'minute';
+
   private cpuChart: any;
   private loadAvgChart: any;
   private ramGraph: any;
@@ -27,12 +39,30 @@ export class ServerComponent implements OnInit {
   private diskGraph: any;
   private cpu4ProcessGraph: any;
   private mem4ProcessGraph: any;
-  private _tmpDataMem4ProcessGraph:any;
-  private _tmpDataCpu4ProcessGraph:any;
+  // History Graphs
+  private loadAvgHistoryChart: any;
+  private diskHistoryChart: any;
+  private swapHistoryChart: any;
+  private cpuHistoryChart: any;
+  private memoryHistoryChart: any;
+
+  private _tmpDataMem4ProcessGraph: any;
+  private _tmpDataCpu4ProcessGraph: any;
 
   private cornerRadius: Array<number> = [7, 7, 7, 7];
   private shadowEnabled: boolean = true;
   private borderThickness: number = 0.01;
+
+  @Input() zoomUnits: ZoomOption[] = [
+    { value: 'second', viewValue: 'Second' },
+    { value: 'minute', viewValue: 'Minute' },
+    { value: 'hour', viewValue: 'Hour' },
+    { value: 'day', viewValue: 'Day' },
+    { value: 'week', viewValue: 'Week' },
+    { value: 'quarter', viewValue: 'Quarter' },
+    { value: 'month', viewValue: 'Month' },
+    { value: 'year', viewValue: 'Year' }
+  ];
 
   constructor(private route: ActivatedRoute, private router: Router,
     private wsService: WsService, private serversService: ServersService) {
@@ -99,10 +129,60 @@ export class ServerComponent implements OnInit {
         this.updateMemory4ProcessGraph(null);
         break;
       case 2:
+        this.selectedHistoryTabChange({ index: 0 });
         break;
       case 3:
         break;
     }
+  }
+
+  onConfigChange() {
+    this.selectedHistoryTabChange({ index: this.historyTabSelectedIndex });
+  }
+
+  selectedHistoryTabChange(event: any) {
+    console.log("Index" + event.index);
+    this.historyTabSelectedIndex = event.index;
+    let startTs = new Date(this.startDate).getTime();
+    let endTs = new Date(this.endDate).getTime();
+    let apps = ['sys'];
+    let fields: string[] = [];
+    let unit = this.unitSelected;
+    let divId: string;
+    let yAxisSettings: any = {};
+
+    switch (event.index) {
+      case 0:
+        divId = 'loadAvgHistoryChart';
+        fields = ['load_avg1', 'load_avg5', 'load_avg15'];
+
+        break;
+      case 1:
+        divId = 'diskHistoryChart';
+        fields = ['disk_total', 'disk_used', 'disk_free'];
+        yAxisSettings.valueFormatRange = [1, 'MB', 1000, 'GB'];
+        break;
+      case 2:
+        divId = 'swapHistoryChart';
+        fields = ['mem_swap_total', 'mem_swap_free', 'mem_swap_used', 'mem_swap_avail'];
+        yAxisSettings.valueFormatRange = [1, 'KB', 1000, 'MB', 1e+6, 'GB'];
+        break;
+      case 3:
+        divId = 'cpuHistoryChart';
+        fields = ['cpu_percent'];
+        apps = [];
+        break;
+      case 4:
+        divId = 'memoryHistoryChart';
+        fields = ['mem_res'];
+        apps = [];
+        yAxisSettings.valueFormatRange = [1, 'KB', 1000, 'MB', 1e+6, 'GB'];
+        break;
+    }
+
+    this.serversService.getHistoryData(this.agent_id, startTs, endTs, apps, fields, unit).then(chartData => {
+      this.createOrUpdateHistoryGraph(divId, chartData, unit, yAxisSettings);
+    });
   }
 
   createMemory4ProcessGraph() {
@@ -441,6 +521,66 @@ export class ServerComponent implements OnInit {
     //this.diskGraph.axesY[0].max(data.sys.disk_total);
     this.diskGraph.setData(ds);
     this.diskGraph.render();
+  }
+
+  createHistoryGraph(id: string, yAxisSettings: any) {
+    return new Chart(id, {
+      // width: 300, height: 160,
+      border: this.borderThickness,
+      bevel: false,
+      shadow: this.shadowEnabled,
+      borderColor: 'black',
+      cornerRadius: this.cornerRadius,
+      tooltip: { sharing: 'singleShared' },
+      verticalHairLineEnabled: true,
+      // padding: [0, 3, 0, -5],
+      // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
+      axesY: [Object.assign({
+        // max: 120,
+        // min: 0,
+        // interval: 2,
+        axisLineThickness: 0.2,
+        axisType: "primary",
+        valueFormat: '###.##'
+      }, yAxisSettings)],
+      axesX: [{
+        // tickLength: 1,
+        // axisLineThickness: 0.2,
+        scaleType: "datetime",
+        valueFormat: "MM-dd-yyyy HH:mm:ss",
+        intervalType: 'minute',
+        labelAngel: -90
+      }]
+    });
+  }
+
+  createOrUpdateHistoryGraph(id: any, chartData: any, unit: string, yAxisSettings: any) {
+    let chart;
+    switch (id) {
+      case 'loadAvgHistoryChart':
+        chart = this.loadAvgHistoryChart = this.loadAvgHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        break;
+      case 'diskHistoryChart':
+        chart = this.diskHistoryChart = this.diskHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        break;
+      case 'swapHistoryChart':
+        chart = this.swapHistoryChart = this.swapHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        break;
+      case 'cpuHistoryChart':
+        chart = this.cpuHistoryChart = this.cpuHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        break;
+      case 'memoryHistoryChart':
+        chart = this.memoryHistoryChart = this.memoryHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        break;
+    }
+
+    chartData.forEach((ds: any) => {
+      ds.lineWidth = 2;
+      ds.plotAs = 'line';
+    });
+
+    chart.setData(chartData);
+    chart.render();
   }
 
   loadScript(url: string) {

@@ -14,10 +14,17 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const MaterialComponents = [
   MatButtonModule,
+  MatSelectModule,
   MatIconModule,
   MatToolbarModule,
   MatMenuModule,
@@ -32,7 +39,12 @@ const MaterialComponents = [
   MatCardModule,
   MatGridListModule,
   MatExpansionModule,
-  MatTabsModule
+  MatTabsModule,
+  MatNativeDateModule,
+  MatMomentDateModule,
+  MatDatepickerModule,
+  MatSidenavModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

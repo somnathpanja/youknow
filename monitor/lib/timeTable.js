@@ -89,6 +89,26 @@ class TimeTable extends EventEmitter {
   }
 
   /**
+   * @description Get the db references
+   * @param {*} startTs 
+   * @param {*} endTs 
+   */
+  static _dbFromRange(agent_id, startTs, endTs) {
+    // A new DB file will be created in every AGGREGATION_DEPTH.Year
+    var startTsDay = moment(startTs).startOf(AGGREGATION_DEPTH.Year).valueOf();
+    var endTsDay = moment(endTs).startOf(AGGREGATION_DEPTH.Year).valueOf();
+    var dbFile;
+
+    if (endTsDay == startTsDay) {
+      dbFile = `${agent_id}_${startTsDay}`;
+    } else { //TODO: attach two of more files
+      dbFile = `${agent_id}_${startTsDay}`;
+    }
+
+    return SQLite.getFileDb(dbFile);
+  }
+
+  /**
    * @description Ensure table exist for the current time stamp
    * @param {*} ts 
    * @param {*} tableName 
@@ -108,6 +128,45 @@ class TimeTable extends EventEmitter {
           // console.log(`> table ${unit} created.`);
           resolve(db);
         });
+      });
+    });
+  }
+
+  /**
+   * 
+   * @param {Number} agent_id 
+   * @param {Number} startTs 
+   * @param {Number} endTs 
+   * @param {String[]} apps 
+   * @param {String} fields 
+   * @param {AGGREGATION_DEPTH} unit 
+   * @returns 
+   */
+  static read(agent_id, startTs, endTs, apps, fields, unit) {
+    let self = this, query, values;
+    if (apps.length == 0) {
+      query = `SELECT ${fields + ',app'} FROM ${unit} WHERE timestamp >= ? AND timestamp <= ?`;
+      values = [startTs, endTs];
+    } else if (apps.length > 1) {
+      query = `SELECT ${fields} FROM ${unit} WHERE app in (${apps.join()}) AND timestamp >= ? AND timestamp <= ?`;
+      values = [startTs, endTs];
+    } else {
+      query = `SELECT ${fields} FROM ${unit} WHERE app = ? AND timestamp >= ? AND timestamp <= ?`;
+      values = [apps[0], startTs, endTs];
+    }
+
+    return new Promise((resolve, reject) => {
+      TimeTable._dbFromRange(agent_id, startTs, endTs).then((db) => {
+        db.all(query, values, function (err, data) {
+          if (err) {
+            console.log(query, err.message);
+            return reject(err);
+          }
+
+          resolve(data);
+        });
+      }).catch(() => {
+        reject(err);
       });
     });
   }
