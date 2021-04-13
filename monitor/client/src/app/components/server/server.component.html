@@ -43,7 +43,7 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
 
   <!-- <mat-divider></mat-divider> -->
 
-  <mat-tab-group class="fullWidth" [(selectedIndex)]="tabSelectedIndex" (selectedTabChange)="selectedTabChange($event)">
+  <mat-tab-group dynamicHeight class="fullWidth remove-top-margin" [(selectedIndex)]="tabSelectedIndex" (selectedTabChange)="selectedTabChange($event)">
     <mat-tab label="RealTime CPU">
       <div id="cpuChart4ProcessDiv" class="full-width-chart"></div>
     </mat-tab>
@@ -90,21 +90,21 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
         <div class="example-sidenav-content">
           <mat-icon class="slide-bar-opener" mat-button (click)="drawer.toggle()"> menu </mat-icon>
           <mat-tab-group class="fullWidth" [(selectedIndex)]="historyTabSelectedIndex"
-            (selectedTabChange)="selectedHistoryTabChange($event)" animationDuration="0">
+            (selectedTabChange)="selectedHistoryTabChange($event)" animationDuration="0ms">
             <mat-tab label="Load Average">
-              <div id="loadAvgHistoryChart" class="full-width-chart"></div>
+              <div id="loadAvgHistoryChart" class="full-width-history-chart"></div>
             </mat-tab>
             <mat-tab label="Disk">
-              <div id="diskHistoryChart" class="full-width-chart"></div>
+              <div id="diskHistoryChart" class="full-width-history-chart"></div>
             </mat-tab>
             <mat-tab label="Swap">
-              <div id="swapHistoryChart" class="full-width-chart"></div>
+              <div id="swapHistoryChart" class="full-width-history-chart"></div>
             </mat-tab>
             <mat-tab label="CPU">
-              <div id="cpuHistoryChart" class="full-width-chart"></div>
+              <div id="cpuHistoryChart" class="full-width-history-chart"></div>
             </mat-tab>
             <mat-tab label="Memory">
-              <div id="memoryHistoryChart" class="full-width-chart"></div>
+              <div id="memoryHistoryChart" class="full-width-history-chart"></div>
             </mat-tab>
           </mat-tab-group>
         </div>

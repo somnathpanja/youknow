@@ -150,27 +150,31 @@ export class ServerComponent implements OnInit {
     let unit = this.unitSelected;
     let divId: string;
     let yAxisSettings: any = {};
+    let chartOptions: any = {};
 
     switch (event.index) {
       case 0:
         divId = 'loadAvgHistoryChart';
         fields = ['load_avg1', 'load_avg5', 'load_avg15'];
-
+        chartOptions.tooltip = { sharing: 'singleShared' };
         break;
       case 1:
         divId = 'diskHistoryChart';
         fields = ['disk_total', 'disk_used', 'disk_free'];
         yAxisSettings.valueFormatRange = [1, 'MB', 1000, 'GB'];
+        chartOptions.tooltip = { sharing: 'singleShared' };
         break;
       case 2:
         divId = 'swapHistoryChart';
         fields = ['mem_swap_total', 'mem_swap_free', 'mem_swap_used', 'mem_swap_avail'];
         yAxisSettings.valueFormatRange = [1, 'KB', 1000, 'MB', 1e+6, 'GB'];
+        chartOptions.tooltip = { sharing: 'singleShared' };
         break;
       case 3:
         divId = 'cpuHistoryChart';
         fields = ['cpu_percent'];
         apps = [];
+
         break;
       case 4:
         divId = 'memoryHistoryChart';
@@ -181,7 +185,7 @@ export class ServerComponent implements OnInit {
     }
 
     this.serversService.getHistoryData(this.agent_id, startTs, endTs, apps, fields, unit).then(chartData => {
-      this.createOrUpdateHistoryGraph(divId, chartData, unit, yAxisSettings);
+      this.createOrUpdateHistoryGraph(divId, chartData, unit, yAxisSettings, chartOptions);
     });
   }
 
@@ -523,15 +527,14 @@ export class ServerComponent implements OnInit {
     this.diskGraph.render();
   }
 
-  createHistoryGraph(id: string, yAxisSettings: any) {
-    return new Chart(id, {
+  createHistoryGraph(id: string, yAxisSettings: any, chartOptions: any) {
+    return new Chart(id, Object.assign({
       // width: 300, height: 160,
       border: this.borderThickness,
       bevel: false,
       shadow: this.shadowEnabled,
       borderColor: 'black',
       cornerRadius: this.cornerRadius,
-      tooltip: { sharing: 'singleShared' },
       verticalHairLineEnabled: true,
       // padding: [0, 3, 0, -5],
       // titles: [{ text: "CPU", fontSize: 12, fontWeight: 'bold',margin: [0, 5, 0, 0] }],
@@ -549,34 +552,38 @@ export class ServerComponent implements OnInit {
         scaleType: "datetime",
         valueFormat: "MM-dd-yyyy HH:mm:ss",
         intervalType: 'minute',
-        labelAngel: -90
+        labelAngel: -90,
+        labelFont: { fontSize: 8, fontWeight:'bold' }
       }]
-    });
+    }, chartOptions));
   }
 
-  createOrUpdateHistoryGraph(id: any, chartData: any, unit: string, yAxisSettings: any) {
+  createOrUpdateHistoryGraph(id: any, chartData: any, unit: string, yAxisSettings: any, chartOptions: any) {
     let chart;
     switch (id) {
       case 'loadAvgHistoryChart':
-        chart = this.loadAvgHistoryChart = this.loadAvgHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        chart = this.loadAvgHistoryChart = this.loadAvgHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
         break;
       case 'diskHistoryChart':
-        chart = this.diskHistoryChart = this.diskHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        chart = this.diskHistoryChart = this.diskHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
         break;
       case 'swapHistoryChart':
-        chart = this.swapHistoryChart = this.swapHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        chart = this.swapHistoryChart = this.swapHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
         break;
       case 'cpuHistoryChart':
-        chart = this.cpuHistoryChart = this.cpuHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        chart = this.cpuHistoryChart = this.cpuHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
         break;
       case 'memoryHistoryChart':
-        chart = this.memoryHistoryChart = this.memoryHistoryChart || this.createHistoryGraph(id, yAxisSettings);
+        chart = this.memoryHistoryChart = this.memoryHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
         break;
     }
-
+     
     chartData.forEach((ds: any) => {
       ds.lineWidth = 2;
       ds.plotAs = 'line';
+      ds.lineWidth = 0.8;
+      ds.showInLegend = false;
+      ds.tooltipText= "<span style='color:{color};font-size:12px;'><b style='color:{color};font-size:12px;'>{name}</b>: {yValue}</span>";
     });
 
     chart.setData(chartData);
