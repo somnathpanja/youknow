@@ -637,6 +637,13 @@ export class ServerComponent implements OnInit {
 
         let series: any[] = [];
 
+        // Load the default selection first 3 series
+        if (!this.selectedDsNamesOfCPUHistory) {
+          this.selectedDsNamesOfCPUHistory = chartData.slice(0, 3).map((ds) => {
+            return ds.name;
+          });
+        }
+
         this.legendEntriesCpuHistory = chartData.map((ds: any, index: number) => {
           let selected = true;
 
@@ -645,7 +652,7 @@ export class ServerComponent implements OnInit {
           }
 
           if (selected) series.push(ds);
-          return new ListItem(ds.name, ds.name, selected);
+          return new ListItem(ds.name.substr(ds.name - 15), ds.name, selected);
         });
 
         chartData = series;
@@ -671,7 +678,7 @@ export class ServerComponent implements OnInit {
           }
 
           if (selected) memSeries.push(ds);
-          return new ListItem(ds.name, ds.name, selected);
+          return new ListItem(ds.name.substr(ds.name - 15), ds.name, selected);
         });
 
         chartData = memSeries;

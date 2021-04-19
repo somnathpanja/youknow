@@ -2160,7 +2160,7 @@
 
       function ServerComponent_mat_option_57_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-option", 52);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-option", 53);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
 
@@ -2178,9 +2178,9 @@
         }
       }
 
-      function ServerComponent_mat_list_option_88_Template(rf, ctx) {
+      function ServerComponent_mat_list_option_91_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-list-option", 53);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-list-option", 54);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
 
@@ -2198,9 +2198,9 @@
         }
       }
 
-      function ServerComponent_mat_list_option_103_Template(rf, ctx) {
+      function ServerComponent_mat_list_option_106_Template(rf, ctx) {
         if (rf & 1) {
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-list-option", 53);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "mat-list-option", 54);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1);
 
@@ -2974,7 +2974,14 @@
               case 'cpuHistoryChart':
                 chart = this.cpuHistoryChart = this.cpuHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
                 this.cpuHistoryData = chartData;
-                var series = [];
+                var series = []; // Load the default selection first 3 series
+
+                if (!this.selectedDsNamesOfCPUHistory) {
+                  this.selectedDsNamesOfCPUHistory = chartData.slice(0, 3).map(function (ds) {
+                    return ds.name;
+                  });
+                }
+
                 this.legendEntriesCpuHistory = chartData.map(function (ds, index) {
                   var selected = true;
 
@@ -2983,7 +2990,7 @@
                   }
 
                   if (selected) series.push(ds);
-                  return new _interfaces_listItem__WEBPACK_IMPORTED_MODULE_4__["ListItem"](ds.name, ds.name, selected);
+                  return new _interfaces_listItem__WEBPACK_IMPORTED_MODULE_4__["ListItem"](ds.name.substr(ds.name - 15), ds.name, selected);
                 });
                 chartData = series;
                 break;
@@ -3007,7 +3014,7 @@
                   }
 
                   if (selected) memSeries.push(ds);
-                  return new _interfaces_listItem__WEBPACK_IMPORTED_MODULE_4__["ListItem"](ds.name, ds.name, selected);
+                  return new _interfaces_listItem__WEBPACK_IMPORTED_MODULE_4__["ListItem"](ds.name.substr(ds.name - 15), ds.name, selected);
                 });
                 chartData = memSeries;
                 break;
@@ -3073,7 +3080,7 @@
         },
         decls: 111,
         vars: 20,
-        consts: [[1, "container"], [1, "header-display", "hot-linear-gradient"], ["id", "hotness", 1, "color-layer", "child-right", 3, "ngStyle"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address", 3, "click"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["dynamicHeight", "", 1, "fullWidth", "remove-top-margin", 3, "selectedIndex", "selectedIndexChange", "selectedTabChange"], ["label", "RealTime CPU"], ["id", "cpuChart4ProcessDiv", 1, "full-width-chart"], ["label", "RealTime Memory"], ["id", "memChart4ProcessDiv", 1, "full-width-chart"], ["label", "History"], ["autosize", "", 1, "example-container"], ["mode", "over", 1, "example-sidenav"], ["drawer", ""], [2, "width", "250px"], [1, "date-time-picker"], ["type", "datetime-local", "id", "history-start-datetime", "name", "history-start-datetime", 3, "ngModel", "value", "ngModelChange"], ["type", "datetime-local", "id", "history-end-datetime", "name", "history-end-datetime", 3, "ngModel", "value", "ngModelChange"], ["appearance", "fill", 2, "width", "100%"], [3, "value", "valueChange"], [3, "value", 4, "ngFor", "ngForOf"], [1, "center"], ["type", "button", "mat-raised-button", "", "color", "primary", 3, "click"], [1, "example-sidenav-content"], ["mat-button", "", 1, "slide-bar-opener", 3, "click"], ["animationDuration", "0ms", 1, "fullWidth", 3, "selectedIndex", "selectedIndexChange", "selectedTabChange"], ["label", "Load Average"], ["id", "loadAvgHistoryChart", 1, "full-width-history-chart"], ["label", "Disk"], ["id", "diskHistoryChart", 1, "full-width-history-chart"], ["label", "Swap"], ["id", "swapHistoryChart", 1, "full-width-history-chart"], ["label", "CPU"], ["drawerCPU", ""], ["cpuHistoryLegend", ""], [3, "value", "selected", 4, "ngFor", "ngForOf"], ["mat-button", "", 1, "history-slide-bar-opener", 3, "click"], ["id", "cpuHistoryChart", 1, "full-width-history-chart"], ["label", "Memory"], ["drawerMEM", ""], ["memHistoryLegend", ""], ["id", "memoryHistoryChart", 1, "full-width-history-chart"], [3, "value"], [3, "value", "selected"]],
+        consts: [[1, "container"], [1, "header-display", "hot-linear-gradient"], ["id", "hotness", 1, "color-layer", "child-right", 3, "ngStyle"], ["mat-button", "", "color", "primary", "aria-label", "Platform"], ["mat-button", "", "aria-label", "Platform"], ["mat-button", "", "aria-label", "CPU Count"], ["mat-button", "", "aria-label", "IP Address", 3, "click"], ["fxLayout", ""], ["id", "cpuChartDiv", "mat-list-item", "", 1, "nano-chart"], ["src", "assets/icons/info-24px.svg", "matTooltip", "Info about the action", "matTooltip", "US: User cpu time (or) % CPU time spent in user space \\n\u2022\nSY: System cpu time (or) % CPU time spent in kernel space \\n\u2022\nNI: User nice cpu time (or) % CPU time spent on low priority processes \u2022\nID: Idle cpu time (or) % CPU time spent idle \u2022\nWA: I/O wait cpu time (or) % CPU time spent in wait (on disk) \u2022\nHI: Hardware irq (or) % CPU time spent servicing/handling hardware interrupts \u2022\nSI: Software irq (or) % CPU time spent servicing/handling software interrupts \u2022\nST: Steal time - - % CPU time in involuntary wait by virtual cpu while hypervisor is servicing another processor (or) % CPU time stolen from a virtual machine", "matTooltipPosition", "right", "matTooltipHideDelay", "100000", 1, "infoIcon", 3, "matTooltipClass"], ["tooltip", "matTooltip"], ["id", "loadAvgChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "ramChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "swapChartDiv", "mat-list-item", "", 1, "nano-chart"], ["id", "diskChartDiv", "mat-list-item", "", 1, "nano-chart"], ["dynamicHeight", "", 1, "fullWidth", "remove-top-margin", 3, "selectedIndex", "selectedIndexChange", "selectedTabChange"], ["label", "RealTime CPU"], ["id", "cpuChart4ProcessDiv", 1, "full-width-chart"], ["label", "RealTime Memory"], ["id", "memChart4ProcessDiv", 1, "full-width-chart"], ["label", "History"], ["autosize", "", 1, "example-container"], ["mode", "over", 1, "example-sidenav"], ["drawer", ""], [2, "width", "250px"], [1, "date-time-picker"], ["type", "datetime-local", "id", "history-start-datetime", "name", "history-start-datetime", 3, "ngModel", "value", "ngModelChange"], ["type", "datetime-local", "id", "history-end-datetime", "name", "history-end-datetime", 3, "ngModel", "value", "ngModelChange"], ["appearance", "fill", 2, "width", "100%"], [3, "value", "valueChange"], [3, "value", 4, "ngFor", "ngForOf"], [1, "center"], ["type", "button", "mat-raised-button", "", "color", "primary", 3, "click"], [1, "example-sidenav-content"], ["mat-button", "", 1, "slide-bar-opener", 3, "click"], ["animationDuration", "0ms", 1, "fullWidth", 3, "selectedIndex", "selectedIndexChange", "selectedTabChange"], ["label", "Load Average"], ["id", "loadAvgHistoryChart", 1, "full-width-history-chart"], ["label", "Disk"], ["id", "diskHistoryChart", 1, "full-width-history-chart"], ["label", "Swap"], ["id", "swapHistoryChart", 1, "full-width-history-chart"], ["label", "CPU"], ["drawerCPU", ""], ["type", "button", "mat-raised-button", "", "color", "primary", 2, "margin-top", "5px", 3, "click"], ["cpuHistoryLegend", ""], [3, "value", "selected", 4, "ngFor", "ngForOf"], ["mat-button", "", 1, "history-slide-bar-opener", 3, "click"], ["id", "cpuHistoryChart", 1, "full-width-history-chart"], ["label", "Memory"], ["drawerMEM", ""], ["memHistoryLegend", ""], ["id", "memoryHistoryChart", 1, "full-width-history-chart"], [3, "value"], [3, "value", "selected"]],
         template: function ServerComponent_Template(rf, ctx) {
           if (rf & 1) {
             var _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵgetCurrentView"]();
@@ -3362,31 +3369,31 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](85, "div", 24);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](86, "mat-selection-list", null, 44);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](86, "div", 31);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](88, ServerComponent_mat_list_option_88_Template, 2, 3, "mat-list-option", 45);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](87, "button", 44);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](89, "div", 31);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](90, "button", 32);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ServerComponent_Template_button_click_90_listener() {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ServerComponent_Template_button_click_87_listener() {
               _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12);
 
               var _r3 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](84);
 
-              var _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](87);
+              var _r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](90);
 
               _r3.toggle();
 
               return ctx.onCPUHistoryLegendItemsSelected(_r4.selectedOptions.selected);
             });
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](91, " Apply ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](88, " Apply ");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](89, "mat-selection-list", null, 45);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](91, ServerComponent_mat_list_option_91_Template, 2, 3, "mat-list-option", 46);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3396,7 +3403,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](92, "div", 33);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](93, "mat-icon", 46);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](93, "mat-icon", 47);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ServerComponent_Template_mat_icon_click_93_listener() {
               _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12);
@@ -3410,7 +3417,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](95, "div", 47);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](95, "div", 48);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3418,39 +3425,39 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](96, "mat-tab", 48);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](96, "mat-tab", 49);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](97, "mat-drawer-container", 21);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](98, "mat-drawer", 22, 49);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](98, "mat-drawer", 22, 50);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](100, "div", 24);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](101, "mat-selection-list", null, 50);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](101, "div", 31);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](103, ServerComponent_mat_list_option_103_Template, 2, 3, "mat-list-option", 45);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](102, "button", 44);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](104, "div", 31);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](105, "button", 32);
-
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ServerComponent_Template_button_click_105_listener() {
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ServerComponent_Template_button_click_102_listener() {
               _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12);
 
               var _r6 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](99);
 
-              var _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](102);
+              var _r7 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](105);
 
               _r6.toggle();
 
               return ctx.onMemoryHistoryLegendItemsSelected(_r7.selectedOptions.selected);
             });
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](106, " Apply ");
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](103, " Apply ");
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](104, "mat-selection-list", null, 51);
+
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](106, ServerComponent_mat_list_option_106_Template, 2, 3, "mat-list-option", 46);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3460,7 +3467,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](107, "div", 33);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](108, "mat-icon", 46);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](108, "mat-icon", 47);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function ServerComponent_Template_mat_icon_click_108_listener() {
               _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵrestoreView"](_r12);
@@ -3474,7 +3481,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](110, "div", 51);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](110, "div", 52);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3552,7 +3559,7 @@
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("selectedIndex", ctx.historyTabSelectedIndex);
 
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](14);
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](17);
 
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.legendEntriesCpuHistory);
 
@@ -3562,7 +3569,7 @@
           }
         },
         directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgStyle"], _angular_material_button__WEBPACK_IMPORTED_MODULE_9__["MatButton"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_10__["MatIcon"], _angular_material_list__WEBPACK_IMPORTED_MODULE_11__["MatNavList"], _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_12__["MatTooltip"], _angular_material_tabs__WEBPACK_IMPORTED_MODULE_13__["MatTabGroup"], _angular_material_tabs__WEBPACK_IMPORTED_MODULE_13__["MatTab"], _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_14__["MatDrawerContainer"], _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_14__["MatDrawer"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_15__["MatLabel"], _angular_forms__WEBPACK_IMPORTED_MODULE_16__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_16__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_16__["NgModel"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_15__["MatFormField"], _angular_material_select__WEBPACK_IMPORTED_MODULE_17__["MatSelect"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgForOf"], _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_18__["MatSlideToggle"], _angular_material_divider__WEBPACK_IMPORTED_MODULE_19__["MatDivider"], _angular_material_list__WEBPACK_IMPORTED_MODULE_11__["MatSelectionList"], _angular_material_core__WEBPACK_IMPORTED_MODULE_20__["MatOption"], _angular_material_list__WEBPACK_IMPORTED_MODULE_11__["MatListOption"]],
-        styles: [".blue[_ngcontent-%COMP%] {\n  color:dodgerblue\n}\n\n.red[_ngcontent-%COMP%] {\n  color:indianred\n}\n\n.header1[_ngcontent-%COMP%] {\n  font-size: 35px;\n}\n\n.fullWidth[_ngcontent-%COMP%] {\n width: 100%;\n}\n\n.container[_ngcontent-%COMP%] {\n  padding: 0.5rem;\n  padding-top: 0.2rem;\n}\n\n.infoIcon[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 10000000;\n  float: right;\n  font-size: 12px;\n  height: 20px;\n  opacity: 0.5;\n}\n\n.my-tooltip[_ngcontent-%COMP%] {\n  white-space: pre-line;\n}\n\n.nano-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 250px; \n  height: 100px;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n}\n\n.margin-common[_ngcontent-%COMP%] {\n  margin-right: 0.5rem;\n  margin-top: 0.5rem;\n  margin-bottom: -0.5rem;\n  margin-left: 0.5rem;\n}\n\n.mini-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 300px; \n  height: 150px;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n}\n\n.full-width-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 100%; \n  height: 400px;\n  margin-right: 1rem;\n}\n\n.full-width-history-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 100%; \n  height: 480px;\n  margin-right: 1rem;\n  font-size: 8px;\n}\n\n.header-display[_ngcontent-%COMP%] {\n  overflow: hidden;\n  position: relative;\n  width: 100%;\n}\n\n.child-right[_ngcontent-%COMP%] {\n  height: 100%;\n  \n  position: absolute;\n  right: 0;\n  top: 0;\n  transition: width 2s;\n}\n\n.color-layer[_ngcontent-%COMP%] {\n  background:rgb(245, 245, 245);\n}\n\n.hot-linear-gradient[_ngcontent-%COMP%] {\n  background-color:transparent;\n  background-image: linear-gradient(to right,rgba(4, 255, 8, 0.191),rgba(241, 245, 0, 0.191), rgba(255, 0, 0, 0.191));\n}\n\n.center[_ngcontent-%COMP%] {\n  margin: auto;\n  width:-webkit-fit-content;\n  width:-moz-fit-content;\n  width:fit-content;\n   \n}\n\n.child-right-float[_ngcontent-%COMP%]{\n  float: right;\n  width:-webkit-fit-content;\n  width:-moz-fit-content;\n  width:fit-content;\n  height:-webkit-fit-content;\n  height:-moz-fit-content;\n  height:fit-content;\n  \n  z-index: 10000;\n  margin-top: -3px;\n}\n\n.back-gray[_ngcontent-%COMP%]{\n  background-color: rgb(236, 236, 236);\n}\n\n.back-white[_ngcontent-%COMP%]{\n  background-color: rgb(256, 256, 256);\n}\n\n.slide-bar-opener[_ngcontent-%COMP%]{\n  float: left;\n  position: absolute;\n  z-index: 10000;\n  width: 30px;\n  margin-top: 10px;\n  cursor: pointer;\n}\n\n.date-time-picker[_ngcontent-%COMP%]{\n background-color: rgb(233, 233, 233);\n padding: 0.5rem;\n margin-bottom: 1rem;\n border:1 solid rgb(179, 179, 179);\n}\n\n.date-time-picker[_ngcontent-%COMP%]   input[type=\"datetime-local\"][_ngcontent-%COMP%] {\n  width: 97%;\n  margin-right: 0.5rem;\n  \n  \n}\n\n.remove-top-margin[_ngcontent-%COMP%] {\n  margin-top: 100px;\n}\n\n.history-slide-bar-opener[_ngcontent-%COMP%]{\n  float: left;\n  position: absolute;\n  z-index: 10000;\n  width: 30px;\n  margin-top: 10px;\n  margin-left: 55px;\n  cursor: pointer;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZlci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQTtFQUNFO0FBQ0Y7O0FBRUE7RUFDRTtBQUNGOztBQUVBO0VBQ0UsZUFBZTtBQUNqQjs7QUFFQTtDQUNDLFdBQVc7QUFDWjs7QUFFQTtFQUNFLGVBQWU7RUFDZixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsaUJBQWlCO0VBQ2pCLFlBQVk7RUFDWixlQUFlO0VBQ2YsWUFBWTtFQUNaLFlBQVk7QUFDZDs7QUFFQTtFQUNFLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLGVBQWU7RUFDZixXQUFXO0VBQ1gsWUFBWTtFQUNaLGFBQWE7RUFDYixrQkFBa0I7RUFDbEIsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0Usb0JBQW9CO0VBQ3BCLGtCQUFrQjtFQUNsQixzQkFBc0I7RUFDdEIsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxZQUFZO0VBQ1osYUFBYTtFQUNiLGtCQUFrQjtFQUNsQixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxlQUFlO0VBQ2YsV0FBVztFQUNYLFdBQVc7RUFDWCxhQUFhO0VBQ2Isa0JBQWtCO0FBQ3BCOztBQUVBO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxXQUFXO0VBQ1gsYUFBYTtFQUNiLGtCQUFrQjtFQUNsQixjQUFjO0FBQ2hCOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtFQUNsQixXQUFXO0FBQ2I7O0FBRUE7RUFDRSxZQUFZO0VBQ1osZ0JBQWdCO0VBQ2hCLGtCQUFrQjtFQUNsQixRQUFRO0VBQ1IsTUFBTTtFQUNOLG9CQUFvQjtBQUN0Qjs7QUFFQTtFQUNFLDZCQUE2QjtBQUMvQjs7QUFFQTtFQUNFLDRCQUE0QjtFQUM1QixtSEFBbUg7QUFDckg7O0FBRUE7RUFDRSxZQUFZO0VBQ1oseUJBQWlCO0VBQWpCLHNCQUFpQjtFQUFqQixpQkFBaUI7R0FDaEIsNkJBQTZCO0FBQ2hDOztBQUVBO0VBQ0UsWUFBWTtFQUNaLHlCQUFpQjtFQUFqQixzQkFBaUI7RUFBakIsaUJBQWlCO0VBQ2pCLDBCQUFrQjtFQUFsQix1QkFBa0I7RUFBbEIsa0JBQWtCO0VBQ2xCLDJCQUEyQjtFQUMzQixjQUFjO0VBQ2QsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0Usb0NBQW9DO0FBQ3RDOztBQUVBO0VBQ0Usb0NBQW9DO0FBQ3RDOztBQUVBO0VBQ0UsV0FBVztFQUNYLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsV0FBVztFQUNYLGdCQUFnQjtFQUNoQixlQUFlO0FBQ2pCOztBQUVBO0NBQ0Msb0NBQW9DO0NBQ3BDLGVBQWU7Q0FDZixtQkFBbUI7Q0FDbkIsaUNBQWlDO0FBQ2xDOztBQUVBO0VBQ0UsVUFBVTtFQUNWLG9CQUFvQjtFQUNwQix5QkFBeUI7RUFDekIscUJBQXFCO0FBQ3ZCOztBQUVBO0VBQ0UsaUJBQWlCO0FBQ25COztBQUVBO0VBQ0UsV0FBVztFQUNYLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsV0FBVztFQUNYLGdCQUFnQjtFQUNoQixpQkFBaUI7RUFDakIsZUFBZTtBQUNqQiIsImZpbGUiOiJzZXJ2ZXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIlxuLmJsdWUge1xuICBjb2xvcjpkb2RnZXJibHVlXG59XG5cbi5yZWQge1xuICBjb2xvcjppbmRpYW5yZWRcbn1cblxuLmhlYWRlcjEge1xuICBmb250LXNpemU6IDM1cHg7XG59XG5cbi5mdWxsV2lkdGgge1xuIHdpZHRoOiAxMDAlO1xufVxuXG4uY29udGFpbmVyIHtcbiAgcGFkZGluZzogMC41cmVtO1xuICBwYWRkaW5nLXRvcDogMC4ycmVtO1xufVxuXG4uaW5mb0ljb24ge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IDEwMDAwMDAwO1xuICBmbG9hdDogcmlnaHQ7XG4gIGZvbnQtc2l6ZTogMTJweDtcbiAgaGVpZ2h0OiAyMHB4O1xuICBvcGFjaXR5OiAwLjU7XG59XG5cbi5teS10b29sdGlwIHtcbiAgd2hpdGUtc3BhY2U6IHByZS1saW5lO1xufVxuXG4ubmFuby1jaGFydCB7XG4gIGRpc3BsYXk6IGlubGluZTtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiAyNTBweDsgXG4gIGhlaWdodDogMTAwcHg7XG4gIG1hcmdpbi1yaWdodDogMXJlbTtcbiAgbWFyZ2luLWJvdHRvbTogMXJlbTtcbn1cblxuLm1hcmdpbi1jb21tb24ge1xuICBtYXJnaW4tcmlnaHQ6IDAuNXJlbTtcbiAgbWFyZ2luLXRvcDogMC41cmVtO1xuICBtYXJnaW4tYm90dG9tOiAtMC41cmVtO1xuICBtYXJnaW4tbGVmdDogMC41cmVtO1xufVxuXG4ubWluaS1jaGFydCB7XG4gIGRpc3BsYXk6IGlubGluZTtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiAzMDBweDsgXG4gIGhlaWdodDogMTUwcHg7XG4gIG1hcmdpbi1yaWdodDogMXJlbTtcbiAgbWFyZ2luLWJvdHRvbTogMXJlbTtcbn1cblxuLmZ1bGwtd2lkdGgtY2hhcnQge1xuICBkaXNwbGF5OiBpbmxpbmU7XG4gIGZsb2F0OiBsZWZ0O1xuICB3aWR0aDogMTAwJTsgXG4gIGhlaWdodDogNDAwcHg7XG4gIG1hcmdpbi1yaWdodDogMXJlbTtcbn1cblxuLmZ1bGwtd2lkdGgtaGlzdG9yeS1jaGFydCB7XG4gIGRpc3BsYXk6IGlubGluZTtcbiAgZmxvYXQ6IGxlZnQ7XG4gIHdpZHRoOiAxMDAlOyBcbiAgaGVpZ2h0OiA0ODBweDtcbiAgbWFyZ2luLXJpZ2h0OiAxcmVtO1xuICBmb250LXNpemU6IDhweDtcbn1cblxuLmhlYWRlci1kaXNwbGF5IHtcbiAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB3aWR0aDogMTAwJTtcbn1cblxuLmNoaWxkLXJpZ2h0IHtcbiAgaGVpZ2h0OiAxMDAlO1xuICAvKiB3aWR0aDogMTAlOyAqL1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHJpZ2h0OiAwO1xuICB0b3A6IDA7XG4gIHRyYW5zaXRpb246IHdpZHRoIDJzO1xufVxuXG4uY29sb3ItbGF5ZXIge1xuICBiYWNrZ3JvdW5kOnJnYigyNDUsIDI0NSwgMjQ1KTtcbn1cblxuLmhvdC1saW5lYXItZ3JhZGllbnQge1xuICBiYWNrZ3JvdW5kLWNvbG9yOnRyYW5zcGFyZW50O1xuICBiYWNrZ3JvdW5kLWltYWdlOiBsaW5lYXItZ3JhZGllbnQodG8gcmlnaHQscmdiYSg0LCAyNTUsIDgsIDAuMTkxKSxyZ2JhKDI0MSwgMjQ1LCAwLCAwLjE5MSksIHJnYmEoMjU1LCAwLCAwLCAwLjE5MSkpO1xufVxuXG4uY2VudGVyIHtcbiAgbWFyZ2luOiBhdXRvO1xuICB3aWR0aDpmaXQtY29udGVudDtcbiAgIC8qIGJvcmRlcjogM3B4IHNvbGlkIGdyYXk7ICAqL1xufVxuXG4uY2hpbGQtcmlnaHQtZmxvYXR7XG4gIGZsb2F0OiByaWdodDtcbiAgd2lkdGg6Zml0LWNvbnRlbnQ7XG4gIGhlaWdodDpmaXQtY29udGVudDtcbiAgLyogYm9yZGVyOnNvbGlkIDFweCAjMDBGOyAqL1xuICB6LWluZGV4OiAxMDAwMDtcbiAgbWFyZ2luLXRvcDogLTNweDtcbn1cblxuLmJhY2stZ3JheXtcbiAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDIzNiwgMjM2LCAyMzYpO1xufVxuXG4uYmFjay13aGl0ZXtcbiAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDI1NiwgMjU2LCAyNTYpO1xufVxuXG4uc2xpZGUtYmFyLW9wZW5lcntcbiAgZmxvYXQ6IGxlZnQ7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgei1pbmRleDogMTAwMDA7XG4gIHdpZHRoOiAzMHB4O1xuICBtYXJnaW4tdG9wOiAxMHB4O1xuICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi5kYXRlLXRpbWUtcGlja2Vye1xuIGJhY2tncm91bmQtY29sb3I6IHJnYigyMzMsIDIzMywgMjMzKTtcbiBwYWRkaW5nOiAwLjVyZW07XG4gbWFyZ2luLWJvdHRvbTogMXJlbTtcbiBib3JkZXI6MSBzb2xpZCByZ2IoMTc5LCAxNzksIDE3OSk7XG59XG5cbi5kYXRlLXRpbWUtcGlja2VyIGlucHV0W3R5cGU9XCJkYXRldGltZS1sb2NhbFwiXSB7XG4gIHdpZHRoOiA5NyU7XG4gIG1hcmdpbi1yaWdodDogMC41cmVtO1xuICAvKiBwYWRkaW5nLXJpZ2h0OiAycmVtOyAqL1xuICAvKiBNb3JlIHN0eWxlcyBoZXJlICovXG59XG5cbi5yZW1vdmUtdG9wLW1hcmdpbiB7XG4gIG1hcmdpbi10b3A6IDEwMHB4O1xufVxuXG4uaGlzdG9yeS1zbGlkZS1iYXItb3BlbmVye1xuICBmbG9hdDogbGVmdDtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB6LWluZGV4OiAxMDAwMDtcbiAgd2lkdGg6IDMwcHg7XG4gIG1hcmdpbi10b3A6IDEwcHg7XG4gIG1hcmdpbi1sZWZ0OiA1NXB4O1xuICBjdXJzb3I6IHBvaW50ZXI7XG59Il19 */"]
+        styles: [".blue[_ngcontent-%COMP%] {\n  color:dodgerblue\n}\n\n.red[_ngcontent-%COMP%] {\n  color:indianred\n}\n\n.header1[_ngcontent-%COMP%] {\n  font-size: 35px;\n}\n\n.fullWidth[_ngcontent-%COMP%] {\n width: 100%;\n}\n\n.container[_ngcontent-%COMP%] {\n  padding: 0.5rem;\n  padding-top: 0.2rem;\n}\n\n.infoIcon[_ngcontent-%COMP%] {\n  position: relative;\n  z-index: 10000000;\n  float: right;\n  font-size: 12px;\n  height: 20px;\n  opacity: 0.5;\n}\n\n.my-tooltip[_ngcontent-%COMP%] {\n  white-space: pre-line;\n}\n\n.nano-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 250px; \n  height: 100px;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n}\n\n.margin-common[_ngcontent-%COMP%] {\n  margin-right: 0.5rem;\n  margin-top: 0.5rem;\n  margin-bottom: -0.5rem;\n  margin-left: 0.5rem;\n}\n\n.mini-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 300px; \n  height: 150px;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n}\n\n.full-width-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 100%; \n  height: 400px;\n  margin-right: 1rem;\n}\n\n.full-width-history-chart[_ngcontent-%COMP%] {\n  display: inline;\n  float: left;\n  width: 100%; \n  height: 480px;\n  margin-right: 1rem;\n  font-size: 8px;\n}\n\n.header-display[_ngcontent-%COMP%] {\n  overflow: hidden;\n  position: relative;\n  width: 100%;\n}\n\n.child-right[_ngcontent-%COMP%] {\n  height: 100%;\n  \n  position: absolute;\n  right: 0;\n  top: 0;\n  transition: width 2s;\n}\n\n.color-layer[_ngcontent-%COMP%] {\n  background:rgb(245, 245, 245);\n}\n\n.hot-linear-gradient[_ngcontent-%COMP%] {\n  background-color:transparent;\n  background-image: linear-gradient(to right,rgba(4, 255, 8, 0.191),rgba(241, 245, 0, 0.191), rgba(255, 0, 0, 0.191));\n}\n\n.center[_ngcontent-%COMP%] {\n  margin: auto;\n  width:-webkit-fit-content;\n  width:-moz-fit-content;\n  width:fit-content;\n   \n}\n\n.child-right-float[_ngcontent-%COMP%]{\n  float: right;\n  width:-webkit-fit-content;\n  width:-moz-fit-content;\n  width:fit-content;\n  height:-webkit-fit-content;\n  height:-moz-fit-content;\n  height:fit-content;\n  \n  z-index: 10000;\n  margin-top: -3px;\n}\n\n.back-gray[_ngcontent-%COMP%]{\n  background-color: rgb(236, 236, 236);\n}\n\n.back-white[_ngcontent-%COMP%]{\n  background-color: rgb(256, 256, 256);\n}\n\n.slide-bar-opener[_ngcontent-%COMP%]{\n  float: left;\n  position: absolute;\n  z-index: 10000;\n  width: 30px;\n  margin-top: 10px;\n  cursor: pointer;\n}\n\n.date-time-picker[_ngcontent-%COMP%]{\n background-color: rgb(233, 233, 233);\n padding: 0.5rem;\n margin-bottom: 1rem;\n border:1 solid rgb(179, 179, 179);\n}\n\n.date-time-picker[_ngcontent-%COMP%]   input[type=\"datetime-local\"][_ngcontent-%COMP%] {\n  width: 97%;\n  margin-right: 0.5rem;\n  \n  \n}\n\n.remove-top-margin[_ngcontent-%COMP%] {\n  margin-top: 100px;\n}\n\n.history-slide-bar-opener[_ngcontent-%COMP%]{\n  float: left;\n  position: absolute;\n  z-index: 10000;\n  width: 30px;\n  margin-top: 10px;\n  margin-left: 55px;\n  cursor: pointer;\n}\n\nmat-list-option[_ngcontent-%COMP%], mat-ripple[_ngcontent-%COMP%], .mat-list-item-content[_ngcontent-%COMP%]   .mat-list-item-content-reverse[_ngcontent-%COMP%]  {\n  max-height: 28px;\n  height: 28px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlcnZlci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFDQTtFQUNFO0FBQ0Y7O0FBRUE7RUFDRTtBQUNGOztBQUVBO0VBQ0UsZUFBZTtBQUNqQjs7QUFFQTtDQUNDLFdBQVc7QUFDWjs7QUFFQTtFQUNFLGVBQWU7RUFDZixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxrQkFBa0I7RUFDbEIsaUJBQWlCO0VBQ2pCLFlBQVk7RUFDWixlQUFlO0VBQ2YsWUFBWTtFQUNaLFlBQVk7QUFDZDs7QUFFQTtFQUNFLHFCQUFxQjtBQUN2Qjs7QUFFQTtFQUNFLGVBQWU7RUFDZixXQUFXO0VBQ1gsWUFBWTtFQUNaLGFBQWE7RUFDYixrQkFBa0I7RUFDbEIsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0Usb0JBQW9CO0VBQ3BCLGtCQUFrQjtFQUNsQixzQkFBc0I7RUFDdEIsbUJBQW1CO0FBQ3JCOztBQUVBO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxZQUFZO0VBQ1osYUFBYTtFQUNiLGtCQUFrQjtFQUNsQixtQkFBbUI7QUFDckI7O0FBRUE7RUFDRSxlQUFlO0VBQ2YsV0FBVztFQUNYLFdBQVc7RUFDWCxhQUFhO0VBQ2Isa0JBQWtCO0FBQ3BCOztBQUVBO0VBQ0UsZUFBZTtFQUNmLFdBQVc7RUFDWCxXQUFXO0VBQ1gsYUFBYTtFQUNiLGtCQUFrQjtFQUNsQixjQUFjO0FBQ2hCOztBQUVBO0VBQ0UsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtFQUNsQixXQUFXO0FBQ2I7O0FBRUE7RUFDRSxZQUFZO0VBQ1osZ0JBQWdCO0VBQ2hCLGtCQUFrQjtFQUNsQixRQUFRO0VBQ1IsTUFBTTtFQUNOLG9CQUFvQjtBQUN0Qjs7QUFFQTtFQUNFLDZCQUE2QjtBQUMvQjs7QUFFQTtFQUNFLDRCQUE0QjtFQUM1QixtSEFBbUg7QUFDckg7O0FBRUE7RUFDRSxZQUFZO0VBQ1oseUJBQWlCO0VBQWpCLHNCQUFpQjtFQUFqQixpQkFBaUI7R0FDaEIsNkJBQTZCO0FBQ2hDOztBQUVBO0VBQ0UsWUFBWTtFQUNaLHlCQUFpQjtFQUFqQixzQkFBaUI7RUFBakIsaUJBQWlCO0VBQ2pCLDBCQUFrQjtFQUFsQix1QkFBa0I7RUFBbEIsa0JBQWtCO0VBQ2xCLDJCQUEyQjtFQUMzQixjQUFjO0VBQ2QsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0Usb0NBQW9DO0FBQ3RDOztBQUVBO0VBQ0Usb0NBQW9DO0FBQ3RDOztBQUVBO0VBQ0UsV0FBVztFQUNYLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsV0FBVztFQUNYLGdCQUFnQjtFQUNoQixlQUFlO0FBQ2pCOztBQUVBO0NBQ0Msb0NBQW9DO0NBQ3BDLGVBQWU7Q0FDZixtQkFBbUI7Q0FDbkIsaUNBQWlDO0FBQ2xDOztBQUVBO0VBQ0UsVUFBVTtFQUNWLG9CQUFvQjtFQUNwQix5QkFBeUI7RUFDekIscUJBQXFCO0FBQ3ZCOztBQUVBO0VBQ0UsaUJBQWlCO0FBQ25COztBQUVBO0VBQ0UsV0FBVztFQUNYLGtCQUFrQjtFQUNsQixjQUFjO0VBQ2QsV0FBVztFQUNYLGdCQUFnQjtFQUNoQixpQkFBaUI7RUFDakIsZUFBZTtBQUNqQjs7QUFFQTtFQUNFLGdCQUFnQjtFQUNoQixZQUFZO0FBQ2QiLCJmaWxlIjoic2VydmVyLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJcbi5ibHVlIHtcbiAgY29sb3I6ZG9kZ2VyYmx1ZVxufVxuXG4ucmVkIHtcbiAgY29sb3I6aW5kaWFucmVkXG59XG5cbi5oZWFkZXIxIHtcbiAgZm9udC1zaXplOiAzNXB4O1xufVxuXG4uZnVsbFdpZHRoIHtcbiB3aWR0aDogMTAwJTtcbn1cblxuLmNvbnRhaW5lciB7XG4gIHBhZGRpbmc6IDAuNXJlbTtcbiAgcGFkZGluZy10b3A6IDAuMnJlbTtcbn1cblxuLmluZm9JY29uIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB6LWluZGV4OiAxMDAwMDAwMDtcbiAgZmxvYXQ6IHJpZ2h0O1xuICBmb250LXNpemU6IDEycHg7XG4gIGhlaWdodDogMjBweDtcbiAgb3BhY2l0eTogMC41O1xufVxuXG4ubXktdG9vbHRpcCB7XG4gIHdoaXRlLXNwYWNlOiBwcmUtbGluZTtcbn1cblxuLm5hbm8tY2hhcnQge1xuICBkaXNwbGF5OiBpbmxpbmU7XG4gIGZsb2F0OiBsZWZ0O1xuICB3aWR0aDogMjUwcHg7IFxuICBoZWlnaHQ6IDEwMHB4O1xuICBtYXJnaW4tcmlnaHQ6IDFyZW07XG4gIG1hcmdpbi1ib3R0b206IDFyZW07XG59XG5cbi5tYXJnaW4tY29tbW9uIHtcbiAgbWFyZ2luLXJpZ2h0OiAwLjVyZW07XG4gIG1hcmdpbi10b3A6IDAuNXJlbTtcbiAgbWFyZ2luLWJvdHRvbTogLTAuNXJlbTtcbiAgbWFyZ2luLWxlZnQ6IDAuNXJlbTtcbn1cblxuLm1pbmktY2hhcnQge1xuICBkaXNwbGF5OiBpbmxpbmU7XG4gIGZsb2F0OiBsZWZ0O1xuICB3aWR0aDogMzAwcHg7IFxuICBoZWlnaHQ6IDE1MHB4O1xuICBtYXJnaW4tcmlnaHQ6IDFyZW07XG4gIG1hcmdpbi1ib3R0b206IDFyZW07XG59XG5cbi5mdWxsLXdpZHRoLWNoYXJ0IHtcbiAgZGlzcGxheTogaW5saW5lO1xuICBmbG9hdDogbGVmdDtcbiAgd2lkdGg6IDEwMCU7IFxuICBoZWlnaHQ6IDQwMHB4O1xuICBtYXJnaW4tcmlnaHQ6IDFyZW07XG59XG5cbi5mdWxsLXdpZHRoLWhpc3RvcnktY2hhcnQge1xuICBkaXNwbGF5OiBpbmxpbmU7XG4gIGZsb2F0OiBsZWZ0O1xuICB3aWR0aDogMTAwJTsgXG4gIGhlaWdodDogNDgwcHg7XG4gIG1hcmdpbi1yaWdodDogMXJlbTtcbiAgZm9udC1zaXplOiA4cHg7XG59XG5cbi5oZWFkZXItZGlzcGxheSB7XG4gIG92ZXJmbG93OiBoaWRkZW47XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgd2lkdGg6IDEwMCU7XG59XG5cbi5jaGlsZC1yaWdodCB7XG4gIGhlaWdodDogMTAwJTtcbiAgLyogd2lkdGg6IDEwJTsgKi9cbiAgcG9zaXRpb246IGFic29sdXRlO1xuICByaWdodDogMDtcbiAgdG9wOiAwO1xuICB0cmFuc2l0aW9uOiB3aWR0aCAycztcbn1cblxuLmNvbG9yLWxheWVyIHtcbiAgYmFja2dyb3VuZDpyZ2IoMjQ1LCAyNDUsIDI0NSk7XG59XG5cbi5ob3QtbGluZWFyLWdyYWRpZW50IHtcbiAgYmFja2dyb3VuZC1jb2xvcjp0cmFuc3BhcmVudDtcbiAgYmFja2dyb3VuZC1pbWFnZTogbGluZWFyLWdyYWRpZW50KHRvIHJpZ2h0LHJnYmEoNCwgMjU1LCA4LCAwLjE5MSkscmdiYSgyNDEsIDI0NSwgMCwgMC4xOTEpLCByZ2JhKDI1NSwgMCwgMCwgMC4xOTEpKTtcbn1cblxuLmNlbnRlciB7XG4gIG1hcmdpbjogYXV0bztcbiAgd2lkdGg6Zml0LWNvbnRlbnQ7XG4gICAvKiBib3JkZXI6IDNweCBzb2xpZCBncmF5OyAgKi9cbn1cblxuLmNoaWxkLXJpZ2h0LWZsb2F0e1xuICBmbG9hdDogcmlnaHQ7XG4gIHdpZHRoOmZpdC1jb250ZW50O1xuICBoZWlnaHQ6Zml0LWNvbnRlbnQ7XG4gIC8qIGJvcmRlcjpzb2xpZCAxcHggIzAwRjsgKi9cbiAgei1pbmRleDogMTAwMDA7XG4gIG1hcmdpbi10b3A6IC0zcHg7XG59XG5cbi5iYWNrLWdyYXl7XG4gIGJhY2tncm91bmQtY29sb3I6IHJnYigyMzYsIDIzNiwgMjM2KTtcbn1cblxuLmJhY2std2hpdGV7XG4gIGJhY2tncm91bmQtY29sb3I6IHJnYigyNTYsIDI1NiwgMjU2KTtcbn1cblxuLnNsaWRlLWJhci1vcGVuZXJ7XG4gIGZsb2F0OiBsZWZ0O1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHotaW5kZXg6IDEwMDAwO1xuICB3aWR0aDogMzBweDtcbiAgbWFyZ2luLXRvcDogMTBweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4uZGF0ZS10aW1lLXBpY2tlcntcbiBiYWNrZ3JvdW5kLWNvbG9yOiByZ2IoMjMzLCAyMzMsIDIzMyk7XG4gcGFkZGluZzogMC41cmVtO1xuIG1hcmdpbi1ib3R0b206IDFyZW07XG4gYm9yZGVyOjEgc29saWQgcmdiKDE3OSwgMTc5LCAxNzkpO1xufVxuXG4uZGF0ZS10aW1lLXBpY2tlciBpbnB1dFt0eXBlPVwiZGF0ZXRpbWUtbG9jYWxcIl0ge1xuICB3aWR0aDogOTclO1xuICBtYXJnaW4tcmlnaHQ6IDAuNXJlbTtcbiAgLyogcGFkZGluZy1yaWdodDogMnJlbTsgKi9cbiAgLyogTW9yZSBzdHlsZXMgaGVyZSAqL1xufVxuXG4ucmVtb3ZlLXRvcC1tYXJnaW4ge1xuICBtYXJnaW4tdG9wOiAxMDBweDtcbn1cblxuLmhpc3Rvcnktc2xpZGUtYmFyLW9wZW5lcntcbiAgZmxvYXQ6IGxlZnQ7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgei1pbmRleDogMTAwMDA7XG4gIHdpZHRoOiAzMHB4O1xuICBtYXJnaW4tdG9wOiAxMHB4O1xuICBtYXJnaW4tbGVmdDogNTVweDtcbiAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG5tYXQtbGlzdC1vcHRpb24sIG1hdC1yaXBwbGUsIC5tYXQtbGlzdC1pdGVtLWNvbnRlbnQgLm1hdC1saXN0LWl0ZW0tY29udGVudC1yZXZlcnNlICB7XG4gIG1heC1oZWlnaHQ6IDI4cHg7XG4gIGhlaWdodDogMjhweDtcbn0iXX0= */"]
       });
       /*@__PURE__*/
 

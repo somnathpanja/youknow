@@ -105,18 +105,18 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
               <mat-drawer-container class="example-container" autosize>
                 <mat-drawer #drawerCPU class="example-sidenav" mode="over">
                   <div style="width:250px;">
+                    <div class="center">
+                      <button style="margin-top: 5px;" type="button" mat-raised-button color="primary"
+                        (click)="drawerCPU.toggle(); onCPUHistoryLegendItemsSelected(cpuHistoryLegend.selectedOptions.selected);">
+                        Apply
+                      </button>
+                    </div>
                     <mat-selection-list #cpuHistoryLegend>
                       <mat-list-option *ngFor="let item of legendEntriesCpuHistory" [value]="item.value"
                         [selected]="item.selected">
                         {{item.name}}
                       </mat-list-option>
                     </mat-selection-list>
-                    <div class="center">
-                      <button type="button" mat-raised-button color="primary"
-                        (click)="drawerCPU.toggle(); onCPUHistoryLegendItemsSelected(cpuHistoryLegend.selectedOptions.selected);">
-                        Apply
-                      </button>
-                    </div>
                   </div>
                 </mat-drawer>
 
@@ -131,18 +131,18 @@ ST: Steal time - - % CPU time in involuntary wait by virtual cpu while hyperviso
               <mat-drawer-container class="example-container" autosize>
                 <mat-drawer #drawerMEM class="example-sidenav" mode="over">
                   <div style="width:250px;">
+                    <div class="center">
+                      <button type="button" style="margin-top: 5px;" mat-raised-button color="primary"
+                        (click)="drawerMEM.toggle(); onMemoryHistoryLegendItemsSelected(memHistoryLegend.selectedOptions.selected);">
+                        Apply
+                      </button>
+                    </div>
                     <mat-selection-list #memHistoryLegend>
                       <mat-list-option *ngFor="let item of legendEntriesMemHistory" [value]="item.value"
                         [selected]="item.selected">
                         {{item.name}}
                       </mat-list-option>
                     </mat-selection-list>
-                    <div class="center">
-                      <button type="button" mat-raised-button color="primary"
-                        (click)="drawerMEM.toggle(); onMemoryHistoryLegendItemsSelected(memHistoryLegend.selectedOptions.selected);">
-                        Apply
-                      </button>
-                    </div>
                   </div>
                 </mat-drawer>
 
