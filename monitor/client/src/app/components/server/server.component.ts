@@ -6,7 +6,7 @@ import { ServersService } from './../../services/servers.service';
 import * as EventTypes from './../../../assets/common/eventTypes.json';
 import { ChartModel } from './../../models/chartModel';
 import * as moment from 'moment';
-
+import { ListItem } from './../../interfaces/listItem';
 interface ZoomOption {
   value: string;
   viewValue: string;
@@ -31,6 +31,8 @@ export class ServerComponent implements OnInit {
   @Input() startDate: string = moment.utc().local().subtract(1, 'days').format('YYYY-MM-DDTHH:mm:ss');
   @Input() endDate: string = moment.utc().local().format('YYYY-MM-DDTHH:mm:ss');
   @Input() unitSelected: string = 'minute';
+  @Input() legendEntriesCpuHistory: ListItem[];
+  @Input() legendEntriesMemHistory: ListItem[];
 
   private cpuChart: any;
   private loadAvgChart: any;
@@ -45,6 +47,11 @@ export class ServerComponent implements OnInit {
   private swapHistoryChart: any;
   private cpuHistoryChart: any;
   private memoryHistoryChart: any;
+  private selectedDsNamesOfCPUHistory: string[];
+  private selectedDsNamesOfMemHistory: string[];
+
+  private cpuHistoryData: any[];
+  private memHistoryData: any[];
 
   private _tmpDataMem4ProcessGraph: any;
   private _tmpDataCpu4ProcessGraph: any;
@@ -554,13 +561,63 @@ export class ServerComponent implements OnInit {
         valueFormat: "MM-dd-yyyy HH:mm:ss",
         intervalType: 'minute',
         labelAngel: -90,
-        labelFont: { fontSize: 8, fontWeight:'bold' }
+        labelFont: { fontSize: 8, fontWeight: 'bold' }
       }]
     }, chartOptions));
   }
 
-  createOrUpdateHistoryGraph(id: any, chartData: any, unit: string, yAxisSettings: any, chartOptions: any) {
+  onCPUHistoryLegendItemsSelected(selectedItems: any) {
+    this.selectedDsNamesOfCPUHistory = selectedItems.map((item: any) => item.value);
+    console.log(this.selectedDsNamesOfCPUHistory);
+
+    let series: any[] = [];
+
+    this.cpuHistoryData.forEach((ds: any, index: number) => {
+      let selected = true;
+
+      if (this.selectedDsNamesOfCPUHistory) {
+        selected = (this.selectedDsNamesOfCPUHistory.indexOf(ds.name) !== -1);
+      }
+
+      if (selected) series.push(ds);
+    });
+
+    this.cpuHistoryChart.setData(series);
+    this.cpuHistoryChart.render();
+  }
+
+  onMemoryHistoryLegendItemsSelected(selectedItems: any) {
+    this.selectedDsNamesOfMemHistory = selectedItems.map((item: any) => item.value);
+    console.log(this.selectedDsNamesOfMemHistory);
+
+    let series: any[] = [];
+
+    this.memHistoryData.forEach((ds: any, index: number) => {
+      let selected = true;
+
+      if (this.selectedDsNamesOfMemHistory) {
+        selected = (this.selectedDsNamesOfMemHistory.indexOf(ds.name) !== -1);
+      }
+
+      if (selected) series.push(ds);
+    });
+
+    this.memoryHistoryChart.setData(series);
+    this.memoryHistoryChart.render();
+  }
+
+  createOrUpdateHistoryGraph(id: any, chartData: any[], unit: string, yAxisSettings: any, chartOptions: any) {
+    chartData.forEach((ds: any) => {
+      ds.lineWidth = 2;
+      ds.plotAs = 'line';
+      ds.lineWidth = 0.8;
+      ds.showInLegend = false;
+      ds.legendText = ds.name.substr(ds.name.length - 16);
+      ds.tooltipText = "<span style='color:{color};font-size:12px;'><b style='color:{color};font-size:12px;'>{name}</b>: {yValue}</span>";
+    });
+
     let chart;
+
     switch (id) {
       case 'loadAvgHistoryChart':
         chart = this.loadAvgHistoryChart = this.loadAvgHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
@@ -570,22 +627,56 @@ export class ServerComponent implements OnInit {
         break;
       case 'swapHistoryChart':
         chart = this.swapHistoryChart = this.swapHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
+        this.cpuHistoryData = chartData;
+
+
         break;
       case 'cpuHistoryChart':
         chart = this.cpuHistoryChart = this.cpuHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
+        this.cpuHistoryData = chartData;
+
+        let series: any[] = [];
+
+        this.legendEntriesCpuHistory = chartData.map((ds: any, index: number) => {
+          let selected = true;
+
+          if (this.selectedDsNamesOfCPUHistory) {
+            selected = (this.selectedDsNamesOfCPUHistory.indexOf(ds.name) !== -1);
+          }
+
+          if (selected) series.push(ds);
+          return new ListItem(ds.name, ds.name, selected);
+        });
+
+        chartData = series;
         break;
       case 'memoryHistoryChart':
         chart = this.memoryHistoryChart = this.memoryHistoryChart || this.createHistoryGraph(id, yAxisSettings, chartOptions);
+        this.memHistoryData = chartData;
+
+        let memSeries: any[] = [];
+
+        // Load the default selection first 3 series
+        if (!this.selectedDsNamesOfMemHistory) {
+          this.selectedDsNamesOfMemHistory = chartData.slice(0, 3).map((ds) => {
+            return ds.name;
+          });
+        }
+
+        this.legendEntriesMemHistory = chartData.map((ds: any, index: number) => {
+          let selected = true;
+
+          if (this.selectedDsNamesOfMemHistory) {
+            selected = (this.selectedDsNamesOfMemHistory.indexOf(ds.name) !== -1);
+          }
+
+          if (selected) memSeries.push(ds);
+          return new ListItem(ds.name, ds.name, selected);
+        });
+
+        chartData = memSeries;
         break;
     }
-     
-    chartData.forEach((ds: any) => {
-      ds.lineWidth = 2;
-      ds.plotAs = 'line';
-      ds.lineWidth = 0.8;
-      ds.showInLegend = false;
-      ds.tooltipText= "<span style='color:{color};font-size:12px;'><b style='color:{color};font-size:12px;'>{name}</b>: {yValue}</span>";
-    });
 
     chart.setData(chartData);
     chart.render();
@@ -614,6 +705,10 @@ export class ServerComponent implements OnInit {
     var sizes: Array<string> = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
     return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+  }
+
+  goToLink(url: string) {
+    window.open(url, "_blank");
   }
 }
 

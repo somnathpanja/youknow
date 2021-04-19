@@ -16,7 +16,9 @@
     <!-- Name Column -->
     <ng-container matColumnDef="ip">
       <th mat-header-cell *matHeaderCellDef> IP </th>
-      <td mat-cell *matCellDef="let element"> {{element.ip}} </td>
+      <td mat-cell *matCellDef="let element">
+        <a mat-button color="primary" [href]="'https://' + element.ip" target="_blank">{{element.ip}}</a>
+      </td>
     </ng-container>
 
     <!-- Name Column -->
@@ -34,7 +36,11 @@
     <!-- Symbol Column -->
     <ng-container matColumnDef="platform">
       <th mat-header-cell *matHeaderCellDef> Platform </th>
-      <td mat-cell *matCellDef="let element"> {{element.platform}} </td>
+      <td mat-cell *matCellDef="let element">
+        <a mat-button color="primary" href="https://www.google.com/search?q=linux+x86_64" target="_blank">
+          {{element.platform}}
+        </a>
+      </td>
     </ng-container>
 
     <!-- Delete Column -->
