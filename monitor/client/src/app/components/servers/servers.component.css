@@ -13,3 +13,9 @@ table {
 .mat-column-watch {
   width: 2rem;
 }
+
+v-center {
+  /* vertical-align: middle; */
+  padding-top: 10px;
+  margin-top: 10px;
+}

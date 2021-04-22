@@ -159,7 +159,7 @@
   cursor: pointer;
 }
 
-mat-list-option, mat-ripple, .mat-list-item-content .mat-list-item-content-reverse  {
+/* mat-list-option, mat-ripple, .mat-list-item-content .mat-list-item-content-reverse  {
   max-height: 28px;
   height: 28px;
-}
+} */
