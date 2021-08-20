@@ -32,24 +32,20 @@ class WorkerCtrl {
       case 'm':
         value = value.substr(0, value.length - 1);
         return Number(value) * 1048.58;
-        break;
       case 'g':
         value = value.substr(0, value.length - 1);
         return Number(value) * 1.074e+6;
-        break;
       case 't':
         value = value.substr(0, value.length - 1);
         return Number(value) * 1.1e+9;
-        break;
       case 'p':
         value = value.substr(0, value.length - 1);
         return Number(value) * 1.126e+12;
-        break;
       case 'k':
-      default:
         value = value.substr(0, value.length - 1);
-        return Number(value) * 1.024;
-        break;
+        return Number(value);
+      default:
+        return Number(value);
     }
   }
 }
